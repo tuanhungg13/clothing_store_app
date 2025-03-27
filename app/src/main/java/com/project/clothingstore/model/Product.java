@@ -1,4 +1,4 @@
-package com.project.clothingstore.modal;
+package com.project.clothingstore.model;
 
 import java.util.List;
 
