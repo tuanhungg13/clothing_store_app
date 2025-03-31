@@ -14,6 +14,36 @@ public class Product {
     private int priceBeforeDiscount;
     private String ratings;
 
+    public Product(String productName, int price, List<String> images) {
+        this.productName = productName;
+        this.price = price;
+        this.images = images;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     public static class Variant {
         private String color;
         private List<SizeQuantity> sizes;
