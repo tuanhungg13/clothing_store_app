@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.productcategory.ProductActivity">
+    android:fitsSystemWindows="true"
+    tools:context=".view.productcollection.ProductActivity">
 
     <!-- Thanh công cụ -->
     <androidx.appcompat.widget.Toolbar
@@ -70,7 +71,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_margin="10dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="15dp"
                     app:cardElevation="1dp">
@@ -89,7 +90,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_margin="10dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="15dp"
                     app:cardElevation="1dp">
@@ -108,7 +109,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_margin="10dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="15dp"
                     app:cardElevation="1dp">
@@ -127,7 +128,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_margin="10dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="15dp"
                     app:cardElevation="1dp">
@@ -191,7 +192,7 @@
             <!-- Phần sản phẩm nổi bật -->
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_BST"
-                android:name="com.project.clothingstore.view.productcategory.ProductCategoryFragment"
+                android:name="com.project.clothingstore.view.productcollection.ProductCollectionFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -212,7 +213,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragment_BSTNew"
-                android:name="com.project.clothingstore.view.productcategory.ProductCategoryFragment2"
+                android:name="com.project.clothingstore.view.productcollection.ProductCollectionFragment2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -242,7 +243,7 @@
 
                         <androidx.fragment.app.FragmentContainerView
                             android:id="@+id/fragment_ProductCategory3"
-                            android:name="com.project.clothingstore.view.productcategory.ProductCategoryFragment3"
+                            android:name="com.project.clothingstore.view.productcollection.ProductCollectionFragment3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 

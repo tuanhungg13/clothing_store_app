@@ -1,15 +1,15 @@
 package com.project.clothingstore.modal;
 
-public class ProductCategory {
+public class ProductCollections {
     private int imv;
     private String txtTitle, messenge;
 
-    public ProductCategory(int imv, String txtTitle) {
+    public ProductCollections(int imv, String txtTitle) {
         this.imv = imv;
         this.txtTitle = txtTitle;
     }
 
-    public ProductCategory(int imv, String messenge, String txtTitle) {
+    public ProductCollections(int imv, String messenge, String txtTitle) {
         this.imv = imv;
         this.messenge = messenge;
         this.txtTitle = txtTitle;

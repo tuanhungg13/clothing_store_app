@@ -1,4 +1,4 @@
-package com.project.clothingstore.view.productcategory;
+package com.project.clothingstore.view.productcollection;
 
 import android.os.Bundle;
 
@@ -12,20 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.project.clothingstore.R;
-import com.project.clothingstore.adapter.productcategory.ProductCategoryAdapter;
-import com.project.clothingstore.adapter.productcategory.ProductCategoryAdapter2;
-import com.project.clothingstore.viewmodel.productcategory.ProductCategoryViewModel;
-import com.project.clothingstore.viewmodel.productcategory.ProductCategoryViewModel2;
+import com.project.clothingstore.adapter.productcollections.ProductCollectionAdapter2;
+import com.project.clothingstore.viewmodel.productcollections.ProductCollectionViewModel2;
 
 import me.relex.circleindicator.CircleIndicator3;
 
 
-public class ProductCategoryFragment2 extends Fragment {
+public class ProductCollectionFragment2 extends Fragment {
 
     private ViewPager2 mviewPager2;
     private CircleIndicator3 mcircleIndicator3;
-    private ProductCategoryAdapter2 adapterBST2;
-    private ProductCategoryViewModel2 boSuuTapViewModel2;
+    private ProductCollectionAdapter2 adapterBST2;
+    private ProductCollectionViewModel2 boSuuTapViewModel2;
     private Handler handler = new Handler();
 
     private Runnable runnable = new Runnable() {
@@ -42,15 +40,15 @@ public class ProductCategoryFragment2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_product_category2, container, false);
+        View view = inflater.inflate(R.layout.fragment_product_collections2, container, false);
         mviewPager2 = view.findViewById(R.id.vp2_bo_suu_tap_new);
         mcircleIndicator3 = view.findViewById(R.id.cicle_BST_new);
 
         // Khởi tạo ViewModel
-        boSuuTapViewModel2 = new ViewModelProvider(this).get(ProductCategoryViewModel2.class);
+        boSuuTapViewModel2 = new ViewModelProvider(this).get(ProductCollectionViewModel2.class);
 
         // Khởi tạo Adapter với danh sách trống
-        adapterBST2 = new ProductCategoryAdapter2();
+        adapterBST2 = new ProductCollectionAdapter2();
         mviewPager2.setAdapter(adapterBST2);
         mcircleIndicator3.setViewPager(mviewPager2);
 

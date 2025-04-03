@@ -1,4 +1,4 @@
-package com.project.clothingstore.adapter.productcategory;
+package com.project.clothingstore.adapter.productcollections;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.project.clothingstore.R;
-import com.project.clothingstore.modal.ProductCategory;
+import com.project.clothingstore.modal.ProductCollections;
 
 import java.util.List;
-public class ProductCategoryAdapter extends RecyclerView.Adapter<ProductCategoryAdapter.ProductViewHolder> {
-    private List<ProductCategory> listBST;
-    public void setData(List<ProductCategory> list) {
+public class ProductCollectionAdapter extends RecyclerView.Adapter<ProductCollectionAdapter.ProductViewHolder> {
+    private List<ProductCollections> listBST;
+    public void setData(List<ProductCollections> list) {
         this.listBST = list;
         notifyDataSetChanged();
     }
@@ -29,7 +29,7 @@ public class ProductCategoryAdapter extends RecyclerView.Adapter<ProductCategory
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
-        ProductCategory bst = listBST.get(position);
+        ProductCollections bst = listBST.get(position);
         if (bst == null) {
             return;
         }

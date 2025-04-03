@@ -1,18 +1,18 @@
-package com.project.clothingstore.viewmodel.productcategory;
+package com.project.clothingstore.viewmodel.productcollections;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.project.clothingstore.modal.ProductCategory;
+import com.project.clothingstore.modal.ProductCollections;
 import com.project.clothingstore.service.ProductCategoryService;
 
 import java.util.List;
 
-public class ProductCategoryViewModel extends ViewModel {
-    private MutableLiveData<List<ProductCategory>> listProductCategory = new MutableLiveData<>();
+public class ProductCollectionViewModel extends ViewModel {
+    private MutableLiveData<List<ProductCollections>> listProductCategory = new MutableLiveData<>();
     private ProductCategoryService productCategoryService = new ProductCategoryService();
-    public ProductCategoryViewModel() {
+    public ProductCollectionViewModel() {
         LoadProductCategory();
     }
 
@@ -20,7 +20,7 @@ public class ProductCategoryViewModel extends ViewModel {
         listProductCategory.setValue(productCategoryService.getListBST());
     }
 
-    public LiveData<List<ProductCategory>> getListProductCategory() {
+    public LiveData<List<ProductCollections>> getListProductCategory() {
         return listProductCategory;
     }
 }

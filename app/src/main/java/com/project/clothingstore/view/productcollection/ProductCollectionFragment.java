@@ -1,4 +1,4 @@
-package com.project.clothingstore.view.productcategory;
+package com.project.clothingstore.view.productcollection;
 
 import android.os.Bundle;
 
@@ -12,17 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.project.clothingstore.R;
-import com.project.clothingstore.adapter.productcategory.ProductCategoryAdapter;
-import com.project.clothingstore.viewmodel.productcategory.ProductCategoryViewModel;
+import com.project.clothingstore.adapter.productcollections.ProductCollectionAdapter;
+import com.project.clothingstore.viewmodel.productcollections.ProductCollectionViewModel;
 
 import me.relex.circleindicator.CircleIndicator3;
 
 
-public class ProductCategoryFragment extends Fragment {
+public class ProductCollectionFragment extends Fragment {
     private ViewPager2 mviewPager2;
     private CircleIndicator3 mcircleIndicator3;
-    private ProductCategoryAdapter adapterBST;
-    private ProductCategoryViewModel boSuuTapViewModel;
+    private ProductCollectionAdapter adapterBST;
+    private ProductCollectionViewModel boSuuTapViewModel;
     private Handler handler = new Handler();
 
     private Runnable runnable = new Runnable() {
@@ -39,15 +39,15 @@ public class ProductCategoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_product_category, container, false);
+        View view = inflater.inflate(R.layout.fragment_product_collection, container, false);
         mviewPager2 = view.findViewById(R.id.vp2_product_category);
         mcircleIndicator3 = view.findViewById(R.id.cicle_BST);
 
         // Khởi tạo ViewModel
-        boSuuTapViewModel = new ViewModelProvider(this).get(ProductCategoryViewModel.class);
+        boSuuTapViewModel = new ViewModelProvider(this).get(ProductCollectionViewModel.class);
 
         // Khởi tạo Adapter với danh sách trống
-        adapterBST = new ProductCategoryAdapter();
+        adapterBST = new ProductCollectionAdapter();
         mviewPager2.setAdapter(adapterBST);
         mcircleIndicator3.setViewPager(mviewPager2);
 

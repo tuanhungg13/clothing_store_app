@@ -1,4 +1,4 @@
-package com.project.clothingstore.adapter.productcategory;
+package com.project.clothingstore.adapter.productcollections;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,32 +10,36 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.clothingstore.R;
-import com.project.clothingstore.modal.ProductCategory;
+import com.project.clothingstore.modal.ProductCollections;
 
 import java.util.List;
 
-public class ProductCategoryAdapter2 extends RecyclerView.Adapter<ProductCategoryAdapter2.ProductViewHolder2> {
-    private List<ProductCategory> listBST;
-    public void setData(List<ProductCategory> list) {
+public class ProductCollectionAdapter3 extends RecyclerView.Adapter<ProductCollectionAdapter3.ProductViewHolder3> {
+    private List<ProductCollections> listBST;
+    public void setData(List<ProductCollections> list) {
         this.listBST = list;
         notifyDataSetChanged();
     }
     @NonNull
     @Override
-    public ProductViewHolder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductViewHolder3 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_suu_tap_all, parent, false);
-        return new ProductViewHolder2(view);
+        return new ProductViewHolder3(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductViewHolder2 holder, int position) {
-        ProductCategory bst = listBST.get(position);
+    public void onBindViewHolder(@NonNull ProductViewHolder3 holder, int position) {
+        ProductCollections bst = listBST.get(position);
         if (bst == null) {
             return;
         }
         holder.imv.setImageResource(bst.getImv());
         holder.txtTitle.setText(bst.getTxtTitle());
         holder.txtMessage.setText(bst.getMessenge());
+
+        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
+        layoutParams.height = 600;
+        holder.itemView.setLayoutParams(layoutParams);
     }
 
     @Override
@@ -46,10 +50,10 @@ public class ProductCategoryAdapter2 extends RecyclerView.Adapter<ProductCategor
         return 0;
     }
 
-    public class ProductViewHolder2 extends RecyclerView.ViewHolder {
+    public class ProductViewHolder3 extends RecyclerView.ViewHolder {
         ImageView imv;
         TextView txtTitle, txtMessage;
-        public ProductViewHolder2(@NonNull View itemView) {
+        public ProductViewHolder3(@NonNull View itemView) {
             super(itemView);
             imv = itemView.findViewById(R.id.img_BST_All);
             txtTitle = itemView.findViewById(R.id.txt_title_BSTAll);

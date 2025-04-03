@@ -1,4 +1,4 @@
-package com.project.clothingstore.view.productcategory;
+package com.project.clothingstore.view.productcollection;
 
 import android.os.Bundle;
 
@@ -18,11 +18,11 @@ public class ProductActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_product);
         if (savedInstanceState == null) {
-            loadFragment(new ProductCategoryFragment());
+            loadFragment(new ProductCollectionFragment());
             loadFragmentFeaturedProduct(new FeaturedProductFragment());
-            loadFragmentCategory2(new ProductCategoryFragment2());
+            loadFragmentCategory2(new ProductCollectionFragment2());
             loadFragmentRecommentProduct(new RecommentProductFragment());
-            loadFragmentCategory3(new ProductCategoryFragment3());
+            loadFragmentCategory3(new ProductCollectionFragment3());
 //            loadFragmentSPNB(new SanPhanNoiBatFragment());
 //            loadFragmentBSTNew(new BoSuuTapNewFragment());
 //            loadFragmentSPDX(new SanPhamDeXuatFragment());
