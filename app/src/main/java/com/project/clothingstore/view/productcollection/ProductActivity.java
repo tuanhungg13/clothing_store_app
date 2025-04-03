@@ -18,11 +18,12 @@ public class ProductActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_product);
         if (savedInstanceState == null) {
-            loadFragment(new ProductCollectionFragment());
-            loadFragmentFeaturedProduct(new FeaturedProductFragment());
-            loadFragmentCategory2(new ProductCollectionFragment2());
-            loadFragmentRecommentProduct(new RecommentProductFragment());
-            loadFragmentCategory3(new ProductCollectionFragment3());
+            loadFragment(new ProductMainFragment());
+//            loadFragment(new ProductCollectionFragment());
+//            loadFragmentFeaturedProduct(new FeaturedProductFragment());
+//            loadFragmentCategory2(new ProductCollectionFragment2());
+//            loadFragmentRecommentProduct(new RecommentProductFragment());
+//            loadFragmentCategory3(new ProductCollectionFragment3());
 //            loadFragmentSPNB(new SanPhanNoiBatFragment());
 //            loadFragmentBSTNew(new BoSuuTapNewFragment());
 //            loadFragmentSPDX(new SanPhamDeXuatFragment());
@@ -31,33 +32,38 @@ public class ProductActivity extends AppCompatActivity {
     }
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_BST, fragment)
+                .replace(R.id.fragment_Product, fragment)
                 .commit();
     }
-
-    private void loadFragmentFeaturedProduct(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_SPNB, fragment)
-                .commit();
-    }
-
-    private void loadFragmentCategory2(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_BSTNew, fragment)
-                .commit();
-    }
-
-    private void loadFragmentRecommentProduct(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_recomment_product, fragment)
-                .commit();
-    }
-
-    private void loadFragmentCategory3(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_ProductCategory3, fragment)
-                .commit();
-    }
+//    private void loadFragment(Fragment fragment) {
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_BST, fragment)
+//                .commit();
+//    }
+//
+//    private void loadFragmentFeaturedProduct(Fragment fragment) {
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_SPNB, fragment)
+//                .commit();
+//    }
+//
+//    private void loadFragmentCategory2(Fragment fragment) {
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_BSTNew, fragment)
+//                .commit();
+//    }
+//
+//    private void loadFragmentRecommentProduct(Fragment fragment) {
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_recomment_product, fragment)
+//                .commit();
+//    }
+//
+//    private void loadFragmentCategory3(Fragment fragment) {
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_ProductCategory3, fragment)
+//                .commit();
+//    }
 
 
 }
