@@ -14,6 +14,15 @@ public class Product {
     private int priceBeforeDiscount;
     private String ratings;
 
+    public Product(String productName, int price, String categoryId, List<String> images, int priceBeforeDiscount, String ratings) {
+        this.productName = productName;
+        this.price = price;
+        this.categoryId = categoryId;
+        this.images = images;
+        this.priceBeforeDiscount = priceBeforeDiscount;
+        this.ratings = ratings;
+    }
+
     public Product(String productName, int price, List<String> images) {
         this.productName = productName;
         this.price = price;
@@ -42,6 +51,22 @@ public class Product {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(String ratings) {
+        this.ratings = ratings;
     }
 
     public static class Variant {

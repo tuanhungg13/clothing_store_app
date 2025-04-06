@@ -1,4 +1,4 @@
-package com.project.clothingstore.view.product;
+package com.project.clothingstore.view.fragment.product;
 
 import android.os.Bundle;
 
@@ -34,6 +34,7 @@ public class RecommentProductFragment extends Fragment {
 
         recommentProductAdapter = new RecommentProductAdapter();
         recyclerView.setAdapter(recommentProductAdapter);
+        recyclerView.setHorizontalScrollBarEnabled(false); // Tắt thanh cuộn ngang
 
         productViewModel = new ViewModelProvider(this).get(RecommentProductViewModel.class);
         productViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {

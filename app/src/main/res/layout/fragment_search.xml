@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.discover.MainFragmentDiscover">
+    tools:context=".view.fragment.SearchFragment">
 
     <!-- Sử dụng CardView để tạo khung cho bộ sưu tập -->
 
@@ -117,6 +117,7 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
 
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -131,14 +132,14 @@
                 <!--        // item1-->
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView1"
+                    android:id="@+id/card0"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="16dp"
-                    android:layout_weight="1"
                     android:elevation="4dp"
                     app:cardBackgroundColor="#A3A798"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardCornerRadius="12dp">
 
                     <LinearLayout
@@ -153,7 +154,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="     CLOTHING"
+                            android:text="     QUẦN ÁO"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -164,28 +165,30 @@
                             android:layout_height="100dp"
                             android:layout_marginStart="16dp"
                             android:layout_weight="0.3"
+                            android:background="@drawable/hvq_backgroud_circle2"
                             android:elevation="4dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/discover1" />
+                            android:scaleType="centerInside"
+                            android:src="@drawable/hvq_discover1" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
                 <!--        item 2-->
 
 
-                <androidx.recyclerview.widget.RecyclerView
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragment_discover0"
+                    android:name="com.project.clothingstore.view.fragment.discover.Discover0Fragment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_height="wrap_content" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView2"
+                    android:id="@+id/card1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="16dp"
-                    android:layout_weight="1"
                     android:elevation="4dp"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardBackgroundColor="#989280"
                     app:cardCornerRadius="12dp">
 
@@ -201,7 +204,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="     ACCESSORIES"
+                            android:text="     GIÀY"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -214,23 +217,26 @@
                             android:layout_weight="0.3"
                             android:elevation="4dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/discover2" />
+                            android:src="@drawable/hvq_discover2"
+                            android:background="@drawable/hvq_backgroud_circle2"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <!--        Item 3-->
-                <androidx.recyclerview.widget.RecyclerView
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragment_discover1"
+                    android:name="com.project.clothingstore.view.fragment.discover.Discover1Fragment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_height="wrap_content" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView3"
+                    android:id="@+id/card2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="16dp"
-                    android:layout_weight="1"
                     android:elevation="4dp"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardBackgroundColor="#44565C"
                     app:cardCornerRadius="12dp">
 
@@ -246,7 +252,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="     SHOES"
+                            android:text="     PHỤ KIỆN"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -259,23 +265,25 @@
                             android:layout_weight="0.3"
                             android:elevation="4dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/discover3" />
+                            android:background="@drawable/hvq_backgroud_circle2"
+                            android:src="@drawable/hvq_discover3" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.recyclerview.widget.RecyclerView
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragment_discover2"
+                    android:name="com.project.clothingstore.view.fragment.discover.Discover2Fragment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_height="wrap_content" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView4"
+                    android:id="@+id/card3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="16dp"
-                    android:layout_weight="1"
                     android:elevation="4dp"
+                    android:foreground="?attr/selectableItemBackground"
                     app:cardBackgroundColor="#B9AEB2"
                     app:cardCornerRadius="12dp">
 
@@ -291,7 +299,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="     COLLECTION"
+                            android:text="     LÀM ĐẸP"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -304,14 +312,17 @@
                             android:layout_weight="0.3"
                             android:elevation="4dp"
                             android:scaleType="centerInside"
-                            android:src="@drawable/discover4" />
+                            android:background="@drawable/hvq_backgroud_circle2"
+                            android:src="@drawable/hvq_discover4" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.recyclerview.widget.RecyclerView
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragment_discover3"
+                    android:name="com.project.clothingstore.view.fragment.discover.Discover3Fragment"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>

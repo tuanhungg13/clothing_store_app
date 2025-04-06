@@ -1,11 +1,11 @@
 package com.project.clothingstore.adapter.product;
 
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,22 +17,23 @@ import com.project.clothingstore.modal.Product;
 
 import java.util.List;
 
-public class FeatureProductAdapter extends RecyclerView.Adapter<FeatureProductAdapter.FreaturedProductViewHolder> {
-    private List<Product> listSP;
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
+    List<Product> listSP;
     public void setData(List<Product> list) {
         this.listSP = list;
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
-    public FreaturedProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product_freatured, parent, false);
-        return new FreaturedProductViewHolder(view);
+    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_products, parent, false);
+        return new ProductViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FreaturedProductViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product sp = listSP.get(position);
         if (sp == null || sp.getImages() == null || sp.getImages().isEmpty()) {
             return;
@@ -46,10 +47,10 @@ public class FeatureProductAdapter extends RecyclerView.Adapter<FeatureProductAd
                 .into(holder.imv);
 
         holder.txtName.setText(sp.getProductName());
-        holder.txtPrice.setText(String.valueOf("$ "+sp.getPrice()));
-//        holder.txtOldPrice.setText("180.000");
-//        holder.txtOldPrice.setPaintFlags(holder.txtOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-
+        holder.txtPrice.setText(String.valueOf("đ " + sp.getPrice()));
+        holder.txtOldPrice.setText("180.000");
+        holder.txtOldPrice.setPaintFlags(holder.txtOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.ratingBar.setRating(Float.parseFloat(sp.getRatings()));
     }
 
     @Override
@@ -60,15 +61,18 @@ public class FeatureProductAdapter extends RecyclerView.Adapter<FeatureProductAd
         return 0;
     }
 
-    public class FreaturedProductViewHolder extends RecyclerView.ViewHolder {
+    public class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imv;
         TextView txtName, txtPrice, txtOldPrice;
-        public FreaturedProductViewHolder(@NonNull View itemView) {
+
+        RatingBar ratingBar;
+        public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-            imv = itemView.findViewById(R.id.imv_itemNB);
-            txtName = itemView.findViewById(R.id.txt_ItemNameNB);
-            txtPrice = itemView.findViewById(R.id.txt_ItemPriceNB);
-//            txtOldPrice = itemView.findViewById(R.id.txt_ItemOldPriceNB);
+            imv = itemView.findViewById(R.id.imv_item_product);
+            txtName = itemView.findViewById(R.id.txt_name_product);
+            txtPrice = itemView.findViewById(R.id.txt_price_product);
+            txtOldPrice = itemView.findViewById(R.id.txt_oldprice_product);
+            ratingBar = itemView.findViewById(R.id.rating_product);
         }
     }
 }

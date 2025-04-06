@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
-    tools:context=".view.productcollection.ProductMainFragment">
+    tools:context=".view.fragment.HomeFragment">
 
 
     <LinearLayout
@@ -36,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="FluxSrore"
+                android:text="FluxStore"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -81,7 +81,7 @@
                         app:cardElevation="1dp">
 
                         <ImageButton
-                            android:id="@+id/imageButton"
+                            android:id="@+id/btnao0"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
@@ -100,13 +100,13 @@
                         app:cardElevation="1dp">
 
                         <ImageButton
-                            android:id="@+id/imageButton2"
+                            android:id="@+id/btngiay1"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:contentDescription="Female"
                             android:scaleType="centerInside"
-                            app:srcCompat="@drawable/quan" />
+                            app:srcCompat="@drawable/hvq_shoe" />
                     </androidx.cardview.widget.CardView>
 
                     <!-- Third CardView -->
@@ -119,7 +119,7 @@
                         app:cardElevation="1dp">
 
                         <ImageButton
-                            android:id="@+id/imageButton3"
+                            android:id="@+id/btnphukien2"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
@@ -138,7 +138,7 @@
                         app:cardElevation="1dp">
 
                         <ImageButton
-                            android:id="@+id/imageButton4"
+                            android:id="@+id/btnlamdep3"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:background="?attr/selectableItemBackgroundBorderless"
@@ -163,7 +163,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Áo" />
+                        android:text="Áo &amp; quần" />
 
                     <TextView
                         android:id="@+id/textView2"
@@ -172,7 +172,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Quần" />
+                        android:text="Giày" />
 
                     <TextView
                         android:id="@+id/textView3"
@@ -196,7 +196,7 @@
                 <!-- Phần sản phẩm nổi bật -->
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/fragment_BST"
-                    android:name="com.project.clothingstore.view.productcollection.ProductCollectionFragment"
+                    android:name="com.project.clothingstore.view.fragment.productcollection.ProductCollectionFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -211,13 +211,13 @@
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/fragment_SPNB"
-                    android:name="com.project.clothingstore.view.product.FeaturedProductFragment"
+                    android:name="com.project.clothingstore.view.fragment.product.FeaturedProductFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/fragment_BSTNew"
-                    android:name="com.project.clothingstore.view.productcollection.ProductCollectionFragment2"
+                    android:name="com.project.clothingstore.view.fragment.productcollection.ProductCollectionFragment2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -232,7 +232,7 @@
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/fragment_recomment_product"
-                    android:name="com.project.clothingstore.view.product.RecommentProductFragment"
+                    android:name="com.project.clothingstore.view.fragment.product.RecommentProductFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -247,7 +247,7 @@
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/fragment_ProductCategory3"
-                    android:name="com.project.clothingstore.view.productcollection.ProductCollectionFragment3"
+                    android:name="com.project.clothingstore.view.fragment.productcollection.ProductCollectionFragment3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

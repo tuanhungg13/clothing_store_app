@@ -6,7 +6,7 @@ import com.project.clothingstore.modal.ProductCollections;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductCategoryService {
+public class ProductCollectionService {
 
     // Fake API
     public List<ProductCollections> getListBST(){

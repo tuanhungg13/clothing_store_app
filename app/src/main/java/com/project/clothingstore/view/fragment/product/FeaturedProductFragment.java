@@ -1,4 +1,4 @@
-package com.project.clothingstore.view.product;
+package com.project.clothingstore.view.fragment.product;
 
 import android.os.Bundle;
 
@@ -33,6 +33,7 @@ public class FeaturedProductFragment extends Fragment {
 
         feautureProductAdapter = new FeatureProductAdapter();
         recyclerView.setAdapter(feautureProductAdapter);
+        recyclerView.setHorizontalScrollBarEnabled(false); // Tắt thanh cuộn ngang
 
         productViewModel = new ViewModelProvider(this).get(FeaturedProductViewModel.class);
         productViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {

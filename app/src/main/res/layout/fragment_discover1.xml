@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.productcollection.ProductCollectionFragment3">
+    tools:context=".view.fragment.discover.Discover1Fragment"
+    android:padding="16dp">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_product_category3"
+        android:id="@+id/rcv_fragment_discover1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"/>
 </FrameLayout>

@@ -1,4 +1,4 @@
-package com.project.clothingstore.view.productcollection;
+package com.project.clothingstore.view.fragment.productcollection;
 
 import android.os.Bundle;
 
