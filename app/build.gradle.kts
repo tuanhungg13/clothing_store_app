@@ -34,6 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -55,11 +58,12 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 
-    implementation ("me.relex:circleindicator:1.3.2")
-    implementation ("me.relex:circleindicator:2.1.6")
+    implementation("me.relex:circleindicator:1.3.2")
+    implementation("me.relex:circleindicator:2.1.6")
 
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0")
 
 
 }

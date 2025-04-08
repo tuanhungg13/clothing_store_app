@@ -1,44 +1,106 @@
 package com.project.clothingstore.service
 
+import Cart
 import CartItem
-import Variant
+import android.util.Log
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
 class CartService {
 
-    private val cartItems = mutableListOf<CartItem>()
+    private val firestore = FirebaseFirestore.getInstance()
 
-    // Thêm một sản phẩm vào giỏ hàng
-    fun addToCart(cartItem: CartItem) {
-        val existingItem =
-            cartItems.find { it.productId == cartItem.productId && it.variant == cartItem.variant }
-        if (existingItem != null) {
-            // Nếu sản phẩm đã có trong giỏ, tăng số lượng lên
-            existingItem.quantity += cartItem.quantity
-        } else {
-            // Nếu sản phẩm chưa có trong giỏ, thêm mới
-            cartItems.add(cartItem)
+    // Lấy dữ liệu giỏ hàng từ Firebase
+    suspend fun fetchCartItems(cartId: String): List<CartItem> {
+        return try {
+            val documentSnapshot = firestore.collection("carts")
+                .document(cartId)
+                .get()
+                .await()
+
+            if (!documentSnapshot.exists()) {
+                Log.w("Firestore", "Cart document not found with ID: $cartId")
+                return emptyList()
+            }
+
+            val cart = documentSnapshot.toObject(Cart::class.java)
+            val cartItems = cart?.cartItems
+
+            if (cartItems.isNullOrEmpty()) {
+                Log.d("Firestore", "Cart is empty or cartItems is null")
+                emptyList()
+            } else {
+                Log.d("Firestore", "Fetched cartItems: $cartItems")
+                cartItems
+            }
+
+        } catch (e: Exception) {
+            Log.e("Firestore", "Error fetching cart items: ${e.message}", e)
+            emptyList()
         }
     }
 
-    // Xóa một sản phẩm khỏi giỏ hàng
-    fun removeFromCart(productId: String, variant: Variant) {
-        val itemToRemove = cartItems.find { it.productId == productId && it.variant == variant }
-        itemToRemove?.let { cartItems.remove(it) }
-    }
-
     // Cập nhật số lượng sản phẩm
-    fun updateQuantity(productId: String, variant: Variant, quantity: Int) {
-        val itemToUpdate = cartItems.find { it.productId == productId && it.variant == variant }
-        itemToUpdate?.quantity = quantity
+    suspend fun updateItemQuantity(cartItem: CartItem, cartId: String): Boolean = runCatching {
+        val cartRef = firestore.collection("carts").document(cartId)
+        val currentItems =
+            cartRef.get().await().get("cartItems") as? List<Map<String, Any>> ?: return false
+
+        val updatedItems = currentItems.map { item ->
+            if (
+                item["productId"] == cartItem.productId &&
+                (item["variant"] as? Map<*, *>)?.get("color") == cartItem.variant.color &&
+                (item["variant"] as? Map<*, *>)?.get("size") == cartItem.variant.size
+            ) {
+                item.toMutableMap().apply { this["quantity"] = cartItem.quantity }
+            } else item
+        }
+
+        cartRef.update("cartItems", updatedItems).await()
+        true
+    }.getOrElse {
+        it.printStackTrace()
+        false
     }
 
-    // Lấy tất cả sản phẩm trong giỏ hàng
-    fun getCartItems(): List<CartItem> {
-        return cartItems
+    suspend fun removeItemFromCart(cartItem: CartItem, cartId: String): Boolean = runCatching {
+        val cartRef = firestore.collection("carts").document(cartId)
+        val currentItems =
+            cartRef.get().await().get("cartItems") as? List<Map<String, Any>> ?: return false
+
+        val updatedItems = currentItems.filterNot { item ->
+            item["productId"] == cartItem.productId &&
+                    (item["variant"] as? Map<*, *>)?.get("color") == cartItem.variant.color &&
+                    (item["variant"] as? Map<*, *>)?.get("size") == cartItem.variant.size
+        }
+
+        cartRef.update("cartItems", updatedItems).await()
+        true
+    }.getOrElse {
+        it.printStackTrace()
+        false
     }
 
-    // Tính tổng giá trị giỏ hàng
-    fun calculateTotalPrice(): Int {
-        return cartItems.sumBy { it.price * it.quantity }
-    }
+    suspend fun removeMultipleItemsFromCart(cartItems: List<CartItem>, cartId: String): Boolean =
+        runCatching {
+            val cartRef = firestore.collection("carts").document(cartId)
+            val currentItems =
+                cartRef.get().await().get("cartItems") as? List<Map<String, Any>> ?: return false
+
+            val updatedItems = currentItems.filterNot { item ->
+                cartItems.any { cartItem ->
+                    item["productId"] == cartItem.productId &&
+                            (item["variant"] as? Map<*, *>)?.get("color") == cartItem.variant.color &&
+                            (item["variant"] as? Map<*, *>)?.get("size") == cartItem.variant.size
+                }
+            }
+
+            cartRef.update("cartItems", updatedItems).await()
+            true
+        }.getOrElse {
+            it.printStackTrace()
+            false
+        }
+
+
 }
