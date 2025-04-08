@@ -65,6 +65,7 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0")
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 
 }

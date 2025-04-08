@@ -1,4 +1,4 @@
-package com.project.clothingstore.view.fragment
+package com.project.clothingstore.view.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
