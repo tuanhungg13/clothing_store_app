@@ -1,9 +1,11 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.fragment.SearchFragment">
+    tools:context=".view.fragment.SearchFragment"
+    tools:openDrawer="end">
 
     <!-- Sử dụng CardView để tạo khung cho bộ sưu tập -->
 
@@ -12,46 +14,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Toolbar -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_marginTop="4dp"
-            android:background="@color/white"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-            <ImageButton
-                android:id="@+id/btnMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:contentDescription="Menu"
-                android:padding="12dp"
-                android:src="@drawable/ba_gach" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="FluxStore"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/btnNotification"
-                app:layout_constraintStart_toEndOf="@id/btnMenu" />
-
-            <ImageButton
-                android:id="@+id/btnNotification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Notifications"
-                android:padding="12dp"
-                android:src="@drawable/chuong" />
-        </androidx.appcompat.widget.Toolbar>
 
         <!-- Search and Filter using CardView -->
         <LinearLayout
@@ -63,10 +25,10 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_margin="10dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
+                android:layout_weight="1"
                 android:elevation="4dp"
                 app:cardCornerRadius="12dp">
 
@@ -91,8 +53,8 @@
                         android:id="@+id/edt_find_discover"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_gravity="center"
+                        android:layout_weight="1"
                         android:background="?attr/selectableItemBackground"
                         android:hint="Tìm kiếm"
                         android:inputType="text" />
@@ -102,12 +64,12 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:elevation="4dp"
                 android:layout_margin="10dp"
+                android:elevation="4dp"
                 app:cardCornerRadius="12dp">
 
                 <ImageButton
-                    android:id="@+id/imgbtn_filter"
+                    android:id="@+id/imgbtn_filter_search"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
@@ -138,8 +100,8 @@
                     android:layout_gravity="center"
                     android:layout_margin="16dp"
                     android:elevation="4dp"
-                    app:cardBackgroundColor="#A3A798"
                     android:foreground="?attr/selectableItemBackground"
+                    app:cardBackgroundColor="#A3A798"
                     app:cardCornerRadius="12dp">
 
                     <LinearLayout
@@ -215,10 +177,10 @@
                             android:layout_height="100dp"
                             android:layout_marginStart="16dp"
                             android:layout_weight="0.3"
+                            android:background="@drawable/hvq_backgroud_circle2"
                             android:elevation="4dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/hvq_discover2"
-                            android:background="@drawable/hvq_backgroud_circle2"/>
+                            android:src="@drawable/hvq_discover2" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <!--        Item 3-->
@@ -263,9 +225,9 @@
                             android:layout_height="100dp"
                             android:layout_marginStart="16dp"
                             android:layout_weight="0.3"
+                            android:background="@drawable/hvq_backgroud_circle2"
                             android:elevation="4dp"
                             android:scaleType="centerCrop"
-                            android:background="@drawable/hvq_backgroud_circle2"
                             android:src="@drawable/hvq_discover3" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -310,9 +272,9 @@
                             android:layout_height="100dp"
                             android:layout_marginStart="16dp"
                             android:layout_weight="0.3"
+                            android:background="@drawable/hvq_backgroud_circle2"
                             android:elevation="4dp"
                             android:scaleType="centerInside"
-                            android:background="@drawable/hvq_backgroud_circle2"
                             android:src="@drawable/hvq_discover4" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -327,4 +289,22 @@
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 
-</FrameLayout>
+
+<!--    Thanh lọc Product-->
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="@color/white"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/black">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_filter"
+            android:name="com.project.clothingstore.view.fragment.Filter.FilterFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.navigation.NavigationView>
+
+
+</androidx.drawerlayout.widget.DrawerLayout>

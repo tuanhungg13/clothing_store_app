@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.project.clothingstore.R;
 import com.project.clothingstore.modal.Product;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class FeatureProductAdapter extends RecyclerView.Adapter<FeatureProductAdapter.FreaturedProductViewHolder> {
@@ -46,7 +47,11 @@ public class FeatureProductAdapter extends RecyclerView.Adapter<FeatureProductAd
                 .into(holder.imv);
 
         holder.txtName.setText(sp.getProductName());
-        holder.txtPrice.setText(String.valueOf("$ "+sp.getPrice()));
+
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        String formatted = formatter.format(sp.getPrice()); // "7,000,000,000"
+        formatted = formatted.replace(",", ".");     // "7.000.000.000"
+        holder.txtPrice.setText(String.valueOf("đ "+formatted));
 //        holder.txtOldPrice.setText("180.000");
 //        holder.txtOldPrice.setPaintFlags(holder.txtOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
