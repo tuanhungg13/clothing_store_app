@@ -1,6 +1,8 @@
 package com.project.clothingstore.view.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -25,6 +27,9 @@ class CartActivity : AppCompatActivity() {
     private lateinit var btnCheckout: TextView
     private lateinit var tvProductPrice: TextView
     private lateinit var btnBack: ImageView
+    private lateinit var shimmerLayout: View
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
@@ -35,9 +40,14 @@ class CartActivity : AppCompatActivity() {
         btnCheckout = findViewById(R.id.btnCheckout)
         tvProductPrice = findViewById(R.id.tvProductPrice)
         btnBack = findViewById(R.id.btnBack)
+        shimmerLayout = findViewById(R.id.shimmerLayout)
+
         btnBack.setOnClickListener {
             finish() // 👉 quay về Activity trước đó
         }
+// Ẩn RV khi chưa có data
+        rvCartItems.visibility = View.GONE
+        shimmerLayout.visibility = View.VISIBLE
         // Khởi tạo CartService
         val cartService = CartService() // Hoặc cung cấp dịch vụ khác tùy vào cách bạn inject
 
@@ -52,6 +62,8 @@ class CartActivity : AppCompatActivity() {
         // Cập nhật UI khi có thay đổi
         cartViewModel.cartItems.observe(this, Observer { items ->
             // Cập nhật danh sách sản phẩm
+            shimmerLayout.visibility = View.GONE
+            rvCartItems.visibility = View.VISIBLE
             cartAdapter = CartAdapter(
                 items.toMutableList(),
                 onQuantityChanged = { cartItem, newQuantity ->
