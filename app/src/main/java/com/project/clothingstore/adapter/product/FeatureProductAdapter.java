@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,7 @@ public class FeatureProductAdapter extends RecyclerView.Adapter<FeatureProductAd
         String formatted = formatter.format(sp.getPrice()); // "7,000,000,000"
         formatted = formatted.replace(",", ".");     // "7.000.000.000"
         holder.txtPrice.setText(String.valueOf("đ "+formatted));
+        holder.ratingBar.setRating(sp.getTotalRating());
 //        holder.txtOldPrice.setText("180.000");
 //        holder.txtOldPrice.setPaintFlags(holder.txtOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
@@ -68,11 +70,13 @@ public class FeatureProductAdapter extends RecyclerView.Adapter<FeatureProductAd
     public class FreaturedProductViewHolder extends RecyclerView.ViewHolder {
         ImageView imv;
         TextView txtName, txtPrice, txtOldPrice;
+        RatingBar ratingBar;
         public FreaturedProductViewHolder(@NonNull View itemView) {
             super(itemView);
             imv = itemView.findViewById(R.id.imv_itemNB);
             txtName = itemView.findViewById(R.id.txt_ItemNameNB);
             txtPrice = itemView.findViewById(R.id.txt_ItemPriceNB);
+            ratingBar = itemView.findViewById(R.id.ratingBar_freature_product);
 //            txtOldPrice = itemView.findViewById(R.id.txt_ItemOldPriceNB);
         }
     }

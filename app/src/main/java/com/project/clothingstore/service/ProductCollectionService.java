@@ -11,7 +11,7 @@ public class ProductCollectionService {
     // Fake API
     public List<ProductCollections> getListBST(){
         List<ProductCollections> list = new ArrayList<>();
-        list.add(new ProductCollections(R.drawable.spnb, "Bộ sưu tập mùa thu năm 2025"));
+        list.add(new ProductCollections(R.drawable.aophong, "Bộ sưu tập mùa thu năm 2025"));
         list.add(new ProductCollections(R.drawable.spnb, "Bộ sưu tập mùa đông năm 2025"));
         list.add(new ProductCollections(R.drawable.spnb, "Bộ sưu tập mùa xuân năm 2025"));
         return list;

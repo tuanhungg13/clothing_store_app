@@ -13,22 +13,52 @@ public class Product {
     private double discount;
     private List<Variant> variants;
     private int priceBeforeDiscount;
-    private String ratings;
-    private String type;
+    private float totalRating;
 
-    public Product(String productName, int price, String categoryId, List<String> images, int priceBeforeDiscount, String ratings) {
+    private String categoriType;
+
+
+    private int sold;
+
+    public Product() {
+    }
+
+    public Product(String productName, int price, String categoryId, List<String> images, int priceBeforeDiscount, float totalRating) {
         this.productName = productName;
         this.price = price;
         this.categoryId = categoryId;
         this.images = images;
         this.priceBeforeDiscount = priceBeforeDiscount;
-        this.ratings = ratings;
+        this.totalRating = totalRating;
     }
 
     public Product(String productName, int price, List<String> images) {
         this.productName = productName;
         this.price = price;
         this.images = images;
+    }
+
+    public float getTotalRating() {
+        return totalRating;
+    }
+    public String getCategoriType() {
+        return categoriType;
+    }
+    public void setCategoriType(String categoriType) {
+        this.categoriType = categoriType;
+    }
+
+
+    public void setTotalRating(float totalRating) {
+        this.totalRating = totalRating;
+    }
+
+    public int getSold() {
+        return sold;
+    }
+
+    public void setSold(int sold) {
+        this.sold = sold;
     }
 
     public List<String> getImages() {
@@ -63,13 +93,6 @@ public class Product {
         this.categoryId = categoryId;
     }
 
-    public String getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(String ratings) {
-        this.ratings = ratings;
-    }
 
     public String getProductId() {
         return productId;
@@ -111,13 +134,7 @@ public class Product {
         this.priceBeforeDiscount = priceBeforeDiscount;
     }
 
-    public String getType() {
-        return type;
-    }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public static class Variant {
         private String color;

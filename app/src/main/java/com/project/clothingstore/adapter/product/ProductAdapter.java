@@ -54,7 +54,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.txtPrice.setText(String.valueOf("đ " + formatted));
         holder.txtOldPrice.setText("180.000");
         holder.txtOldPrice.setPaintFlags(holder.txtOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        holder.ratingBar.setRating(Float.parseFloat(sp.getRatings()));
+        holder.ratingBar.setRating(sp.getTotalRating());
     }
 
     @Override
