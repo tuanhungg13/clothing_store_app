@@ -13,11 +13,11 @@ public class RecommentProductViewModel extends ViewModel {
     private MutableLiveData<List<Product>> listProduct = new MutableLiveData<>();
     private ProductService productService = new ProductService();
     public RecommentProductViewModel() {
-        LoadProduct();
+        LoadProduct(5);
     }
 
-    public void LoadProduct() {
-        productService.getListRecommentProduct(listProduct);
+    public void LoadProduct(int limit) {
+        productService.getSanPhamList(listProduct, "discount", limit);
     }
 
     public LiveData<List<Product>> getListProduct() {

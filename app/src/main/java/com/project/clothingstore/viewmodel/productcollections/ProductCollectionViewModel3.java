@@ -18,7 +18,7 @@ public class ProductCollectionViewModel3 extends ViewModel {
     }
 
     public void LoadProductCategory() {
-        listProductCategory.setValue(productCollectionService.getListProductCategory3());
+        productCollectionService.getCollectionList(listProductCategory, null);
     }
 
     public LiveData<List<ProductCollections>> getListProductCategory() {

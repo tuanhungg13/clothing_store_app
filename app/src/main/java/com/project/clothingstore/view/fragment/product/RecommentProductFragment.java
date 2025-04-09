@@ -23,6 +23,24 @@ public class RecommentProductFragment extends Fragment {
     private RecommentProductAdapter recommentProductAdapter;
     private RecyclerView recyclerView;
 
+    private int limit = 5;
+
+    public static RecommentProductFragment newInstance(int limit) {
+        RecommentProductFragment fragment = new RecommentProductFragment();
+        Bundle args = new Bundle();
+        args.putInt("limit", limit);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            limit = getArguments().getInt("limit", 5);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +55,8 @@ public class RecommentProductFragment extends Fragment {
         recyclerView.setHorizontalScrollBarEnabled(false); // Tắt thanh cuộn ngang
 
         productViewModel = new ViewModelProvider(this).get(RecommentProductViewModel.class);
+
+        productViewModel.LoadProduct(limit); // Gọi phương thức để tải sản phẩm với limit
         productViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {
             recommentProductAdapter.setData(list);
         });

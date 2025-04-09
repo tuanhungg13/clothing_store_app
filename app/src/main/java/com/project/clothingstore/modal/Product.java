@@ -15,7 +15,7 @@ public class Product {
     private int priceBeforeDiscount;
     private float totalRating;
 
-    private String categoriType;
+    private int productType;
 
 
     private int sold;
@@ -41,11 +41,11 @@ public class Product {
     public float getTotalRating() {
         return totalRating;
     }
-    public String getCategoriType() {
-        return categoriType;
+    public int getProductType() {
+        return productType;
     }
-    public void setCategoriType(String categoriType) {
-        this.categoriType = categoriType;
+    public void setProductType(int categoriType) {
+        this.productType = categoriType;
     }
 
 

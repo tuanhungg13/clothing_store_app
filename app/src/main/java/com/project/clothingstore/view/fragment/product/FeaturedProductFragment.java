@@ -22,6 +22,24 @@ public class FeaturedProductFragment extends Fragment {
     private FeaturedProductViewModel productViewModel;
     private FeatureProductAdapter feautureProductAdapter;
     private RecyclerView recyclerView;
+    private int limit = 5;
+
+    // Factory method để tạo fragment với limit
+    public static FeaturedProductFragment newInstance(int limit) {
+        FeaturedProductFragment fragment = new FeaturedProductFragment();
+        Bundle args = new Bundle();
+        args.putInt("limit", limit);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            limit = getArguments().getInt("limit", 5);
+        }
+    }
 
     @Nullable
     @Override
@@ -36,6 +54,7 @@ public class FeaturedProductFragment extends Fragment {
         recyclerView.setHorizontalScrollBarEnabled(false); // Tắt thanh cuộn ngang
 
         productViewModel = new ViewModelProvider(this).get(FeaturedProductViewModel.class);
+        productViewModel.loadProductWithLimit(limit); // Gọi phương thức để tải sản phẩm với limit
         productViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {
             feautureProductAdapter.setData(list);
         });

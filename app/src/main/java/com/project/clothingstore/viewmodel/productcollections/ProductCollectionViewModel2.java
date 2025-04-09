@@ -17,7 +17,7 @@ public class ProductCollectionViewModel2 extends ViewModel {
     }
 
     public void LoadProductCategory() {
-        listProductCategory.setValue(productCollectionService.getListBSTNew());
+        productCollectionService.getCollectionList(listProductCategory, "bình thường");
     }
 
     public LiveData<List<ProductCollections>> getListProductCategory() {
