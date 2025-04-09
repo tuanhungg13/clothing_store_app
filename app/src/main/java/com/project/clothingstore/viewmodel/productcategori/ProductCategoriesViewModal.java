@@ -1,4 +1,4 @@
-package com.project.clothingstore.viewmodel.discover;
+package com.project.clothingstore.viewmodel.productcategori;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -15,15 +15,15 @@ public class ProductCategoriesViewModal extends ViewModel
     private ProductCategoriesService productCategoriesService = new ProductCategoriesService();
 
     public ProductCategoriesViewModal() {
-//        LoadProductCategory();
+        LoadProductCategory(0);
     }
 
-//    private void LoadProductCategory() {
-//        listProductCategory.setValue(productCategoriesService.getListProductCategory());
-//    }
-    public LiveData<List<ProductCategories>> getListProductCategory(String type) {
-        List<ProductCategories> list = productCategoriesService.getListProductCategoryByType(type);
-        listProductCategory.setValue(list);
+    public void LoadProductCategory(int categoriType) {
+        productCategoriesService.getListCategoryWithProductCount(listProductCategory, categoriType);
+    }
+
+    public LiveData<List<ProductCategories>> getListProductCategory() {
+
         return listProductCategory;
     }
 

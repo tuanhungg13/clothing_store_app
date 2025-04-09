@@ -18,7 +18,6 @@ import com.project.clothingstore.view.fragment.productcollection.ProductCollecti
 import com.project.clothingstore.view.fragment.productcollection.ProductCollectionFragment3;
 
 public class HomeFragment extends Fragment {
-    private ImageButton btnao0, btngiay1, btnphukien2, btnlamdep3;
     private TextView txt_xemthem_productFeatured, txt_xemthem_productRecomment;
     private int limitfreatureProduct = 5;
     private int limitRecommentProduct = 5;
@@ -28,10 +27,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        btnao0 = view.findViewById(R.id.btnao0);
-        btngiay1 = view.findViewById(R.id.btngiay1);
-        btnphukien2 = view.findViewById(R.id.btnphukien2);
-        btnlamdep3 = view.findViewById(R.id.btnlamdep3);
 
         txt_xemthem_productFeatured = view.findViewById(R.id.txt_xemthem_freatureProduct);
         txt_xemthem_productRecomment = view.findViewById(R.id.txt_xemthem_recommentProduct);
@@ -54,19 +49,9 @@ public class HomeFragment extends Fragment {
         });
 
 
-        btnao0.setOnClickListener(v -> openCategory("0"));
-        btngiay1.setOnClickListener(v -> openCategory("1"));
-        btnphukien2.setOnClickListener(v -> openCategory("2"));
-        btnlamdep3.setOnClickListener(v -> openCategory("3"));
-
         return view;
     }
 
-    private void openCategory(String categoryId) {
-        Intent intent = new Intent(getActivity(), ProductsActivity.class);
-        intent.putExtra("categoryId", categoryId);
-        startActivity(intent);
-    }
 
     private void loadFragment(Fragment fragment) {
         getChildFragmentManager().beginTransaction()

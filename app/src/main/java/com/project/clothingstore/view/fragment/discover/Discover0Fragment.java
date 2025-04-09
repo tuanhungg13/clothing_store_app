@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.project.clothingstore.R;
 import com.project.clothingstore.adapter.productcategories.ProductCategoriesAdapter;
-import com.project.clothingstore.viewmodel.discover.ProductCategoriesViewModal;
+import com.project.clothingstore.viewmodel.productcategori.ProductCategoriesViewModal;
 
 
 public class Discover0Fragment extends Fragment {
@@ -22,7 +22,7 @@ public class Discover0Fragment extends Fragment {
 
     private RecyclerView recyclerView;
 
-    private String type;
+    private int type;
 
 
     @Override
@@ -32,17 +32,21 @@ public class Discover0Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_discover0, container, false);
 
         if (getArguments() != null) {
-            type = getArguments().getString("type");
+            type = getArguments().getInt("type");
         }
 
         recyclerView = view.findViewById(R.id.rcv_fragment_discover0);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
         productCategoriesAdapter = new ProductCategoriesAdapter();
+
         recyclerView.setAdapter(productCategoriesAdapter);
 
         productCategoriesViewModal = new ViewModelProvider(this).get(ProductCategoriesViewModal.class);
-        productCategoriesViewModal.getListProductCategory(type).observe(getViewLifecycleOwner(), list -> {
+        // Load data from ViewModel
+        productCategoriesViewModal.LoadProductCategory(type);
+        productCategoriesViewModal.getListProductCategory().observe(getViewLifecycleOwner(), list -> {
             productCategoriesAdapter.setData(list);
         });
 
