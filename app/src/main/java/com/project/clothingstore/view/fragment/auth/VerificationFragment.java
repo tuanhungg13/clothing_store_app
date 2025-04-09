@@ -1,4 +1,4 @@
-package com.project.clothingstore.view.auth;
+package com.project.clothingstore.view.fragment.auth;
 
 import android.os.Bundle;
 

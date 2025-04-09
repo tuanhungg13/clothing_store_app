@@ -16,8 +16,11 @@ public class FirebaseHelper {
     public static CollectionReference getCartCollection() {
         return db.collection("carts");
     }
-    public static CollectionReference geOrderCollection() {
+    public static CollectionReference getOrderCollection() {
         return db.collection("orders");
+    }
+    public static CollectionReference getUserCollection() {
+        return db.collection("users");
     }
 
 }

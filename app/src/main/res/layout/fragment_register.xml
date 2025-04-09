@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.auth.RegisterFragment">
+    tools:context=".view.fragment.auth.RegisterFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -101,7 +101,7 @@
                 android:id="@+id/imb_login_google"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/rounded_button"
+                android:background="@drawable/td_rounded_button"
                 android:src="@drawable/android_light_rd_na_1x"
                 android:scaleType="fitCenter"
                 android:contentDescription="Google"/>
@@ -111,7 +111,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"
-                android:background="@drawable/rounded_button"
+                android:background="@drawable/td_rounded_button"
                 android:src="@drawable/facebook_logo_primary"
                 android:scaleType="fitCenter"
                 android:contentDescription="FaceBook"/>
