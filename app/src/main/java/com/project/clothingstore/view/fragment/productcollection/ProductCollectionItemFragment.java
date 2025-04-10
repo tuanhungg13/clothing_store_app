@@ -36,24 +36,22 @@ public class ProductCollectionItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_collection_item, container, false);
 
-        // Chỉ lấy argument nếu collectionId chưa được gán
-        if (collectionId == null && getArguments() != null) {
+        if (getArguments() != null) {
             collectionId = getArguments().getString("collectionId");
-            Log.d("ProductCollItemFrag", "CollectionId nhận được: " + collectionId);
-            recyclerView = view.findViewById(R.id.rcv_fragment_product_collection_item);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-            recyclerView.setLayoutManager(gridLayoutManager);
-
-            productAdapter = new ProductAdapter();
-            recyclerView.setAdapter(productAdapter);
-
-            productcollectionItemsViewModel = new ViewModelProvider(this).get(ProductCollectionItemsViewModel.class);
-            // Load data from ViewModel
-            productcollectionItemsViewModel.loadProduct(collectionId);
-            productcollectionItemsViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {
-                productAdapter.setData(list);
-            });
         }
+        recyclerView = view.findViewById(R.id.rcv_fragment_product_collection_item);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        productAdapter = new ProductAdapter();
+        recyclerView.setAdapter(productAdapter);
+
+        productcollectionItemsViewModel = new ViewModelProvider(this).get(ProductCollectionItemsViewModel.class);
+        // Load data from ViewModel
+        productcollectionItemsViewModel.loadProduct(collectionId);
+        productcollectionItemsViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {
+            productAdapter.setData(list);
+        });
 
 
 
