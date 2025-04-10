@@ -17,7 +17,7 @@ public class RecommentProductViewModel extends ViewModel {
     }
 
     public void LoadProduct() {
-        listProduct.setValue(productService.getListRecommentProduct());
+//        listProduct.setValue(productService.getListRecommentProduct());
     }
 
     public LiveData<List<Product>> getListProduct() {

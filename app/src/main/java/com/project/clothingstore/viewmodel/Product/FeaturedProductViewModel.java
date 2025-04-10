@@ -17,7 +17,7 @@ public class FeaturedProductViewModel extends ViewModel {
     }
 
     public void LoadProduct() {
-        listProduct.setValue(productService.getSanPhamList());
+//        listProduct.setValue(productService.getSanPhamList());
     }
 
     public LiveData<List<Product>> getListProduct() {
