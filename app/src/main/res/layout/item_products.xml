@@ -10,24 +10,25 @@
     <LinearLayout
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imv_item_product"
-            android:layout_width="140dp"
-            android:layout_height="145dp"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
             android:scaleType="centerCrop"
             android:src="@drawable/item"
             android:layout_gravity="center"
+            android:layout_marginBottom="8dp"
             app:shapeAppearanceOverlay="@style/RoundedImage" />
 
         <TextView
             android:id="@+id/txt_name_product"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:text="Tên sản phẩm"
             android:textSize="18sp"
+
             android:textColor="@color/black"
             android:layout_marginTop="8dp" />
 

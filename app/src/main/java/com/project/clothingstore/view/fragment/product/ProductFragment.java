@@ -40,7 +40,9 @@ public class ProductFragment extends Fragment {
         recyclerView.setAdapter(productAdapter);
 
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        productViewModel.getListProduct(categoryId).observe(getViewLifecycleOwner(), list -> {
+        // Load data from ViewModel
+        productViewModel.loadProduct(categoryId);
+        productViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {
             productAdapter.setData(list);
         });
 

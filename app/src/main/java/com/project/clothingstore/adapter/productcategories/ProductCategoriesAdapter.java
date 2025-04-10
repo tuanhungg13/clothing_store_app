@@ -1,5 +1,6 @@
 package com.project.clothingstore.adapter.productcategories;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.clothingstore.R;
 import com.project.clothingstore.modal.ProductCategories;
+import com.project.clothingstore.view.activity.product.ProductsActivity;
 
 import java.util.List;
 
@@ -45,6 +47,13 @@ public class ProductCategoriesAdapter extends RecyclerView.Adapter<ProductCatego
         holder.txtName_discover.setText(productCategories.getCategoryName());
         holder.txt_sl_discover.setText(Integer.toString(productCategories.getQuantity()) + " items");
         this.categoriId = productCategories.getCategoryId();
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), ProductsActivity.class);
+            intent.putExtra("categoryId", productCategories.getCategoryId());
+            intent.putExtra("categoryName", productCategories.getCategoryName());
+            holder.itemView.getContext().startActivity(intent);
+        });
 
     }
 

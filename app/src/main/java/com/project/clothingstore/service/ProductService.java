@@ -61,7 +61,7 @@ public class ProductService {
         query.get().addOnCompleteListener(listener);
     }
 
-//     Lay ra 5 san pham co luot ban cao nhat
+//     Lay ra 5 san pham co luot ban cao nhat (limit)
     public void getSanPhamList(MutableLiveData<List<Product>> liveData, String field, int limitt) {
         CollectionReference productsRef = db.collection("products");
 
@@ -83,6 +83,58 @@ public class ProductService {
                     }
                 });
     }
+    // Lay san pham theo categoryId
+    public void getProductByCategoriIdList(MutableLiveData<List<Product>> liveData, String categoryId) {
+        if (categoryId == null || categoryId.isEmpty()) {
+            liveData.setValue(new ArrayList<>()); // Tránh trường hợp categoryId không hợp lệ
+            return;
+        }
+
+        CollectionReference productsRef = db.collection("products");
+
+        productsRef.whereEqualTo("categoryId", categoryId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Product> productList = new ArrayList<>();
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Product product = doc.toObject(Product.class);
+                            product.setProductId(doc.getId());
+                            productList.add(product);
+                        }
+                        liveData.setValue(productList);
+                    } else {
+                        liveData.setValue(new ArrayList<>()); // Tránh null nếu truy vấn thất bại
+                    }
+                });
+    }
+
+    // Lay san pham theo categoryId
+    public void getProductByCollectioIDList(MutableLiveData<List<Product>> liveData, String collectionId) {
+        if (collectionId == null || collectionId.isEmpty()) {
+            liveData.setValue(new ArrayList<>()); // Tránh trường hợp categoryId không hợp lệ
+            return;
+        }
+
+        CollectionReference productsRef = db.collection("products");
+
+        productsRef.whereEqualTo("collectionId", collectionId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Product> productList = new ArrayList<>();
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            Product product = doc.toObject(Product.class);
+                            product.setProductId(doc.getId());
+                            productList.add(product);
+                        }
+                        liveData.setValue(productList);
+                    } else {
+                        liveData.setValue(new ArrayList<>()); // Tránh null nếu truy vấn thất bại
+                    }
+                });
+    }
+
 
 
 

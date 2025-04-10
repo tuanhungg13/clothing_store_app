@@ -1,25 +1,24 @@
-package com.project.clothingstore.viewmodel.Product;
+package com.project.clothingstore.viewmodel.productcollections;
+
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.project.clothingstore.modal.Product;
-import com.project.clothingstore.modal.ProductCategories;
 import com.project.clothingstore.service.ProductService;
 
 import java.util.List;
 
-public class ProductViewModel extends ViewModel {
+public class ProductCollectionItemsViewModel extends ViewModel {
     private MutableLiveData<List<Product>> listProduct = new MutableLiveData<>();
     private ProductService productService = new ProductService();
 
-    public ProductViewModel() {
-        // Default load with initial limit
-    }
 
-    public void loadProduct(String categoriId) {
-        productService.getProductByCategoriIdList(listProduct, categoriId);
+    public void loadProduct(String collectionId) {
+        productService.getProductByCollectioIDList(listProduct, collectionId);
     }
 
 
