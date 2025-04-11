@@ -27,7 +27,7 @@ class CartService {
             val cartItems = cart?.cartItems ?: return emptyList()
 
             // Duyệt từng item để lấy stock tương ứng
-            cartItems.map { item ->
+            return cartItems.map { item ->
                 val productSnapshot = firestore.collection("products")
                     .document(item.productId)
                     .get()
@@ -36,11 +36,20 @@ class CartService {
                 val variants = productSnapshot["variants"] as? List<Map<String, Any>> ?: emptyList()
 
                 val matchedVariant = variants.find {
-                    it["size"] == item.variant.size && it["color"] == item.variant.color
+                    (it["color"] as? String)?.trim()?.lowercase() == item.variant.color.trim().lowercase()
                 }
 
-                val stock = (matchedVariant?.get("stock") as? Long)?.toInt() ?: 0
-                item.stock = stock // 👈 gán stock vào item
+                val sizes = matchedVariant?.get("sizes") as? List<Map<String, Any>> ?: emptyList()
+
+                val matchedSize = sizes.find {
+                    (it["size"] as? String)?.trim()?.lowercase() == item.variant.size.trim().lowercase()
+                }
+
+                val stock = (matchedSize?.get("quantity") as? Long)?.toInt() ?: 0
+                item.stock = stock
+
+                Log.d("CartItem", "Product ID: ${item.productId}, Size: ${item.variant.size}, Color: ${item.variant.color}, Stock: ${item.stock}, Quantity: ${item.quantity}")
+
                 item
             }
 

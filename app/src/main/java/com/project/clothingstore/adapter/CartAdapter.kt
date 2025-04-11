@@ -1,6 +1,7 @@
 package com.project.clothingstore.adapter
 
 import CartItem
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -70,13 +71,12 @@ class CartAdapter(
                 .error(R.drawable.resource_default)
                 .into(imgProduct)
             btnIncrease.setOnClickListener {
+                Log.e("TAG", "Số lượng tồn kho: ${cartItem.stock}")
                 if (cartItem.stock == null || cartItem.quantity < cartItem.stock!!) {
                     val newQuantity = cartItem.quantity + 1
                     cartItem.quantity = newQuantity
                     notifyItemChanged(adapterPosition)
                     onQuantityChanged(cartItem, newQuantity)
-                } else {
-                    Toast.makeText(itemView.context, "Vượt quá số lượng tồn kho", Toast.LENGTH_SHORT).show()
                 }
             }
             cbSelect.setOnCheckedChangeListener(null)

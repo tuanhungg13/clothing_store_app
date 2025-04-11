@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="#F9F9F9">
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Trang tổng quan"
+            android:text="Thống kê"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="#212121"
@@ -166,20 +166,5 @@
             android:padding="12dp"
             android:layout_marginBottom="24dp"
             tools:ignore="MissingClass" />
-
-        <!-- 4. Đơn hàng gần đây -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Đơn hàng gần đây"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recentOrdersRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
     </LinearLayout>
 </ScrollView>
