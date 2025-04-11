@@ -4,15 +4,19 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.project.clothingstore.R;
 
 import java.util.ArrayList;
@@ -27,6 +31,10 @@ public class FilterFragment extends Fragment {
 
     private AutoCompleteTextView autoCompleteTxt;
 
+    private TextInputEditText edt_price_min, edt_price_max;
+
+    private Button btn_Reset, btn_Apply;
+
 
     Set<Integer> selectedStar = new HashSet<>();
     Set<Integer> selectedDiscount = new HashSet<>();
@@ -37,37 +45,88 @@ public class FilterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
+
         autoCompleteTxt = view.findViewById(R.id.auto_category_filter);
         adapterItems = new ArrayAdapter<>(getContext(), R.layout.hvq_list_items, categotyitems);
         autoCompleteTxt.setAdapter(adapterItems);
 
-        autoCompleteTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-            }
+        autoCompleteTxt.setOnItemClickListener((parent, v, position, id) -> {
+            String item = parent.getItemAtPosition(position).toString();
+            // Có thể lưu lại category được chọn nếu cần
         });
 
-
+        // Khởi tạo frame rating (sao)
         framesstar.add(view.findViewById(R.id.star_frame1));
         framesstar.add(view.findViewById(R.id.star_frame2));
         framesstar.add(view.findViewById(R.id.star_frame3));
         framesstar.add(view.findViewById(R.id.star_frame4));
         framesstar.add(view.findViewById(R.id.star_frame5));
 
+        // Khởi tạo frame discount
         framesdiscount.add(view.findViewById(R.id.discount_frame0));
         framesdiscount.add(view.findViewById(R.id.discount_frame1));
         framesdiscount.add(view.findViewById(R.id.discount_frame2));
         framesdiscount.add(view.findViewById(R.id.discount_frame3));
 
-        // Gán sự kiện click cho từng frame
-        setupFrameClick(framesstar, selectedStar);
-        setupFrameClick(framesdiscount, selectedDiscount);
+        edt_price_min = view.findViewById(R.id.txt_PriceMin);
+        edt_price_max = view.findViewById(R.id.txt_PriceMax);
+
+        btn_Reset = view.findViewById(R.id.btn_reset_filter);
+        btn_Apply = view.findViewById(R.id.btn_apply_filter);
+
+        // Gán sự kiện click
+        setupStarFrameClick(framesstar, selectedStar); // chỉ chọn 1 sao
+        setupFrameClick(framesdiscount, selectedDiscount); // nhiều discount
+
+        // Xử lý nút Reset
+        btn_Reset.setOnClickListener(v -> {
+            autoCompleteTxt.setText("");
+
+            edt_price_min.setText("");
+            edt_price_max.setText("");
+
+            selectedStar.clear();
+            for (FrameLayout f : framesstar) f.setSelected(false);
+
+            selectedDiscount.clear();
+            for (FrameLayout f : framesdiscount) f.setSelected(false);
+
+            Toast.makeText(getContext(), "Đã đặt lại bộ lọc", Toast.LENGTH_SHORT).show();
+        });
+
+        // Xử lý nút Apply
+        btn_Apply.setOnClickListener(v -> {
+            String category = autoCompleteTxt.getText().toString().trim();
+            int categoriType;
+            if (category.equals("Áo & quần")) {
+                categoriType = 0;
+
+            }else if (category.equals("Giày")){
+                categoriType = 1;
+            }else {
+                categoriType = -1; // Không có loại nào được chọn
+            }
+            String minPrice = edt_price_min.getText().toString().trim();
+            String maxPrice = edt_price_max.getText().toString().trim();
+
+            Integer selectedStarIndex = selectedStar.isEmpty() ? null : selectedStar.iterator().next();
+            List<Integer> selectedDiscountList = new ArrayList<>(selectedDiscount);
+
+            // Ví dụ: in ra log hoặc toast
+            String result = "Category: " + categoriType +
+                    "\nPrice: " + minPrice + " - " + maxPrice +
+                    "\nRating: " + (selectedStarIndex != null ? (selectedStarIndex + 1) + " sao" : "Không chọn") +
+                    "\nDiscount: " + selectedDiscountList;
+
+            Log.d("FilterResult", result);
+
+            // TODO: Gửi filter này sang ViewModel hoặc Activity để áp dụng bộ lọc
+        });
 
         return view;
     }
+
 
     private void setupFrameClick(List<FrameLayout> frames, Set<Integer> selectedSet) {
         for (int i = 0; i < frames.size(); i++) {
@@ -84,5 +143,27 @@ public class FilterFragment extends Fragment {
             });
         }
     }
+    private void setupStarFrameClick(List<FrameLayout> frames, Set<Integer> selectedSet) {
+        for (int i = 0; i < frames.size(); i++) {
+            final int index = i;
+            FrameLayout frame = frames.get(i);
+            frame.setOnClickListener(v -> {
+                // Nếu đã chọn thì bỏ chọn tất cả
+                if (selectedSet.contains(index)) {
+                    selectedSet.clear();
+                    for (FrameLayout f : frames) f.setSelected(false);
+                } else {
+                    // Bỏ chọn tất cả trước
+                    selectedSet.clear();
+                    for (FrameLayout f : frames) f.setSelected(false);
+
+                    // Chọn cái mới
+                    selectedSet.add(index);
+                    v.setSelected(true);
+                }
+            });
+        }
+    }
+
 
 }
