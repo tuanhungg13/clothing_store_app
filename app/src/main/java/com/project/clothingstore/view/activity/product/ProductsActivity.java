@@ -2,8 +2,10 @@ package com.project.clothingstore.view.activity.product;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -16,9 +18,15 @@ import com.project.clothingstore.view.fragment.Filter.FilterFragment;
 import com.project.clothingstore.view.fragment.Filter.SearchBarFragment;
 import com.project.clothingstore.view.fragment.product.ProductFragment;
 
+import java.util.ArrayList;
+
 public class ProductsActivity extends AppCompatActivity implements SearchBarFragment.OnFilterButtonClickListener{
     ImageButton imgbtn_back;
     private String categoryId;
+    int categoriType;
+    int minPrice, maxPrice;
+    double rating;
+    ArrayList<Integer> discountList;
 
     private DrawerLayout drawerLayout;
     @Override
@@ -31,6 +39,31 @@ public class ProductsActivity extends AppCompatActivity implements SearchBarFrag
 
         Intent intent = getIntent();
         categoryId = intent.getStringExtra("categoryId");
+
+        categoriType = intent.getIntExtra("categoriType", -1);
+        String minPriceStr = intent.getStringExtra("minPrice");
+        String maxPriceStr = intent.getStringExtra("maxPrice");
+        if (minPriceStr != null && !minPriceStr.isEmpty()) {
+            try {
+                minPrice = Integer.parseInt(minPriceStr);
+            } catch (NumberFormatException e) {
+                minPrice = -1; // Giá trị mặc định nếu không thể chuyển đổi
+            }
+        } else {
+            minPrice = -1; // Giá trị mặc định nếu không có dữ liệu
+        }
+        if (maxPriceStr != null && !maxPriceStr.isEmpty()) {
+            try {
+                maxPrice = Integer.parseInt(maxPriceStr);
+            } catch (NumberFormatException e) {
+                maxPrice = -1; // Giá trị mặc định nếu không thể chuyển đổi
+            }
+        } else {
+            maxPrice = -1; // Giá trị mặc định nếu không có dữ liệu
+        }
+        rating = intent.getIntExtra("rating", -1); // Nếu không có thì là -1
+        discountList = intent.getIntegerArrayListExtra("discountList");
+
 
         if (savedInstanceState == null) {
             loadFragment(new ProductFragment(), categoryId);
@@ -56,6 +89,12 @@ public class ProductsActivity extends AppCompatActivity implements SearchBarFrag
         // Truyền dữ liệu từ activity sang fragment
         Bundle bundle  = new Bundle();
         bundle.putString("categoryId", cateId);
+        bundle.putInt("categoriType", categoriType);
+        bundle.putInt("minPrice", minPrice);
+        bundle.putInt("maxPrice", maxPrice);
+        bundle.putDouble("rating", rating);
+        bundle.putIntegerArrayList("discountList", discountList);
+        // Gán bundle cho fragment
         fragment.setArguments(bundle);
         // Thực hiện giao dịch fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

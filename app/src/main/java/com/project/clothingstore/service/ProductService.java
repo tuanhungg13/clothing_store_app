@@ -1,6 +1,8 @@
 package com.project.clothingstore.service;
 
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -109,7 +111,127 @@ public class ProductService {
                 });
     }
 
-    // Lay san pham theo categoryId
+    //Loc san pham theo categoryId, categoriType, minPrice, maxPrice, rating, discount
+    public void getFilteredProducts(MutableLiveData<List<Product>> liveData,
+                                    int categoryType,
+                                    int minPrice, int maxPrice,
+                                    double rating, List<Integer> discounts) {
+        Log.d("FilterInFragment", "categoryId: " + null +
+                "\ncategoryType: " + categoryType +
+                "\nminPrice: " + minPrice +
+                "\nmaxPrice: " + maxPrice +
+                "\nrating: " + rating +
+                "\ndiscountList: " + discounts);
+
+        Query query = productRef;
+
+        // Lọc theo categoryType
+        if (categoryType != -1) {
+            query = query.whereEqualTo("productType", categoryType);
+        }
+
+        // Lọc theo khoảng giá
+        if (minPrice != -1) {
+            query = query.whereGreaterThanOrEqualTo("price", minPrice);
+        }
+
+        if (maxPrice != -1) {
+            query = query.whereLessThanOrEqualTo("price", maxPrice);
+        }
+
+        // Lọc theo đánh giá
+        if (rating != -1) {
+            query = query.whereGreaterThanOrEqualTo("totalRating", rating);
+        }
+
+        // Lọc sơ bộ theo discount
+        if (discounts != null && !discounts.isEmpty()) {
+            double minDiscountPercent = (discounts.get(0) + 1) / 10.0;
+            for (int d : discounts) {
+                double percent = (d + 1) / 10.0;
+                if (percent < minDiscountPercent) {
+                    minDiscountPercent = percent;
+                }
+            }
+            query = query.whereGreaterThanOrEqualTo("discount", minDiscountPercent);
+        }
+
+        // Thực hiện truy vấn
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<Product> filtered = new ArrayList<>();
+                for (QueryDocumentSnapshot doc : task.getResult()) {
+                    Product product = doc.toObject(Product.class);
+                    product.setProductId(doc.getId());
+
+                    // Lọc kỹ discount (vì Firestore không hỗ trợ whereIn)
+                    if (discounts != null && !discounts.isEmpty()) {
+                        double productDiscount = product.getDiscount(); // ví dụ: 0.3
+                        boolean isMatched = false;
+
+                        for (int level : discounts) {
+                            double requiredDiscount = (level + 1) / 10.0;
+                            if (productDiscount >= requiredDiscount) {
+                                isMatched = true;
+                                break;
+                            }
+                        }
+
+                        if (!isMatched) continue;
+                    }
+
+                    filtered.add(product);
+                }
+                liveData.setValue(filtered);
+            } else {
+                liveData.setValue(new ArrayList<>());
+            }
+        });
+    }
+
+    public void Test(MutableLiveData<List<Product>> liveData, int productType, int minPrice, int maxPrice, double rating) {
+        CollectionReference productsRef = db.collection("products");
+        Query query = productsRef;
+
+        Log.d("FilterInFragment", "productType: " + productType +
+                "\nminPrice: " + minPrice );
+
+        // Thêm điều kiện nếu có
+        if (productType != -1) {
+            query = query.whereEqualTo("productType", productType);
+        }
+
+        if (minPrice != -1) {
+            query = query.whereGreaterThanOrEqualTo("price", minPrice);
+        }
+
+        if (maxPrice != -1) {
+            query = query.whereLessThanOrEqualTo("price", maxPrice);
+        }
+
+        // Lọc theo đánh giá
+        if (rating != -1) {
+            query = query.whereGreaterThanOrEqualTo("totalRating", rating);
+        }
+
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<Product> productList = new ArrayList<>();
+                for (QueryDocumentSnapshot doc : task.getResult()) {
+                    Product product = doc.toObject(Product.class);
+                    product.setProductId(doc.getId());
+                    productList.add(product);
+                }
+                liveData.setValue(productList);
+            } else {
+                liveData.setValue(new ArrayList<>()); // Tránh null nếu truy vấn thất bại
+            }
+        });
+    }
+
+
+
+    // Lay san pham theo CollectionId
     public void getProductByCollectioIDList(MutableLiveData<List<Product>> liveData, String collectionId) {
         if (collectionId == null || collectionId.isEmpty()) {
             liveData.setValue(new ArrayList<>()); // Tránh trường hợp categoryId không hợp lệ
@@ -155,5 +277,7 @@ public class ProductService {
             }
         });
     }
+
+
 
 }

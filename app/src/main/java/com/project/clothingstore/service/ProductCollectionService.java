@@ -35,6 +35,7 @@ public class ProductCollectionService {
 
         // Nếu collectionType khác null hoặc không rỗng thì lọc
         if (collectionType != null && !collectionType.isEmpty()) {
+            // Chuyển đổi collectionType thành số nguyên
             query = query.whereEqualTo("collectionType", collectionType);
         }
 

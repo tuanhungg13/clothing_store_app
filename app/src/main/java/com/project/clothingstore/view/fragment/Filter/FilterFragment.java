@@ -1,5 +1,6 @@
 package com.project.clothingstore.view.fragment.Filter;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.clothingstore.R;
+import com.project.clothingstore.view.activity.product.ProductsActivity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -98,31 +100,37 @@ public class FilterFragment extends Fragment {
         // Xử lý nút Apply
         btn_Apply.setOnClickListener(v -> {
             String category = autoCompleteTxt.getText().toString().trim();
-            int categoriType;
+            int categoryType;
             if (category.equals("Áo & quần")) {
-                categoriType = 0;
-
-            }else if (category.equals("Giày")){
-                categoriType = 1;
-            }else {
-                categoriType = -1; // Không có loại nào được chọn
+                categoryType = 0;
+            } else if (category.equals("Giày")) {
+                categoryType = 1;
+            } else {
+                categoryType = -1; // Không chọn
             }
+
             String minPrice = edt_price_min.getText().toString().trim();
             String maxPrice = edt_price_max.getText().toString().trim();
 
             Integer selectedStarIndex = selectedStar.isEmpty() ? null : selectedStar.iterator().next();
-            List<Integer> selectedDiscountList = new ArrayList<>(selectedDiscount);
+            ArrayList<Integer> selectedDiscountList = new ArrayList<>(selectedDiscount);
 
-            // Ví dụ: in ra log hoặc toast
-            String result = "Category: " + categoriType +
-                    "\nPrice: " + minPrice + " - " + maxPrice +
-                    "\nRating: " + (selectedStarIndex != null ? (selectedStarIndex + 1) + " sao" : "Không chọn") +
-                    "\nDiscount: " + selectedDiscountList;
+            // Khởi tạo Intent
+            Intent intent = new Intent(requireContext(), ProductsActivity.class);
 
-            Log.d("FilterResult", result);
+            // Truyền dữ liệu qua Intent
+            intent.putExtra("categoriType", categoryType);
+            intent.putExtra("minPrice", minPrice);
+            intent.putExtra("maxPrice", maxPrice);
+            if (selectedStarIndex != null) {
+                intent.putExtra("rating", selectedStarIndex + 1); // 1-5 sao
+            }
+            intent.putIntegerArrayListExtra("discountList", selectedDiscountList);
 
-            // TODO: Gửi filter này sang ViewModel hoặc Activity để áp dụng bộ lọc
+            // Chuyển sang ProductsActivity
+            startActivity(intent);
         });
+
 
         return view;
     }
