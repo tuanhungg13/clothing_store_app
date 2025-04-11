@@ -1,6 +1,7 @@
 package com.project.clothingstore.view.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
@@ -56,7 +57,7 @@ class CartActivity : AppCompatActivity() {
         cartViewModel = ViewModelProvider(this, factory).get(CartViewModel::class.java)
 
         // Lấy dữ liệu giỏ hàng
-        val cartId = "8BZkdJaHU7SS0VH72mnz"
+        val cartId = "FR2qoImKp8cV6tjG6JOJ"
         cartViewModel.fetchCartItems(cartId)
 
         // Cập nhật UI khi có thay đổi
@@ -93,9 +94,9 @@ class CartActivity : AppCompatActivity() {
                 cartViewModel.cartItems.value?.filter { it.isSelected } ?: emptyList()
 
             if (selectedItems.isNotEmpty()) {
-//                val intent = Intent(this, CheckoutActivity::class.java)
-//                intent.putParcelableArrayListExtra("selected_items", ArrayList(selectedItems))
-//                startActivity(intent)
+                val intent = Intent(this, CheckoutActivity::class.java)
+                intent.putParcelableArrayListExtra("selected_items", ArrayList(selectedItems))
+                startActivity(intent)
             } else {
                 Toast.makeText(this, "Vui lòng chọn sản phẩm để thanh toán", Toast.LENGTH_SHORT)
                     .show()

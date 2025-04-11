@@ -24,14 +24,24 @@ class CartService {
             }
 
             val cart = documentSnapshot.toObject(Cart::class.java)
-            val cartItems = cart?.cartItems
+            val cartItems = cart?.cartItems ?: return emptyList()
 
-            if (cartItems.isNullOrEmpty()) {
-                Log.d("Firestore", "Cart is empty or cartItems is null")
-                emptyList()
-            } else {
-                Log.d("Firestore", "Fetched cartItems: $cartItems")
-                cartItems
+            // Duyệt từng item để lấy stock tương ứng
+            cartItems.map { item ->
+                val productSnapshot = firestore.collection("products")
+                    .document(item.productId)
+                    .get()
+                    .await()
+
+                val variants = productSnapshot["variants"] as? List<Map<String, Any>> ?: emptyList()
+
+                val matchedVariant = variants.find {
+                    it["size"] == item.variant.size && it["color"] == item.variant.color
+                }
+
+                val stock = (matchedVariant?.get("stock") as? Long)?.toInt() ?: 0
+                item.stock = stock // 👈 gán stock vào item
+                item
             }
 
         } catch (e: Exception) {
@@ -40,21 +50,29 @@ class CartService {
         }
     }
 
+
     // Cập nhật số lượng sản phẩm
     suspend fun updateItemQuantity(cartItem: CartItem, cartId: String): Boolean = runCatching {
         val cartRef = firestore.collection("carts").document(cartId)
         val currentItems =
             cartRef.get().await().get("cartItems") as? List<Map<String, Any>> ?: return false
-
         val updatedItems = currentItems.map { item ->
             if (
                 item["productId"] == cartItem.productId &&
                 (item["variant"] as? Map<*, *>)?.get("color") == cartItem.variant.color &&
                 (item["variant"] as? Map<*, *>)?.get("size") == cartItem.variant.size
             ) {
-                item.toMutableMap().apply { this["quantity"] = cartItem.quantity }
-            } else item
+                item.toMutableMap().apply {
+                    this["quantity"] = cartItem.quantity
+                    this.remove("stock") // ✅ Xoá thuộc tính stock nếu có
+                }
+            } else {
+                item.toMutableMap().apply {
+                    this.remove("stock") // ✅ Cẩn thận xoá luôn ở các item còn lại nếu lỡ có thêm
+                }
+            }
         }
+
 
         cartRef.update("cartItems", updatedItems).await()
         true

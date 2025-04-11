@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.project.clothingstore.R
 import com.project.clothingstore.utils.helper.formatPrice
 
@@ -54,6 +56,7 @@ class CartAdapter(
         private val tvProductOptions: TextView = itemView.findViewById(R.id.tvProductOptions)
         private val btnDelete: ImageView = itemView.findViewById(R.id.btnDelete)
         private val cbSelect: CheckBox = itemView.findViewById(R.id.cbSelect)
+        private val imgProduct: ImageView = itemView.findViewById(R.id.imgProduct)
         fun bind(cartItem: CartItem) {
             tvProductName.text = cartItem.productName
             tvProductPrice.text = formatPrice(cartItem.price)
@@ -61,11 +64,20 @@ class CartAdapter(
             tvProductOptions.text =
                 "Size: ${cartItem.variant.size} | Màu: ${cartItem.variant.color}"
             // ✅ Xử lý nút tăng số lượng
+            Glide.with(itemView.context)
+                .load(cartItem.image) // lấy URL từ cartItem
+                .placeholder(R.drawable.resource_default)
+                .error(R.drawable.resource_default)
+                .into(imgProduct)
             btnIncrease.setOnClickListener {
-                val newQuantity = cartItem.quantity + 1
-                cartItem.quantity = newQuantity // Cập nhật trực tiếp
-                notifyItemChanged(adapterPosition) // Cập nhật lại UI cho item này
-                onQuantityChanged(cartItem, newQuantity) // Gọi ra ngoài nếu cần lưu vào Firestore
+                if (cartItem.stock == null || cartItem.quantity < cartItem.stock!!) {
+                    val newQuantity = cartItem.quantity + 1
+                    cartItem.quantity = newQuantity
+                    notifyItemChanged(adapterPosition)
+                    onQuantityChanged(cartItem, newQuantity)
+                } else {
+                    Toast.makeText(itemView.context, "Vượt quá số lượng tồn kho", Toast.LENGTH_SHORT).show()
+                }
             }
             cbSelect.setOnCheckedChangeListener(null)
             cbSelect.isChecked =
