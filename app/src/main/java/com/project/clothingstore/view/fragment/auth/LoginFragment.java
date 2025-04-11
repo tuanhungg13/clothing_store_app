@@ -57,6 +57,20 @@ public class LoginFragment extends Fragment {
         btnLogin = view.findViewById(R.id.btn_login);
         imbLoginGoogle = view.findViewById(R.id.imb_login_google);
 
+        // ===== Nhận email và password từ RegisterFragment nếu có =====
+        Bundle args = getArguments();
+        if (args != null) {
+            String email = args.getString("email");
+            String password = args.getString("password");
+
+            if (email != null) {
+                editLoginEmail.setText(email);
+            }
+            if (password != null) {
+                editLoginPassword.setText(password);
+            }
+        }
+
         // ===== Xử lý đăng nhập =====
         btnLogin.setOnClickListener(v -> {
             String email = editLoginEmail.getText().toString().trim();
@@ -126,9 +140,12 @@ public class LoginFragment extends Fragment {
         });
 
         // ===== Quan sát lỗi khi lấy thông tin người dùng =====
-        userViewModel.getError().observe(getViewLifecycleOwner(), error -> {
-            if (error != null) {
-                Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+        userViewModel.getError().observe(getViewLifecycleOwner(), event -> {
+            if (event != null) {
+                String errorMessage = event.getContentIfNotHandled();
+                if (errorMessage != null) {
+                    Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

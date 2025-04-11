@@ -1,5 +1,7 @@
 package com.project.clothingstore.service;
 
+import static com.google.firebase.auth.AuthKt.getAuth;
+
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -8,6 +10,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.project.clothingstore.model.Address;
 import com.project.clothingstore.model.User;
 
 import java.util.HashMap;
@@ -39,7 +42,7 @@ public class AuthService {
                                 fullName,
                                 "user", // role mặc định
                                 null,
-                                new HashMap<>(), // address rỗng
+                                new Address(), // address rỗng
                                 null // cartId sẽ gán sau khi tạo
                         );
 
@@ -87,5 +90,24 @@ public class AuthService {
     public static void loginWithCredential(AuthCredential credential, OnCompleteListener<AuthResult> callback) {
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(callback);
+    }
+    // Cập nhật mật khẩu mới sau khi xác minh OTP (người dùng đã nhập mã đúng)
+    public static void updatePasswordAfterOtp(String newPassword, OnCompleteListener<Void> listener) {
+        getAuth().signInAnonymously().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = getAuth().getCurrentUser();
+                if (user != null) {
+                    user.updatePassword(newPassword).addOnCompleteListener(listener);
+                } else {
+                    listener.onComplete(com.google.android.gms.tasks.Tasks.forException(new Exception("Không tìm thấy người dùng ẩn danh")));
+                }
+            } else {
+                listener.onComplete(com.google.android.gms.tasks.Tasks.forException(task.getException()));
+            }
+        });
+    }
+
+    public static FirebaseAuth getAuth() {
+        return FirebaseAuth.getInstance();
     }
 }

@@ -57,10 +57,11 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation ("com.google.firebase:firebase-firestore")
+    implementation ("com.google.firebase:firebase-storage")
     implementation ("io.github.chaosleung:pinview:1.4.4")
     implementation ("com.google.android.gms:play-services-auth:21.3.0")
     implementation ("com.facebook.android:facebook-login:18.0.2")
     implementation ("com.google.android.gms:play-services-auth:21.3.0")
-    implementation ("com.facebook.android:facebook-login:latest.release")
-
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
 }
