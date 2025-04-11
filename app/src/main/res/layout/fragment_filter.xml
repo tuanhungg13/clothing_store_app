@@ -119,148 +119,6 @@
             </LinearLayout>
 
             <!-- Color Section -->
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Color"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:paddingBottom="8dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:gravity="center_vertical">
-
-                <FrameLayout
-                    android:id="@+id/color_frame0"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color0"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        app:cardCornerRadius="25dp"
-                        android:layout_gravity="center"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="@color/black"/>
-
-                </FrameLayout>
-
-
-                <FrameLayout
-                    android:id="@+id/color_frame1"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color1"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="@color/white"/>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/color_frame2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color2"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#808080"/>
-                </FrameLayout>
-
-
-                <FrameLayout
-                    android:id="@+id/color_frame3"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color3"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#0000FF"/>
-                </FrameLayout>
-
-
-                <FrameLayout
-                    android:id="@+id/color_frame4"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color4"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#FF0000"/>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/color_frame5"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color5"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#FFC0CB"/>
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/color_frame6"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color6"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#FFFF00"/>
-                </FrameLayout>
-
-
-                <!-- Add more color options as needed -->
-            </LinearLayout>
 
             <!-- Rating Section -->
             <TextView
@@ -554,7 +412,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_margin="4dp"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="4dp"
@@ -564,7 +422,7 @@
                         <TextView
                             android:id="@+id/dis1"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:padding="16dp"
                             android:text="10% off"
                             android:textColor="@color/black"

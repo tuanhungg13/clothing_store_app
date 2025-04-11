@@ -22,17 +22,16 @@ import java.util.Set;
 
 public class FilterFragment extends Fragment {
 
-    String[] categotyitems = {"Áo & quần", "Giày", "Phụ kiện", "Làm đẹp"};
+    String[] categotyitems = {"Áo & quần", "Giày"};
     ArrayAdapter<String> adapterItems;
 
     private AutoCompleteTextView autoCompleteTxt;
 
 
-    Set<Integer> selectedColors = new HashSet<>();
     Set<Integer> selectedStar = new HashSet<>();
     Set<Integer> selectedDiscount = new HashSet<>();
 
-    List<FrameLayout> framescolor = new ArrayList<>();
+
     List<FrameLayout> framesstar = new ArrayList<>();
     List<FrameLayout> framesdiscount = new ArrayList<>();
     @Override
@@ -48,17 +47,9 @@ public class FilterFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(getContext(), "Selected: " + item, Toast.LENGTH_SHORT).show();
             }
         });
 
-        framescolor.add(view.findViewById(R.id.color_frame0));
-        framescolor.add(view.findViewById(R.id.color_frame1));
-        framescolor.add(view.findViewById(R.id.color_frame2));
-        framescolor.add(view.findViewById(R.id.color_frame3));
-        framescolor.add(view.findViewById(R.id.color_frame4));
-        framescolor.add(view.findViewById(R.id.color_frame5));
-        framescolor.add(view.findViewById(R.id.color_frame6));
 
         framesstar.add(view.findViewById(R.id.star_frame1));
         framesstar.add(view.findViewById(R.id.star_frame2));
@@ -72,66 +63,9 @@ public class FilterFragment extends Fragment {
         framesdiscount.add(view.findViewById(R.id.discount_frame3));
 
         // Gán sự kiện click cho từng frame
-        setupFrameClick(framescolor, selectedColors);
         setupFrameClick(framesstar, selectedStar);
         setupFrameClick(framesdiscount, selectedDiscount);
 
-        // Lặp và gán sự kiện click cho từng frame
-//        for (int i = 0; i < framescolor.size(); i++) {
-//            final int index = i;
-//            FrameLayout frame = framescolor.get(i);
-//
-//            frame.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (selectedColors.contains(index)) {
-//                        selectedColors.remove(index);
-//                        v.setSelected(false);
-//                    } else {
-//                        selectedColors.add(index);
-//                        v.setSelected(true);
-//                    }
-//                }
-//            });
-//        }
-//
-//        // Lặp và gán sự kiện click cho từng frame
-//        for (int i = 0; i < framesstar.size(); i++) {
-//            final int index = i;
-//            FrameLayout frame = framesstar.get(i);
-//
-//            frame.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (selectedStar.contains(index)) {
-//                        selectedStar.remove(index);
-//                        v.setSelected(false);
-//                    } else {
-//                        selectedStar.add(index);
-//                        v.setSelected(true);
-//                    }
-//                }
-//            });
-//        }
-//
-//        // Lặp và gán sự kiện click cho từng frame
-//        for (int i = 0; i < framesdiscount.size(); i++) {
-//            final int index = i;
-//            FrameLayout frame = framesdiscount.get(i);
-//
-//            frame.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (selectedDiscount.contains(index)) {
-//                        selectedDiscount.remove(index);
-//                        v.setSelected(false);
-//                    } else {
-//                        selectedDiscount.add(index);
-//                        v.setSelected(true);
-//                    }
-//                }
-//            });
-//        }
         return view;
     }
 
