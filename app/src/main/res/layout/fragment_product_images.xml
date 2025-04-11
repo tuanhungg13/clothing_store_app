@@ -4,25 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPagerProductImages"
+    <FrameLayout
         android:layout_width="450dp"
-        android:layout_height="450dp" />
+        android:layout_height="450dp">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayoutIndicator"
-        android:layout_width="wrap_content"
-        android:layout_height="8dp"
-        android:layout_alignBottom="@id/viewPagerProductImages"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:background="@android:color/transparent"
-        app:tabBackground="@drawable/dmq_tab_selector"
-        app:tabGravity="center"
-        app:tabIndicatorHeight="0dp"
-        app:tabIndicatorFullWidth="false"
-        app:tabMode="fixed"
-        app:tabInlineLabel="true"
-        app:tabContentStart="16dp"/>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPagerProductImages"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <me.relex.circleindicator.CircleIndicator3
+            android:id="@+id/circleIndicatorProductImages"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="10dp"
+            app:ci_drawable="@drawable/bg_indicator" />
+
+    </FrameLayout>
 
 </RelativeLayout>

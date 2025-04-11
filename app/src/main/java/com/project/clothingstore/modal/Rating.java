@@ -1,25 +1,26 @@
 package com.project.clothingstore.modal;
 
+import com.google.firebase.Timestamp;
+
 public class Rating {
 
     private String ratingId;
-    private String uidId;
+    private String uid;
     private String productId;
     private int rate;
     private String comment;
-    private long createdAt;
-
+    private Timestamp createdAt; // Thay đổi từ long sang Timestamp
 
     // Constructors
     public Rating() {
     }
 
-    public Rating(String uidId, String productId, int rate, String comment) {
-        this.uidId = uidId;
+    public Rating(String uid, String productId, int rate, String comment) {
+        this.uid = uid;
         this.productId = productId;
         this.rate = rate;
         this.comment = comment;
-        this.createdAt = System.currentTimeMillis(); // Lưu timestamp
+        this.createdAt = Timestamp.now(); // Sử dụng Timestamp.now() thay vì System.currentTimeMillis()
     }
 
     // Getters & Setters
@@ -31,12 +32,12 @@ public class Rating {
         this.ratingId = ratingId;
     }
 
-    public String getUidId() {
-        return uidId;
+    public String getUid() {
+        return uid;
     }
 
-    public void setUidId(String uidId) {
-        this.uidId = uidId;
+    public void setUidId(String uid) {
+        this.uid = uid;
     }
 
     public int getRate() {
@@ -55,15 +56,24 @@ public class Rating {
         this.comment = comment;
     }
 
-    public long getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(long createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public void setProductId(String productId) {
+    // Thêm phương thức để lấy giá trị long từ Timestamp
+    public long getCreatedAtMillis() {
+        return createdAt != null ? createdAt.toDate().getTime() : 0;
+    }
 
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getProductId() {
+        return productId;
     }
 }

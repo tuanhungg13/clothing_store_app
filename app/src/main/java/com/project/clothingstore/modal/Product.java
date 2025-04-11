@@ -135,20 +135,85 @@ public class Product {
     }
 
 
-
+    // Update Variants
     public static class Variant {
         private String color;
         private List<SizeQuantity> sizes;
 
-        public static class SizeQuantity {
-            private String size;
-            private int quantity;
-
-            // Getters & setters
+        public Variant() {
+            // Empty constructor needed for Firestore
         }
 
-        // Getters & setters
+        public Variant(String color, List<SizeQuantity> sizes) {
+            this.color = color;
+            this.sizes = sizes;
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        public void setColor(String color) {
+            this.color = color;
+        }
+
+        public List<SizeQuantity> getSizes() {
+            return sizes;
+        }
+
+        public void setSizes(List<SizeQuantity> sizes) {
+            this.sizes = sizes;
+        }
+
+        public static class SizeQuantity {
+            private String size;
+            private Object quantity; // Thay đổi kiểu dữ liệu từ int sang Object
+
+            public SizeQuantity() {
+                // Constructor rỗng cần thiết cho Firestore
+            }
+
+            public SizeQuantity(String size, int quantity) {
+                this.size = size;
+                this.quantity = quantity;
+            }
+
+            public String getSize() {
+                return size;
+            }
+
+            public void setSize(String size) {
+                this.size = size;
+            }
+
+            public int getQuantity() {
+                // Xử lý trường hợp quantity là chuỗi hoặc số
+                if (quantity instanceof String) {
+                    try {
+                        return Integer.parseInt((String) quantity);
+                    } catch (NumberFormatException e) {
+                        return 0; // Giá trị mặc định nếu không thể chuyển đổi
+                    }
+                } else if (quantity instanceof Number) {
+                    return ((Number) quantity).intValue();
+                }
+                return 0; // Giá trị mặc định nếu quantity là null hoặc kiểu không xác định
+            }
+
+            public void setQuantity(Object quantity) {
+                this.quantity = quantity;
+            }
+        }
     }
 
     // Getters & setters cho Product
+    // Thêm vào lớp Product.java
+    public List<Variant> getVariants() {
+        return variants;
+    }
+
+    public void setVariants(List<Variant> variants) {
+        this.variants = variants;
+    }
+
 }

@@ -13,13 +13,14 @@ public class User {
     private String role;
     @ServerTimestamp
     private Timestamp createdAt;
-    private Map<String, String> address;
+    private Address address;
     private String cartId;
+    private String avatar;
 
     // Constructors
     public User() {}
 
-    public User(String uid, String email, String phoneNumber, String fullName, String role, Timestamp createdAt, Map<String, String> address, String cartId) {
+    public User(String uid, String email, String phoneNumber, String fullName, String role, Timestamp createdAt, Address address, String cartId) {
         this.uid = uid;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -79,11 +80,11 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public Map<String, String> getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(Map<String, String> address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
@@ -93,5 +94,13 @@ public class User {
 
     public void setCartId(String cartId) {
         this.cartId = cartId;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

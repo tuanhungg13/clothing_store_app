@@ -7,15 +7,59 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- Thanh công cụ -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="4dp"
+        android:background="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:contentDescription="Menu"
+            android:padding="12dp"
+            android:src="@drawable/ba_gach" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="FluxStore"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/btnNotification"
+            app:layout_constraintStart_toEndOf="@id/btnMenu" />
+
+        <ImageButton
+            android:id="@+id/btnNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Notifications"
+            android:padding="12dp"
+            android:src="@drawable/chuong" />
+    </androidx.appcompat.widget.Toolbar>
+
     <!-- Container cho Fragment -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Thanh điều hướng Bottom Navigation nằm dưới cùng -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -24,9 +68,9 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_nav_background"
         app:itemIconTint="@color/selector_bottom_nav"
-        app:layout_constraintTop_toBottomOf="@id/fragment_container"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/menu_bottom_nav"
-        tools:ignore="MissingConstraints" />
+        app:menu="@menu/menu_bottom_nav"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

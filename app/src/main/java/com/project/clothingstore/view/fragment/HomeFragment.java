@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import com.project.clothingstore.R;
@@ -17,52 +18,40 @@ import com.project.clothingstore.view.fragment.productcollection.ProductCollecti
 import com.project.clothingstore.view.fragment.productcollection.ProductCollectionFragment3;
 
 public class HomeFragment extends Fragment {
-    private ImageButton btnao0, btngiay1, btnphukien2, btnlamdep3;
+    private TextView txt_xemthem_productFeatured, txt_xemthem_productRecomment;
+    private int limitfreatureProduct = 5;
+    private int limitRecommentProduct = 5;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        btnao0 = view.findViewById(R.id.btnao0);
-        btngiay1 = view.findViewById(R.id.btngiay1);
-        btnphukien2 = view.findViewById(R.id.btnphukien2);
-        btnlamdep3 = view.findViewById(R.id.btnlamdep3);
+
+        txt_xemthem_productFeatured = view.findViewById(R.id.txt_xemthem_freatureProduct);
+        txt_xemthem_productRecomment = view.findViewById(R.id.txt_xemthem_recommentProduct);
 
         if (savedInstanceState == null) {
             loadFragment(new ProductCollectionFragment());
-            loadFragmentFeaturedProduct(new FeaturedProductFragment());
+            loadFragmentFeaturedProduct(FeaturedProductFragment.newInstance(limitfreatureProduct));
             loadFragmentCategory2(new ProductCollectionFragment2());
-            loadFragmentRecommentProduct(new RecommentProductFragment());
+         loadFragmentRecommentProduct(RecommentProductFragment.newInstance(limitRecommentProduct));
             loadFragmentCategory3(new ProductCollectionFragment3());
         }
-
-        btnao0.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ProductsActivity.class);
-            intent.putExtra("categoryId", "0");  // Category for Ao
-            startActivity(intent);
+        txt_xemthem_productFeatured.setOnClickListener(v -> {
+            limitfreatureProduct += 5;
+            loadFragmentFeaturedProduct(FeaturedProductFragment.newInstance(limitfreatureProduct));
         });
 
-        btngiay1.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ProductsActivity.class);
-            intent.putExtra("categoryId", "1");  // Category for Giay
-            startActivity(intent);
+        txt_xemthem_productRecomment.setOnClickListener(v -> {
+            limitRecommentProduct += 5;
+            loadFragmentRecommentProduct(RecommentProductFragment.newInstance(limitRecommentProduct));
         });
 
-        btnphukien2.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ProductsActivity.class);
-            intent.putExtra("categoryId", "2");  // Category for Phu Kien
-            startActivity(intent);
-        });
-
-        btnlamdep3.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ProductsActivity.class);
-            intent.putExtra("categoryId", "3");  // Category for Lam Dep
-            startActivity(intent);
-        });
 
         return view;
     }
+
 
     private void loadFragment(Fragment fragment) {
         getChildFragmentManager().beginTransaction()

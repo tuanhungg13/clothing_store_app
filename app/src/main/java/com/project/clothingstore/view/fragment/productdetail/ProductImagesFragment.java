@@ -11,19 +11,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.project.clothingstore.R;
 import com.project.clothingstore.adapter.productdetail.ProductImageAdapter;
 import com.project.clothingstore.viewmodel.ProductDetailViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import me.relex.circleindicator.CircleIndicator3;
 
 public class ProductImagesFragment extends Fragment {
     private ProductDetailViewModel viewModel;
     private ViewPager2 viewPager;
-    private TabLayout tabLayout;
+    private CircleIndicator3 circleIndicator;
     private ProductImageAdapter adapter;
 
     @Override
@@ -35,11 +34,9 @@ public class ProductImagesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
         // Initialize views
         viewPager = view.findViewById(R.id.viewPagerProductImages);
-        tabLayout = view.findViewById(R.id.tabLayoutIndicator);
+        circleIndicator = view.findViewById(R.id.circleIndicatorProductImages);
 
         // Get shared ViewModel
         viewModel = new ViewModelProvider(requireActivity()).get(ProductDetailViewModel.class);
@@ -48,30 +45,14 @@ public class ProductImagesFragment extends Fragment {
         adapter = new ProductImageAdapter(new ArrayList<>());
         viewPager.setAdapter(adapter);
 
-        // Connect TabLayout with ViewPager2
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            // No text for tab indicators
-        }).attach();
-
-        tabLayout.post(() -> {
-            ViewGroup tabStrip = (ViewGroup) tabLayout.getChildAt(0);
-            for (int i = 0; i < tabStrip.getChildCount(); i++) {
-                View tabView = tabStrip.getChildAt(i);
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) tabView.getLayoutParams();
-                params.setMargins(10, 0, 10, 0); // Điều chỉnh khoảng cách giữa các tab
-                tabView.setLayoutParams(params);
-                tabView.requestLayout();
-            }
-        });
-
         // Observe product data
         viewModel.getProduct().observe(getViewLifecycleOwner(), product -> {
-            if (product != null && product.getImages() != null) {
+            if (product != null && product.getImages() != null && !product.getImages().isEmpty()) {
                 adapter.updateImages(product.getImages());
+
+                // Đặt lại Indicator sau khi dữ liệu được cập nhật
+                circleIndicator.setViewPager(viewPager);
             }
         });
-
-
-
     }
 }

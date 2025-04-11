@@ -15,7 +15,7 @@ import com.project.clothingstore.R;
 import com.project.clothingstore.view.fragment.product.ProductFragment;
 
 public class ProductsActivity extends AppCompatActivity {
-    ImageButton imgbtn_ao, imgbtn_phukien,imgbtn_giay, imgbtn_lamdep, imgbtn_back;
+    ImageButton imgbtn_ao, imgbtn_phukien, imgbtn_giay, imgbtn_lamdep, imgbtn_back;
     private String categoryId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

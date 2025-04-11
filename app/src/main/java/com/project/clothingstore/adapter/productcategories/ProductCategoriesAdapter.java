@@ -15,6 +15,16 @@ import java.util.List;
 
 public class ProductCategoriesAdapter extends RecyclerView.Adapter<ProductCategoriesAdapter.ProductCategoriesViewHolder> {
     private List<ProductCategories> list;
+    private String categoriId;
+
+    public String getCategoriId() {
+        return categoriId;
+    }
+
+    public void setCategoriId(String categoriId) {
+        this.categoriId = categoriId;
+    }
+
     public void setData(List<ProductCategories> list){
         this.list = list;
         notifyDataSetChanged();
@@ -32,8 +42,9 @@ public class ProductCategoriesAdapter extends RecyclerView.Adapter<ProductCatego
         if (productCategories == null) {
             return;
         }
-        holder.txtName_discover.setText(productCategories.getName());
+        holder.txtName_discover.setText(productCategories.getCategoryName());
         holder.txt_sl_discover.setText(Integer.toString(productCategories.getQuantity()) + " items");
+        this.categoriId = productCategories.getCategoryId();
 
     }
 

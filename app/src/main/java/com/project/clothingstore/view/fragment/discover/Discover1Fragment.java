@@ -3,6 +3,7 @@
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.project.clothingstore.R;
 import com.project.clothingstore.adapter.productcategories.ProductCategoriesAdapter;
-import com.project.clothingstore.viewmodel.discover.ProductCategoriesViewModal;
+import com.project.clothingstore.viewmodel.productcategori.ProductCategoriesViewModal;
 
  public class Discover1Fragment extends Fragment {
      private ProductCategoriesAdapter productCategoriesAdapter;
@@ -20,7 +21,7 @@ import com.project.clothingstore.viewmodel.discover.ProductCategoriesViewModal;
 
      private RecyclerView recyclerView;
 
-     private String type;
+     private int type;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,7 +29,7 @@ import com.project.clothingstore.viewmodel.discover.ProductCategoriesViewModal;
         View view = inflater.inflate(R.layout.fragment_discover1, container, false);
 
         if (getArguments() != null) {
-            type = getArguments().getString("type");
+            type = getArguments().getInt("type");
         }
 
         recyclerView = view.findViewById(R.id.rcv_fragment_discover1);
@@ -37,8 +38,10 @@ import com.project.clothingstore.viewmodel.discover.ProductCategoriesViewModal;
         productCategoriesAdapter = new ProductCategoriesAdapter();
         recyclerView.setAdapter(productCategoriesAdapter);
 
-        productCategoriesViewModal = new ProductCategoriesViewModal();
-        productCategoriesViewModal.getListProductCategory(type).observe(getViewLifecycleOwner(), list -> {
+        productCategoriesViewModal = new ViewModelProvider(this).get(ProductCategoriesViewModal.class);
+        // Load data from ViewModel
+        productCategoriesViewModal.LoadProductCategory(type);
+        productCategoriesViewModal.getListProductCategory().observe(getViewLifecycleOwner(), list -> {
             productCategoriesAdapter.setData(list);
         });
         return view;

@@ -1,48 +1,88 @@
 package com.project.clothingstore.service;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.project.clothingstore.modal.ProductCategories;
+import com.project.clothingstore.modal.ProductCollections;
+import com.project.clothingstore.utils.helper.FirebaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductCategoriesService {
 
-    public List<ProductCategories> getListProductCategory(){
-        List<ProductCategories> list = new ArrayList<>();
-        list.add(new ProductCategories("Áo sơ mi", "0", 50));
-        list.add(new ProductCategories("Áo thun", "0", 60));
-        list.add(new ProductCategories("Áo khoác", "0", 40));
-        list.add(new ProductCategories("Quần tây", "0", 30));
-        list.add(new ProductCategories("Quần jeans", "0", 35));
+    private final CollectionReference productRef;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        list.add(new ProductCategories("Sneaker", "1", 25));
-        list.add(new ProductCategories("Giày thể thao", "1", 40));
-        list.add(new ProductCategories("Giày cao gót", "1", 20));
-        list.add(new ProductCategories("Giày sandal", "1", 30));
-        list.add(new ProductCategories("Giày bata", "1", 15));
-
-        list.add(new ProductCategories("Vòng tay", "2", 50));
-        list.add(new ProductCategories("Hoa tai", "2", 60));
-        list.add(new ProductCategories("Đồng hồ", "2", 20));
-        list.add(new ProductCategories("Dây chuyền", "2", 35));
-        list.add(new ProductCategories("Nhẫn", "2", 25));
-
-        list.add(new ProductCategories("Son môi", "3", 80));
-        list.add(new ProductCategories("Kem dưỡng da", "3", 45));
-        list.add(new ProductCategories("Nước hoa", "3", 30));
-        list.add(new ProductCategories("Phấn nền", "3", 20));
-        list.add(new ProductCategories("Mặt nạ dưỡng da", "3", 50));
-
-        return list;
+    public ProductCategoriesService() {
+        productRef = FirebaseHelper.getProductCollection();
     }
 
-    public List<ProductCategories> getListProductCategoryByType(String type) {
-        List<ProductCategories> list = new ArrayList<>();
-        for (ProductCategories productCategory : getListProductCategory()) {
-            if (productCategory.getType().equals(type)) {
-                list.add(productCategory);
+    public ProductCategoriesService(CollectionReference productRef) {
+        this.productRef = productRef;
+    }
+
+    // Lay category theo type khong co so luong
+    public void getListCategoryByType(MutableLiveData<List<ProductCategories>> liveData, int categoriType) {
+        CollectionReference collectionsRef = db.collection("categories");
+
+        Query query = collectionsRef;
+
+        query = query.whereEqualTo("categoriType", categoriType);
+
+        // Lay tat ca kết quả
+        query.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<ProductCategories> productCategoriList = new ArrayList<>();
+                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                            ProductCategories productCategories = doc.toObject(ProductCategories.class);
+                            productCategories.setCategoryId(doc.getId());
+                            productCategoriList.add(productCategories);
+                        }
+                        liveData.setValue(productCategoriList);
+                    } else {
+                        liveData.setValue(new ArrayList<>()); // Tránh null
+                    }
+                });
+    }
+
+    // Lay category theo type co so luong
+    public void getListCategoryWithProductCount(MutableLiveData<List<ProductCategories>> liveData, int categoriType) {
+        CollectionReference categoriesRef = db.collection("categories");
+        CollectionReference productsRef = db.collection("products");
+
+        Query query = categoriesRef.whereEqualTo("categoriType", categoriType);
+
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<ProductCategories> categoryList = new ArrayList<>();
+
+                for (QueryDocumentSnapshot doc : task.getResult()) {
+                    ProductCategories category = doc.toObject(ProductCategories.class);
+                    String categoryId = doc.getId();
+                    category.setCategoryId(categoryId);
+
+                    productsRef.whereEqualTo("categoryId", categoryId).get().addOnSuccessListener(productTask -> {
+                        int count = productTask.size();
+                        category.setQuantity(count); // ← gán số lượng
+                        categoryList.add(category);
+
+                        // Nếu đủ số lượng category thì cập nhật LiveData
+                        if (categoryList.size() == task.getResult().size()) {
+                            liveData.setValue(categoryList);
+                        }
+                    });
+                }
+            } else {
+                liveData.setValue(new ArrayList<>());
             }
-        }
-        return list;
+        });
     }
+
+
 }

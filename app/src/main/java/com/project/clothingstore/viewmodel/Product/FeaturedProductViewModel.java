@@ -12,15 +12,18 @@ import java.util.List;
 public class FeaturedProductViewModel extends ViewModel {
     private MutableLiveData<List<Product>> listProduct = new MutableLiveData<>();
     private ProductService productService = new ProductService();
+    // Không giữ sẵn LiveData, mỗi lần gọi sẽ tạo mới LiveData với limit tương ứng
     public FeaturedProductViewModel() {
-        LoadProduct();
+        // Default load with initial limit
+        loadProductWithLimit(5);
     }
 
-    public void LoadProduct() {
-//        listProduct.setValue(productService.getSanPhamList());
+    public void loadProductWithLimit(int limit) {
+        productService.getSanPhamList(listProduct, "sold", limit);
     }
 
     public LiveData<List<Product>> getListProduct() {
         return listProduct;
     }
+
 }

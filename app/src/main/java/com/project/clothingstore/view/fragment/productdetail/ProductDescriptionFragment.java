@@ -64,12 +64,13 @@ public class ProductDescriptionFragment extends Fragment {
 
     private void updateDescriptionText() {
         if (isExpanded) {
-            tvDescription.setText(fullDescription);
+            tvDescription.setText(android.text.Html.fromHtml(fullDescription));
             tvReadMore.setVisibility(View.GONE);
         } else {
             // Show truncated description if it's long enough
             if (fullDescription.length() > 100) {
-                tvDescription.setText(fullDescription.substring(0, 100) + "...");
+                String fullDes = fullDescription.substring(0, 100) + "...";
+                tvDescription.setText(android.text.Html.fromHtml(fullDes));
                 tvReadMore.setVisibility(View.VISIBLE);
             } else {
                 tvDescription.setText(fullDescription);

@@ -1,6 +1,7 @@
 package com.project.clothingstore.view.fragment.productdetail;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.clothingstore.R;
 import com.project.clothingstore.adapter.productdetail.ReviewAdapter;
+import com.project.clothingstore.modal.Rating;
 import com.project.clothingstore.viewmodel.ProductDetailViewModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ProductRatingsFragment extends Fragment {
@@ -34,7 +37,7 @@ public class ProductRatingsFragment extends Fragment {
     private ReviewAdapter reviewAdapter;
     private ImageView imgExpandRatings;
     private LinearLayout layoutRatings;
-    private boolean isExpanded = true; // Start expanded
+    private boolean isExpanded = true; // Bắt đầu với trạng thái mở rộng
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class ProductRatingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize views
+        // Khởi tạo views
         tvAverageRating = view.findViewById(R.id.tvAverageRating);
         tvTotalRatings = view.findViewById(R.id.tvTotalRatings);
         tvReviewCount = view.findViewById(R.id.tvReviewCount);
@@ -66,50 +69,100 @@ public class ProductRatingsFragment extends Fragment {
         recyclerReviews = view.findViewById(R.id.recyclerReviews);
         imgExpandRatings = view.findViewById(R.id.imgExpandRatings);
         layoutRatings = view.findViewById(R.id.layoutRatings);
+//        shimmerLayout = view.findViewById(R.id.shimmerLayout);
+//        tvNoReviews = view.findViewById(R.id.tvNoReviews);
 
-        // Get shared ViewModel
+        // Hiển thị trạng thái loading
+//        showLoadingState(true);
+
+        // Lấy ViewModel được chia sẻ từ Activity
         viewModel = new ViewModelProvider(requireActivity()).get(ProductDetailViewModel.class);
 
-        // Setup RecyclerView
-        reviewAdapter = new ReviewAdapter(new ArrayList<>(), null);
+        // Thiết lập RecyclerView
+        reviewAdapter = new ReviewAdapter(new ArrayList<>(), new HashMap<>());
         recyclerReviews.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerReviews.setAdapter(reviewAdapter);
 
-        // Setup click listeners
+        // Thiết lập click listeners
         layoutRatings.setOnClickListener(v -> toggleRatingsExpansion());
         imgExpandRatings.setOnClickListener(v -> toggleRatingsExpansion());
 
-        // Observe product data for rating
+        // Quan sát dữ liệu sản phẩm để hiển thị rating trung bình
         viewModel.getProduct().observe(getViewLifecycleOwner(), product -> {
             if (product != null) {
+                Log.d("ProductRatingsFragment", "Product rating: " + product.getTotalRating());
                 tvAverageRating.setText(String.format("%.1f", product.getTotalRating()));
                 ratingBarSummary.setRating(product.getTotalRating());
             }
         });
 
-        // Observe ratings data
+        // Quan sát dữ liệu đánh giá
+//        viewModel.getRatings().observe(getViewLifecycleOwner(), ratings -> {
+////            showLoadingState(false);
+//
+//            if (ratings == null || ratings.isEmpty()) {
+//                // Hiển thị thông báo "Chưa có đánh giá nào"
+//                tvAverageRating.setText("0.0");
+//                ratingBarSummary.setRating(0);
+//                tvTotalRatings.setText("0 ratings");
+//                tvReviewCount.setText("0 Reviews");
+////                tvNoReviews.setVisibility(View.VISIBLE);
+//                recyclerReviews.setVisibility(View.GONE);
+//
+//                // Thiết lập tất cả progress bar về 0
+//                resetRatingBars();
+//            } else {
+//                tvTotalRatings.setText(ratings.size() + " ratings");
+//                tvReviewCount.setText(ratings.size() + " Reviews");
+////                tvNoReviews.setVisibility(View.GONE);
+//                recyclerReviews.setVisibility(View.VISIBLE);
+//                reviewAdapter.updateRatings(ratings);
+//            }
+//        });
+
         viewModel.getRatings().observe(getViewLifecycleOwner(), ratings -> {
-            if (ratings != null) {
+            if (ratings == null || ratings.isEmpty()) {
+                tvAverageRating.setText("0.0");
+                ratingBarSummary.setRating(0);
+                tvTotalRatings.setText("0 ratings");
+                tvReviewCount.setText("0 Reviews");
+                recyclerReviews.setVisibility(View.GONE);
+                resetRatingBars();
+            } else {
                 tvTotalRatings.setText(ratings.size() + " ratings");
                 tvReviewCount.setText(ratings.size() + " Reviews");
-
-                // Update adapter with new ratings
+                recyclerReviews.setVisibility(View.VISIBLE);
                 reviewAdapter.updateRatings(ratings);
             }
         });
 
-        // Observe user data for reviews
+        // Quan sát dữ liệu người dùng
         viewModel.getUserMap().observe(getViewLifecycleOwner(), userMap -> {
             if (userMap != null) {
-                reviewAdapter.updateUserMap(userMap);
+                Log.d("ProductRatingsFragment", "Received user map with " + userMap.size() + " users");
+                reviewAdapter.updateUserMap(userMap); // Cập nhật userMap trong adapter
             }
         });
 
-        // Observe rating distribution
+        // Quan sát phân phối đánh giá
         viewModel.getRatingDistribution().observe(getViewLifecycleOwner(), this::updateRatingDistribution);
 
-        // Set initial expansion state
+        // Thiết lập trạng thái mở rộng ban đầu
         updateExpansionUI();
+    }
+
+    private void resetRatingBars() {
+        progressBar1.setProgress(0);
+        progressBar2.setProgress(0);
+        progressBar3.setProgress(0);
+        progressBar4.setProgress(0);
+        progressBar5.setProgress(0);
+
+        tvPercentage1.setText("0%");
+        tvPercentage2.setText("0%");
+        tvPercentage3.setText("0%");
+        tvPercentage4.setText("0%");
+        tvPercentage5.setText("0%");
     }
 
     private void toggleRatingsExpansion() {
@@ -118,12 +171,37 @@ public class ProductRatingsFragment extends Fragment {
     }
 
     private void updateExpansionUI() {
-        recyclerReviews.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-        imgExpandRatings.setRotation(isExpanded ? 180 : 0);
+        // Sử dụng animation thay vì thay đổi visibility trực tiếp
+        if (isExpanded) {
+            recyclerReviews.setVisibility(View.VISIBLE);
+            imgExpandRatings.animate().rotation(180).setDuration(300).start();
+        } else {
+            recyclerReviews.animate()
+                    .alpha(0f)
+                    .setDuration(300)
+                    .withEndAction(() -> {
+                        recyclerReviews.setVisibility(View.GONE);
+                        recyclerReviews.setAlpha(1f);
+                    });
+            imgExpandRatings.animate().rotation(0).setDuration(300).start();
+        }
     }
 
+//    private void showLoadingState(boolean isLoading) {
+//        if (isLoading) {
+//            shimmerLayout.setVisibility(View.VISIBLE);
+//            shimmerLayout.startShimmer();
+//            recyclerReviews.setVisibility(View.GONE);
+//            tvNoReviews.setVisibility(View.GONE);
+//        } else {
+//            shimmerLayout.stopShimmer();
+//            shimmerLayout.setVisibility(View.GONE);
+//        }
+//    }
+
     private void updateRatingDistribution(Map<Integer, Integer> distribution) {
-        // Update progress bars and percentages
+        Log.d("ProductRatingsFragment", "Rating distribution: " + distribution);
+        // Cập nhật progress bars và phần trăm
         progressBar1.setProgress(distribution.get(1));
         progressBar2.setProgress(distribution.get(2));
         progressBar3.setProgress(distribution.get(3));

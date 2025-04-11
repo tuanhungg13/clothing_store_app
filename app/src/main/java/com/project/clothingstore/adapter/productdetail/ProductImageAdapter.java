@@ -42,19 +42,13 @@ public class ProductImageAdapter extends RecyclerView.Adapter<ProductImageAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        String imagePath = imageUrls.get(position);
+        String imageUrl = imageUrls.get(position);
 
-        try {
-            int imageResId = Integer.parseInt(imagePath); // Chuyển từ chuỗi sang resource ID
-            holder.imageView.setImageResource(imageResId);
-        } catch (NumberFormatException e) {
-            // Nếu không phải resource ID, thì tải ảnh từ URL
-            Glide.with(holder.itemView.getContext())
-                    .load(imagePath)
-                    .placeholder(R.drawable.aophong)  // Ảnh mặc định khi tải
-                    .error(R.drawable.error_image)  // Ảnh hiển thị khi lỗi
-                    .into(holder.imageView);
-        }
+        Glide.with(holder.itemView.getContext())
+                .load(imageUrl)
+                .placeholder(R.drawable.error_image)  // Ảnh hiển thị khi đang tải
+                .error(R.drawable.error_image)  // Ảnh hiển thị khi lỗi tải ảnh
+                .into(holder.imageView);
     }
 
     @Override
