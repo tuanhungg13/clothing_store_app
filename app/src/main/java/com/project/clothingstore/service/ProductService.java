@@ -112,25 +112,17 @@ public class ProductService {
     }
 
     //Loc san pham theo categoryId, categoriType, minPrice, maxPrice, rating, discount
-    public void getFilteredProducts(MutableLiveData<List<Product>> liveData,
-                                    int categoryType,
-                                    int minPrice, int maxPrice,
-                                    double rating, List<Integer> discounts) {
-        Log.d("FilterInFragment", "categoryId: " + null +
-                "\ncategoryType: " + categoryType +
-                "\nminPrice: " + minPrice +
-                "\nmaxPrice: " + maxPrice +
-                "\nrating: " + rating +
-                "\ndiscountList: " + discounts);
 
-        Query query = productRef;
+    public void getFilteredProducts(MutableLiveData<List<Product>> liveData, int productType, int minPrice, int maxPrice, double rating, List<Integer> discounts) {
+        CollectionReference productsRef = db.collection("products");
+        Query query = productsRef;
 
-        // Lọc theo categoryType
-        if (categoryType != -1) {
-            query = query.whereEqualTo("productType", categoryType);
+
+        // Thêm điều kiện nếu có
+        if (productType != -1) {
+            query = query.whereEqualTo("productType", productType);
         }
 
-        // Lọc theo khoảng giá
         if (minPrice != -1) {
             query = query.whereGreaterThanOrEqualTo("price", minPrice);
         }
@@ -156,22 +148,20 @@ public class ProductService {
             query = query.whereGreaterThanOrEqualTo("discount", minDiscountPercent);
         }
 
-        // Thực hiện truy vấn
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                List<Product> filtered = new ArrayList<>();
+                List<Product> productList = new ArrayList<>();
                 for (QueryDocumentSnapshot doc : task.getResult()) {
                     Product product = doc.toObject(Product.class);
                     product.setProductId(doc.getId());
 
-                    // Lọc kỹ discount (vì Firestore không hỗ trợ whereIn)
                     if (discounts != null && !discounts.isEmpty()) {
                         double productDiscount = product.getDiscount(); // ví dụ: 0.3
                         boolean isMatched = false;
 
                         for (int level : discounts) {
                             double requiredDiscount = (level + 1) / 10.0;
-                            if (productDiscount >= requiredDiscount) {
+                            if (productDiscount == requiredDiscount) {
                                 isMatched = true;
                                 break;
                             }
@@ -179,47 +169,6 @@ public class ProductService {
 
                         if (!isMatched) continue;
                     }
-
-                    filtered.add(product);
-                }
-                liveData.setValue(filtered);
-            } else {
-                liveData.setValue(new ArrayList<>());
-            }
-        });
-    }
-
-    public void Test(MutableLiveData<List<Product>> liveData, int productType, int minPrice, int maxPrice, double rating) {
-        CollectionReference productsRef = db.collection("products");
-        Query query = productsRef;
-
-        Log.d("FilterInFragment", "productType: " + productType +
-                "\nminPrice: " + minPrice );
-
-        // Thêm điều kiện nếu có
-        if (productType != -1) {
-            query = query.whereEqualTo("productType", productType);
-        }
-
-        if (minPrice != -1) {
-            query = query.whereGreaterThanOrEqualTo("price", minPrice);
-        }
-
-        if (maxPrice != -1) {
-            query = query.whereLessThanOrEqualTo("price", maxPrice);
-        }
-
-        // Lọc theo đánh giá
-        if (rating != -1) {
-            query = query.whereGreaterThanOrEqualTo("totalRating", rating);
-        }
-
-        query.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                List<Product> productList = new ArrayList<>();
-                for (QueryDocumentSnapshot doc : task.getResult()) {
-                    Product product = doc.toObject(Product.class);
-                    product.setProductId(doc.getId());
                     productList.add(product);
                 }
                 liveData.setValue(productList);

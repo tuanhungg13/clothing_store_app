@@ -25,8 +25,7 @@ public class ProductViewModel extends ViewModel {
     }
     public void loadFilteredProduct(int categoriType, int minPrice, int maxPrice,
                                     double rating, List<Integer> discounts) {
-        productService.Test(listProduct, categoriType, minPrice, maxPrice, rating);
-//        productService.getFilteredProducts(listProduct, categoriType, minPrice, maxPrice, rating, discounts);
+        productService.getFilteredProducts(listProduct, categoriType, minPrice, maxPrice, rating, discounts);
     }
 
 

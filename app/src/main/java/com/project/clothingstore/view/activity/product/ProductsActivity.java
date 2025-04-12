@@ -66,7 +66,7 @@ public class ProductsActivity extends AppCompatActivity implements SearchBarFrag
 
 
         if (savedInstanceState == null) {
-            loadFragment(new ProductFragment(), categoryId);
+            loadFragmentProduct(new ProductFragment(), categoryId);
             loadFragmentSeach(new SearchBarFragment());
             loadFragmentFilter(new FilterFragment());
         }
@@ -84,7 +84,7 @@ public class ProductsActivity extends AppCompatActivity implements SearchBarFrag
         toggleDrawer(); // Gọi mở/đóng drawer từ fragment con
     }
 
-    private void loadFragment(Fragment fragment, String cateId) {
+    private void loadFragmentProduct(Fragment fragment, String cateId) {
 
         // Truyền dữ liệu từ activity sang fragment
         Bundle bundle  = new Bundle();
@@ -109,6 +109,16 @@ public class ProductsActivity extends AppCompatActivity implements SearchBarFrag
     }
 
     private void loadFragmentFilter(Fragment fragment) {
+        // Truyền dữ liệu từ activity sang fragment
+        Bundle bundle  = new Bundle();
+        bundle.putBoolean("isFromApply", true);
+        bundle.putInt("categoriType", categoriType);
+        bundle.putInt("minPrice", minPrice);
+        bundle.putInt("maxPrice", maxPrice);
+        bundle.putDouble("rating", rating);
+        bundle.putIntegerArrayList("discountList", discountList);
+        // Gán bundle cho fragment
+        fragment.setArguments(bundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_filter_Activity, fragment);
         transaction.commit();

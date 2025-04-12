@@ -37,6 +37,12 @@ public class FilterFragment extends Fragment {
 
     private Button btn_Reset, btn_Apply;
 
+    private int categoriType, minPrice, maxPrice;
+
+    boolean isFromApply;
+    private double rating;
+    private ArrayList<Integer> discountList;
+
 
     Set<Integer> selectedStar = new HashSet<>();
     Set<Integer> selectedDiscount = new HashSet<>();
@@ -57,6 +63,18 @@ public class FilterFragment extends Fragment {
             String item = parent.getItemAtPosition(position).toString();
             // Có thể lưu lại category được chọn nếu cần
         });
+
+        if (getArguments() != null) {
+
+            isFromApply = getArguments().getBoolean("isFromApply", false);
+            categoriType = getArguments().getInt("categoriType", -1);
+            minPrice = getArguments().getInt("minPrice", -1);
+            maxPrice = getArguments().getInt("maxPrice", -1);
+            rating = getArguments().getDouble("rating", -1); // Nếu không có thì là -1
+            discountList = getArguments().getIntegerArrayList("discountList");
+
+        }
+
 
         // Khởi tạo frame rating (sao)
         framesstar.add(view.findViewById(R.id.star_frame1));
@@ -130,6 +148,16 @@ public class FilterFragment extends Fragment {
             // Chuyển sang ProductsActivity
             startActivity(intent);
         });
+        // Setup giá trị mặc định cho các trường Filter
+        setupfragmentFilter();
+
+
+        Log.d("FilterInFragment", "productType: " + categoriType +
+                "\nminPrice: " + minPrice
+                + "\nmaxPrice: " + maxPrice
+                + "\nrating: " + rating
+                + "\ndiscountList: " + discountList);
+
 
 
         return view;
@@ -170,6 +198,45 @@ public class FilterFragment extends Fragment {
                     v.setSelected(true);
                 }
             });
+        }
+    }
+    private void setupfragmentFilter(){
+        if(isFromApply){
+            // Setup giá trị mặc định cho các trường Filter
+            if (categoriType == 0) {
+                autoCompleteTxt.setText("Áo & quần", false);
+            } else if (categoriType == 1) {
+                autoCompleteTxt.setText("Giày", false);
+            } else {
+                autoCompleteTxt.setText("", false);
+            }
+
+            if (minPrice != -1) {
+                edt_price_min.setText(String.valueOf(minPrice));
+            }
+            if (maxPrice != -1) {
+                edt_price_max.setText(String.valueOf(maxPrice));
+            }
+            if (rating != -1) {
+                int ratingIndex = (int) rating - 1;
+                if (ratingIndex >= 0 && ratingIndex < framesstar.size()) {
+                    selectedStar.add(ratingIndex);
+                    framesstar.get(ratingIndex).setSelected(true);
+                } else {
+                    Log.w("FilterFragment", "Rating index ngoài giới hạn: " + ratingIndex);
+                }
+            }
+
+            if (discountList != null) {
+                for (int discount : discountList) {
+                    if (discount >= 0 && discount < framesdiscount.size()) {
+                        selectedDiscount.add(discount);
+                        framesdiscount.get(discount).setSelected(true);
+                    } else {
+                        Log.w("FilterFragment", "Discount index ngoài giới hạn: " + discount);
+                    }
+                }
+            }
         }
     }
 
