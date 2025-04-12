@@ -1,12 +1,17 @@
 package com.project.clothingstore.service;
 
+import static com.google.firebase.auth.AuthKt.getAuth;
+
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.project.clothingstore.modal.Address;
+import com.project.clothingstore.modal.User;
 import com.project.clothingstore.modal.Address;
 import com.project.clothingstore.modal.User;
 

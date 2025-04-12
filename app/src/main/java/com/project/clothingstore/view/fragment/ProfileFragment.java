@@ -25,12 +25,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.clothingstore.R;
 import com.project.clothingstore.adapter.ProfileOptionAdapter;
 import com.project.clothingstore.modal.ProfileOption;
 import com.project.clothingstore.utils.DividerItemDecorator;
 import com.project.clothingstore.view.activity.AuthActivity;
+import com.project.clothingstore.view.activity.CartActivity;
 import com.project.clothingstore.view.activity.CouponActivity;
 import com.project.clothingstore.view.activity.ProfileActivity;
 import com.project.clothingstore.viewmodel.AuthViewModel;
@@ -107,6 +107,7 @@ public class ProfileFragment extends Fragment {
 
         return view;
     }
+
     // Tải thông tin người dùng về
     private void loadUserInfo() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -175,6 +176,7 @@ public class ProfileFragment extends Fragment {
         // Thêm dòng kẻ giữa các item
         recyclerView.addItemDecoration(new DividerItemDecorator());
     }
+
     // Đăng xuất
     private void showLogoutConfirmationDialog() {
         new AlertDialog.Builder(requireContext())

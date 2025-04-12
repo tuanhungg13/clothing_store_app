@@ -1,17 +1,25 @@
-data class Cart(
-    val cartId: String,  // ID của giỏ hàng, sử dụng String thay vì ObjectId
-    val cartItems: List<CartItem>  // Danh sách các sản phẩm trong giỏ hàng
-)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-data class CartItem(
-    val productId: String,  // ID của sản phẩm
-    val productName: String,  // Tên sản phẩm
-    val variant: Variant,  // Mô tả biến thể của sản phẩm (màu sắc, kích thước)
-    var quantity: Int,  // Số lượng sản phẩm
-    val price: Int  // Giá của sản phẩm
-)
 
+@Parcelize
 data class Variant(
-    val color: String,  // Màu sắc của sản phẩm
-    val size: String  // Kích thước của sản phẩm
+    val color: String = "",
+    val size: String = ""
+):Parcelable
+@Parcelize
+data class CartItem(
+    val productId: String = "",
+    val productName: String = "",
+    val variant: Variant = Variant(),
+    val image: String = "",
+    var quantity: Int = 0,
+    val price: Int = 0,
+    var isSelected: Boolean = false, // chỉ để UI chọn sp
+    var stock: Int = 0 // chỉ để UI chọn sp
+) : Parcelable
+
+data class Cart(
+    val cartId: String = "",
+    val cartItems: List<CartItem> = emptyList()
 )

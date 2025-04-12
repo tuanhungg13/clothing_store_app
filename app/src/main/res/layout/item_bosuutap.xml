@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp"
+    android:background="@android:color/white">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/img_BST"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="Image Button"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:srcCompat="@drawable/spnb"/>
+
+        <TextView
+            android:id="@+id/txt_img_BST"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="Bộ sưu tập mùa thu năm 2025"
+            android:textColor="@android:color/white"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="15dp"/> <!-- Đặt text ở giữa -->
+
+    </FrameLayout>
+</androidx.cardview.widget.CardView>
