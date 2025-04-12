@@ -13,19 +13,20 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:targetApi="31">
         <activity
+            android:name=".view.activity.CheckoutSuccessActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activity.CheckoutActivity"
             android:exported="false"
-        />
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".view.activity.ProductDetailActivity"
             android:exported="false" />
-
         <activity
             android:name=".view.activity.ProductsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-
             android:exported="true">
 
             <!-- <intent-filter> -->
@@ -37,27 +38,22 @@
         </activity>
         <activity
             android:name=".view.activity.CartActivity"
-            android:exported="true"
-            >
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.activity.IntroActivity"
-            android:exported="false" >
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".view.activity.ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".view.activity.AuthActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>
