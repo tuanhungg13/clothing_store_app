@@ -25,7 +25,7 @@ public class ProductFragment extends Fragment {
     private ProductViewModel productViewModel;
     private ProductAdapter productAdapter;
     private RecyclerView recyclerView;
-    String categoryId;
+    String categoryId, productName;
     int categoriType, minPrice, maxPrice;
     double rating;
     ArrayList<Integer> discountList;
@@ -37,6 +37,7 @@ public class ProductFragment extends Fragment {
 
         if (getArguments() != null) {
             categoryId = getArguments().getString("categoryId");
+            productName = getArguments().getString("productName");
 
             categoriType = getArguments().getInt("categoriType", -1);
             minPrice = getArguments().getInt("minPrice", -1);
@@ -56,7 +57,9 @@ public class ProductFragment extends Fragment {
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         if (categoryId != null) {
             productViewModel.loadProduct(categoryId);
-        } else {
+        } else if (productName != null) {
+            productViewModel.loadProductByName(productName);
+        }else{
             productViewModel.loadFilteredProduct(categoriType, minPrice, maxPrice, rating, discountList);
         }
 

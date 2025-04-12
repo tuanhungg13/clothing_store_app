@@ -13,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.project.clothingstore.MainActivity;
 import com.project.clothingstore.R;
 import com.project.clothingstore.view.fragment.Filter.FilterFragment;
 import com.project.clothingstore.view.fragment.Filter.SearchBarFragment;
@@ -22,7 +23,7 @@ import java.util.ArrayList;
 
 public class ProductsActivity extends AppCompatActivity implements SearchBarFragment.OnFilterButtonClickListener{
     ImageButton imgbtn_back;
-    private String categoryId;
+    private String categoryId, productName;
     int categoriType;
     int minPrice, maxPrice;
     double rating;
@@ -39,6 +40,8 @@ public class ProductsActivity extends AppCompatActivity implements SearchBarFrag
 
         Intent intent = getIntent();
         categoryId = intent.getStringExtra("categoryId");
+
+        productName = intent.getStringExtra("productName");
 
         categoriType = intent.getIntExtra("categoriType", -1);
         String minPriceStr = intent.getStringExtra("minPrice");
@@ -74,9 +77,14 @@ public class ProductsActivity extends AppCompatActivity implements SearchBarFrag
 
 
         // Xử lý sự kiện nhấn nút quay lại
+        // Xử lý sự kiện nhấn nút quay lại
         imgbtn_back.setOnClickListener(v -> {
-            finish();
+            Intent intentT = new Intent(ProductsActivity.this, MainActivity.class);
+            intentT.putExtra("openSearchFragment", true); // Thêm thông báo mở SearchFragment
+            startActivity(intentT);
+            finish(); // Đóng ProductsActivity
         });
+
 
     }
     @Override
@@ -89,6 +97,7 @@ public class ProductsActivity extends AppCompatActivity implements SearchBarFrag
         // Truyền dữ liệu từ activity sang fragment
         Bundle bundle  = new Bundle();
         bundle.putString("categoryId", cateId);
+        bundle.putString("productName", productName);
         bundle.putInt("categoriType", categoriType);
         bundle.putInt("minPrice", minPrice);
         bundle.putInt("maxPrice", maxPrice);
@@ -103,6 +112,10 @@ public class ProductsActivity extends AppCompatActivity implements SearchBarFrag
     }
 
     private void loadFragmentSeach(Fragment fragment) {
+        Bundle bundle  = new Bundle();
+        bundle.putBoolean("isSearch", true);
+        bundle.putString("productName", productName);
+        fragment.setArguments(bundle);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_search_fliter_activity_products, fragment);
         transaction.commit();

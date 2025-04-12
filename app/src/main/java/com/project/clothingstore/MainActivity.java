@@ -58,4 +58,16 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Kiểm tra Intent để xác định có cần mở lại SearchFragment không
+        if (getIntent().getBooleanExtra("openSearchFragment", false)) {
+            loadFragment(new SearchFragment());
+            getIntent().removeExtra("openSearchFragment"); // Xóa intent data để tránh mở lại
+        }
+    }
+
 }

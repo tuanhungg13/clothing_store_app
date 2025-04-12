@@ -208,6 +208,30 @@ public class ProductService {
 
 
 
+    public void searchSanPhamByName(String keyword, MutableLiveData<List<Product>> liveData) {
+        CollectionReference productsRef = db.collection("products");
+
+        productsRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<Product> filteredList = new ArrayList<>();
+                for (QueryDocumentSnapshot doc : task.getResult()) {
+                    Product product = doc.toObject(Product.class);
+                    product.setProductId(doc.getId());
+
+                    // So sánh gần đúng, không phân biệt hoa thường
+                    String productName = product.getProductName();
+                    if (productName != null &&
+                            productName.toLowerCase().contains(keyword.toLowerCase().trim())) {
+                        filteredList.add(product);
+                    }
+                }
+                liveData.setValue(filteredList);
+            } else {
+                liveData.setValue(new ArrayList<>()); // Trả về danh sách rỗng nếu lỗi
+            }
+        });
+    }
+
 
     // Lấy tất cả sản phẩm
     public void getAllSanPhamList(MutableLiveData<List<Product>> liveData) {

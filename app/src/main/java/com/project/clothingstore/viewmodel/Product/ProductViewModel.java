@@ -23,6 +23,10 @@ public class ProductViewModel extends ViewModel {
     public void loadProduct(String categoriId) {
         productService.getProductByCategoriIdList(listProduct, categoriId);
     }
+
+    public void loadProductByName(String productName) {
+        productService.searchSanPhamByName(productName,listProduct);
+    }
     public void loadFilteredProduct(int categoriType, int minPrice, int maxPrice,
                                     double rating, List<Integer> discounts) {
         productService.getFilteredProducts(listProduct, categoriType, minPrice, maxPrice, rating, discounts);
