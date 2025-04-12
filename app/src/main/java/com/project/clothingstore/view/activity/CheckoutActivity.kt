@@ -47,6 +47,7 @@ class CheckoutActivity : AppCompatActivity() {
     private lateinit var tvProductPrice: TextView
     private lateinit var cartViewModel: CartViewModel
     private lateinit var tvShipping: TextView
+    private lateinit var tvDiscount: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
@@ -73,6 +74,7 @@ class CheckoutActivity : AppCompatActivity() {
         btnBack = findViewById(R.id.btnBack)
         tvProductPrice = findViewById(R.id.tvProductPrice) // TextView cho tổng tiền sản phẩm
         tvShipping = findViewById(R.id.tvShipping) // TextView cho phí vận chuyển
+        tvDiscount = findViewById(R.id.tvDiscount) // TextView cho mã giảm giá
         btnBack.setOnClickListener() {
             finish()
         }
@@ -143,11 +145,10 @@ class CheckoutActivity : AppCompatActivity() {
         if (rgPayment.childCount == 1) {
             rgPayment.check(rgPayment.getChildAt(0).id)
         }
-
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
         // Lắng nghe sự kiện khi người dùng nhấn nút Thanh toán
         btnCheckout.setOnClickListener {
             if (isInputValid()) {
-                val userId = FirebaseAuth.getInstance().currentUser?.uid
                 userId?.let {
                     viewModel.submitOrder(it)
 
@@ -197,12 +198,27 @@ class CheckoutActivity : AppCompatActivity() {
             tvShipping.text = formatPrice(shippingPrice)
         }
 
+        viewModel.couponDiscountAmount.observe(this) { discount ->
+            tvDiscount.text = formatPrice(discount)
+        }
+
         // Lắng nghe sự thay đổi khi nhập mã giảm giá và cập nhật tổng tiền
         btnApplyCoupon.setOnClickListener {
             val couponCode = edtCoupon.text.toString()
-            viewModel.couponId.value = couponCode
-            viewModel.calculateTotalPrice()
+            if (userId != null) {
+                viewModel.applyCouponDiscount(couponCode, userId)
+            }
         }
+
+        // Trong Activity hoặc Fragment của bạn
+        viewModel.couponErrorMessage.observe(this, { errorMessage ->
+            if (errorMessage.isNotBlank()) {
+                // Hiển thị thông báo lỗi
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
     }
 
     // Kiểm tra các trường nhập liệu có hợp lệ không

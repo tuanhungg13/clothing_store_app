@@ -1,8 +1,10 @@
 package com.project.clothingstore.service
 
 import android.util.Log
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.project.clothingstore.modal.Coupon
 import com.project.clothingstore.modal.Order
 import com.project.clothingstore.modal.OrderItem
 
@@ -75,12 +77,81 @@ object CheckoutService {
             val cleanedOrder = order.copy(orderItems = cleanedOrderItems)
             transaction.set(orderRef, cleanedOrder)
 
+            if (!order.couponId.isNullOrBlank()) {
+                val userRef = db.collection("users").document(order.uid)
+                transaction.update(userRef, "coupons", FieldValue.arrayRemove(order.couponId))
+            }
+
         }.addOnSuccessListener {
             onSuccess()
         }.addOnFailureListener { e ->
             Log.e("TAG", "Lỗi khi đặt đơn hàng: ${e.message}")
             onError("Lỗi khi đặt đơn hàng: ${e.message ?: "Lỗi không xác định"}")
         }
+    }
+
+    fun getCouponByCode(
+        couponCode: String,
+        onSuccess: (Coupon) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        db.collection("coupons")
+            .whereEqualTo("code", couponCode)
+            .limit(1)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    val doc = querySnapshot.documents[0]
+                    val coupon = Coupon(
+                        doc.id, // String
+                        doc.getString("title") ?: "", // String
+                        doc.getString("code") ?: "", // String
+                        doc.getDouble("discount") ?: 0.0, // Double
+                        doc.getDouble("minOrder") ?: 0.0, // Double
+                        (doc.getLong("quantity") ?: 0L).toInt(), // Int
+                        doc.getTimestamp("createdAt"), // com.google.firebase.Timestamp
+                        doc.getTimestamp("expirationDate")
+
+                    )
+                    onSuccess(coupon)
+                } else {
+                    onError("Không tìm thấy mã giảm giá.")
+                }
+            }
+            .addOnFailureListener { e ->
+                onError("Lỗi khi kiểm tra mã: ${e.message}")
+            }
+    }
+
+    fun removeCouponFromUser(userId: String, couponId: String) {
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(userId)
+            .update("coupons", FieldValue.arrayRemove(couponId))
+            .addOnSuccessListener {
+                Log.d("TAG", "Đã xóa couponId $couponId khỏi user $userId")
+            }
+            .addOnFailureListener { e ->
+                Log.e("TAG", "Lỗi khi xóa couponId: ", e)
+            }
+    }
+
+    fun getCouponIdsOfUser(
+        userId: String,
+        onResult: (List<String>) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+                val coupons = document.get("coupons") as? List<String> ?: emptyList()
+                onResult(coupons)
+            }
+            .addOnFailureListener { e ->
+                onError(e)
+            }
     }
 
 

@@ -177,12 +177,14 @@
 
                 <RadioButton
                     android:id="@+id/rbStandardShipping"
+                    android:buttonTint="@color/green"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="30,000đ Giao hàng nhanh (2-6 ngày)" />
 
                 <RadioButton
                     android:id="@+id/rbExpressShipping"
+                    android:buttonTint="@color/green"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="100,000đ Giao hàng hỏa tốc (2-10h)" />
@@ -208,11 +210,19 @@
                     android:layout_weight="1"
                     android:hint="Nhập mã tại đây..." />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnApplyCoupon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Xác nhận" />
+                    android:text="Áp dụng"
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/black"
+                    android:textColor="@android:color/white"
+                    android:padding="12dp"
+                    android:layout_marginTop="12dp"
+                    app:cornerRadius="24dp"
+                    app:backgroundColor="@android:color/black" />
+
             </LinearLayout>
 
             <!-- Phương thức thanh toán -->
@@ -231,6 +241,7 @@
 
                 <RadioButton
                     android:id="@+id/rbCOD"
+                    android:buttonTint="@color/green"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Thanh toán khi nhận hàng" />
@@ -244,7 +255,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@android:color/white"
+        android:background="@drawable/bottom_nav_background"
         android:padding="16dp"
         android:layout_alignParentBottom="true"
         android:elevation="8dp">
@@ -300,6 +311,29 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:text="Giảm giá"
+                android:textSize="16sp"
+                android:textColor="#888888" />
+
+            <TextView
+                android:id="@+id/tvDiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0đ"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Tổng tiền"
                 android:textStyle="bold"
                 android:textSize="16sp" />
@@ -313,15 +347,18 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCheckout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Thanh toán"
             android:textAllCaps="false"
+            android:backgroundTint="@color/black"
             android:textColor="@android:color/white"
             android:padding="12dp"
-            android:backgroundTint="#222222"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            app:cornerRadius="24dp"
+            app:backgroundColor="@android:color/black" />
+
     </LinearLayout>
 </RelativeLayout>

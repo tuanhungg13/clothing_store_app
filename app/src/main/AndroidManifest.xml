@@ -18,7 +18,7 @@
         <activity
             android:name=".view.activity.CheckoutActivity"
             android:exported="false"
-            android:theme="@style/Theme.Material3.Light.NoActionBar" />
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".view.activity.ProductDetailActivity"
             android:exported="false" />
