@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.project.clothingstore.R;
 import com.project.clothingstore.modal.ProductCollections;
 
@@ -33,8 +34,13 @@ public class ProductCollectionAdapter extends RecyclerView.Adapter<ProductCollec
         if (bst == null) {
             return;
         }
-        holder.imv.setImageResource(bst.getImv());
-        holder.txtTitle.setText(bst.getTxtTitle());
+
+        Glide.with(holder.itemView.getContext())
+                .load(bst.getCollectionImg()) // Lấy ảnh đầu tiên trong danh sách
+                .placeholder(R.drawable.spnb) // Ảnh tạm khi load
+                .error(R.drawable.item) // Ảnh hiển thị nếu load lỗi
+                .into(holder.imv);
+        holder.txtTitle.setText(bst.getCollectionName());
     }
 
     @Override

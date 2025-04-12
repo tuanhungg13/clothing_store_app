@@ -45,6 +45,8 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.firestore)
     implementation(libs.core.ktx)
+    implementation(libs.legacy.support.v4)
+    implementation(libs.gridlayout)
     implementation(libs.lifecycle.viewmodel.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

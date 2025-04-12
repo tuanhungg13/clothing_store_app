@@ -45,8 +45,8 @@
             android:layout_width="100dp"
             android:layout_height="130dp"
             android:layout_weight="0.5"
+            android:background="@drawable/hvq_backgroud_circle"
             android:scaleType="centerCrop"
-            android:src="@drawable/mau1"
-            android:background="@drawable/backgroud_circle"/> <!-- Sử dụng nền tròn -->
+            android:src="@drawable/mau1" /> <!-- Sử dụng nền tròn -->
     </LinearLayout>
 </androidx.cardview.widget.CardView>
