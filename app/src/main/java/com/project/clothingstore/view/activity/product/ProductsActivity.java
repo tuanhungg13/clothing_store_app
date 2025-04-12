@@ -68,6 +68,7 @@ public class ProductsActivity extends AppCompatActivity implements SearchBarFrag
         discountList = intent.getIntegerArrayListExtra("discountList");
 
 
+
         if (savedInstanceState == null) {
             loadFragmentProduct(new ProductFragment(), categoryId);
             loadFragmentSeach(new SearchBarFragment());
@@ -125,6 +126,7 @@ public class ProductsActivity extends AppCompatActivity implements SearchBarFrag
         // Truyền dữ liệu từ activity sang fragment
         Bundle bundle  = new Bundle();
         bundle.putBoolean("isFromApply", true);
+        bundle.putString("productName", productName);
         bundle.putInt("categoriType", categoriType);
         bundle.putInt("minPrice", minPrice);
         bundle.putInt("maxPrice", maxPrice);

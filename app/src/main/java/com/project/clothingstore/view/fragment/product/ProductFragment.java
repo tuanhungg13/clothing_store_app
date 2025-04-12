@@ -47,6 +47,13 @@ public class ProductFragment extends Fragment {
 
         }
 
+        Log.d("FilterInFragment", "productType: " + categoriType +
+                "\nminPrice: " + minPrice
+                + "\nmaxPrice: " + maxPrice
+                + "\nrating: " + rating
+                + "\ndiscountList: " + discountList
+                + "\nproductName: " + productName);
+
         recyclerView = view.findViewById(R.id.rcv_product_items);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -57,11 +64,14 @@ public class ProductFragment extends Fragment {
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
         if (categoryId != null) {
             productViewModel.loadProduct(categoryId);
-        } else if (productName != null) {
-            productViewModel.loadProductByName(productName);
         }else{
-            productViewModel.loadFilteredProduct(categoriType, minPrice, maxPrice, rating, discountList);
+            productViewModel.loadFilteredProduct( categoriType, minPrice, maxPrice, rating, discountList, productName);
         }
+//        else if (productName != null) {
+//            productViewModel.loadProductByName(productName);
+//        }else{
+//            productViewModel.loadFilteredProduct( categoriType, minPrice, maxPrice, rating, discountList, productName);
+//        }
 
         productViewModel.getListProduct().observe(getViewLifecycleOwner(), list -> {
             productAdapter.setData(list);

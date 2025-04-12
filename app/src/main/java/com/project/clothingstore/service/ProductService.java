@@ -113,7 +113,7 @@ public class ProductService {
 
     //Loc san pham theo categoryId, categoriType, minPrice, maxPrice, rating, discount
 
-    public void getFilteredProducts(MutableLiveData<List<Product>> liveData, int productType, int minPrice, int maxPrice, double rating, List<Integer> discounts) {
+    public void getFilteredProducts(MutableLiveData<List<Product>> liveData, int productType, int minPrice, int maxPrice, double rating, List<Integer> discounts, String keyword) {
         CollectionReference productsRef = db.collection("products");
         Query query = productsRef;
 
@@ -169,7 +169,11 @@ public class ProductService {
 
                         if (!isMatched) continue;
                     }
-                    productList.add(product);
+                    String productName = product.getProductName();
+                    if (productName != null && productName.toLowerCase().contains(keyword.toLowerCase().trim())) {
+                        productList.add(product);
+                    }
+//                    productList.add(product);
                 }
                 liveData.setValue(productList);
             } else {
