@@ -1,16 +1,13 @@
 package com.project.clothingstore.view.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import com.project.clothingstore.R;
-import com.project.clothingstore.view.activity.ProductsActivity;
 import com.project.clothingstore.view.fragment.product.FeaturedProductFragment;
 import com.project.clothingstore.view.fragment.product.RecommentProductFragment;
 import com.project.clothingstore.view.fragment.productcollection.ProductCollectionFragment;

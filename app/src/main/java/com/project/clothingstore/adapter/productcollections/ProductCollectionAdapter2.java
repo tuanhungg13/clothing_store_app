@@ -1,5 +1,6 @@
 package com.project.clothingstore.adapter.productcollections;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.project.clothingstore.R;
 import com.project.clothingstore.modal.ProductCollections;
+import com.project.clothingstore.view.activity.collection.CollectionActivity;
 
 import java.util.List;
 
@@ -42,6 +44,13 @@ public class ProductCollectionAdapter2 extends RecyclerView.Adapter<ProductColle
                 .into(holder.imv);
         holder.txtTitle.setText(bst.getCollectionName());
         holder.txtMessage.setText(bst.getContent());
+        holder.itemView.setOnClickListener(v -> {
+            // Chuyển đến CollectionActivity và truyền dữ liệu
+            Intent intent = new Intent(holder.itemView.getContext(), CollectionActivity.class);
+            intent.putExtra("collectionImg", bst.getCollectionImg());
+            intent.putExtra("collectionId", bst.getCollectionId());
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
     @Override
