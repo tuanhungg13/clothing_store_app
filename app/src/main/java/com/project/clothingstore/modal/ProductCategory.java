@@ -1,4 +1,4 @@
 package com.project.clothingstore.modal;
 
-public class Order {
+public class ProductCategory {
 }

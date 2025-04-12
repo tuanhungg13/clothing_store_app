@@ -1,5 +1,7 @@
 package com.project.clothingstore.adapter.product;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.project.clothingstore.R;
 import com.project.clothingstore.modal.Product;
+import com.project.clothingstore.view.activity.ProductDetailActivity;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -52,6 +55,14 @@ public class RecommentProductAdapter extends RecyclerView.Adapter<RecommentProdu
         holder.txtOldPrice.setText(formatted(sp.getPriceBeforeDiscount()));
         holder.txtOldPrice.setPaintFlags(holder.txtOldPrice.getPaintFlags() | holder.txtOldPrice.getPaintFlags() | 16);
         holder.ratingBar.setRating(sp.getTotalRating());
+
+        holder.itemView.setOnClickListener(v -> {
+            Context context = v.getContext(); // Lấy context từ View
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra("productId", sp.getProductId());  // Truyền ID của sản phẩm
+            context.startActivity(intent);
+        });
+
     }
 
 

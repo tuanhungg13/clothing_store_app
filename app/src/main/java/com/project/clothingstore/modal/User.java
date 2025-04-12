@@ -3,8 +3,6 @@ package com.project.clothingstore.modal;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
-import java.util.Map;
-
 public class User {
     private String uid;
     private String email;

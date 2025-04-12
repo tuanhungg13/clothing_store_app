@@ -17,7 +17,6 @@ public class Product {
 
     private int productType;
 
-
     private int sold;
 
     public Product() {

@@ -49,13 +49,13 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
             holder.tvUsername.setText(user.getFullName());
             Glide.with(holder.imgAvatar.getContext())
                     .load(user.getAvatar())
-                    .placeholder(R.drawable.error_image)
-                    .error(R.drawable.error_image)
+                    .placeholder(R.drawable.user_default_avt)
+                    .error(R.drawable.user_default_avt)
                     .circleCrop()
                     .into(holder.imgAvatar);
         } else {
             holder.tvUsername.setText("User");
-            holder.imgAvatar.setImageResource(R.drawable.error_image);
+            holder.imgAvatar.setImageResource(R.drawable.user_default_avt);
         }
 
         // Cập nhật thời gian
