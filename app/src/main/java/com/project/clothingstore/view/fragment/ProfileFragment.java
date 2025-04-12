@@ -25,12 +25,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.clothingstore.R;
 import com.project.clothingstore.adapter.ProfileOptionAdapter;
 import com.project.clothingstore.modal.ProfileOption;
 import com.project.clothingstore.utils.DividerItemDecorator;
 import com.project.clothingstore.view.activity.AuthActivity;
+import com.project.clothingstore.view.activity.CartActivity;
+import com.project.clothingstore.view.activity.CouponActivity;
 import com.project.clothingstore.view.activity.ProfileActivity;
 import com.project.clothingstore.viewmodel.AuthViewModel;
 import com.project.clothingstore.viewmodel.UserViewModel;
@@ -106,32 +107,30 @@ public class ProfileFragment extends Fragment {
 
         return view;
     }
+
     // Tải thông tin người dùng về
     private void loadUserInfo() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
+            String uid = user.getUid();
+            if (userViewModel.getCurrentUser().getValue() == null) {
+                userViewModel.fetchUserInfo(uid);
+            }
             tvEmail.setText(user.getEmail());
-            FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(user.getUid())
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        if (documentSnapshot.exists()) {
-                            String fullName = documentSnapshot.getString("fullName");
-                            String role = documentSnapshot.getString("role");
-                            String avatarBase64 = documentSnapshot.getString("avatar");
+            userViewModel.getCurrentUser().observe(getViewLifecycleOwner(), userLive -> {
+                if (userLive != null) {
+                    tvEmail.setText(userLive.getEmail());
+                    tvName.setText(userLive.getFullName());
 
-                            tvName.setText(fullName);
+                    if (userLive.getAvatar() != null && !userLive.getAvatar().isEmpty()) {
+                        byte[] decodedString = Base64.decode(userLive.getAvatar(), Base64.DEFAULT);
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        imgAvatar.setImageBitmap(decodedByte);
+                    }
 
-                            if (avatarBase64 != null && !avatarBase64.isEmpty()) {
-                                byte[] decodedString = Base64.decode(avatarBase64, Base64.DEFAULT);
-                                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                                imgAvatar.setImageBitmap(decodedByte);
-                            }
-
-                            setupOptions(role);
-                        }
-                    });
+                    setupOptions(userLive.getRole());
+                }
+            });
         }
     }
 
@@ -142,12 +141,14 @@ public class ProfileFragment extends Fragment {
         if ("admin".equals(role)) {
             options = Arrays.asList(
                     new ProfileOption("Voucher", R.drawable.ic_voucher),
+                    new ProfileOption("Giỏ hàng", R.drawable.icon_cart),
                     new ProfileOption("Quản lí cửa hàng", R.drawable.ic_store),
                     new ProfileOption("Đăng xuất", R.drawable.ic_logout)
             );
         } else {
             options = Arrays.asList(
                     new ProfileOption("Voucher", R.drawable.ic_voucher),
+                    new ProfileOption("Giỏ hàng", R.drawable.icon_cart),
                     new ProfileOption("Đăng xuất", R.drawable.ic_logout)
             );
         }
@@ -155,7 +156,10 @@ public class ProfileFragment extends Fragment {
         ProfileOptionAdapter adapter = new ProfileOptionAdapter(options, option -> {
             switch (option.getTitle()) {
                 case "Voucher":
-                    startActivity(new Intent(getContext(), AuthActivity.class));
+                    startActivity(new Intent(getContext(), CouponActivity.class));
+                    break;
+                case "Giỏ hàng":
+                    startActivity(new Intent(getContext(), CartActivity.class));
                     break;
                 case "Quản lí cửa hàng":
                     startActivity(new Intent(getContext(), AuthActivity.class));
@@ -172,6 +176,7 @@ public class ProfileFragment extends Fragment {
         // Thêm dòng kẻ giữa các item
         recyclerView.addItemDecoration(new DividerItemDecorator());
     }
+
     // Đăng xuất
     private void showLogoutConfirmationDialog() {
         new AlertDialog.Builder(requireContext())

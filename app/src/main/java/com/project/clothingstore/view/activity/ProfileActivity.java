@@ -23,6 +23,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.project.clothingstore.R;
+import com.project.clothingstore.modal.Address;
 import com.project.clothingstore.utils.helper.FirebaseHelper;
 import com.project.clothingstore.viewmodel.UserViewModel;
 
@@ -68,6 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
         imgCamera = findViewById(R.id.img_camera);
         btnSave = findViewById(R.id.btn_save);
 
+
         edtEmail.setEnabled(false); // Không cho phép chỉnh sửa email
 
         mAuth = FirebaseAuth.getInstance();
@@ -95,49 +97,48 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
     private void loadUserInfo() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user == null) return;
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null) return;
 
-        String uid = user.getUid();
+        String uid = firebaseUser.getUid();
+        userViewModel.fetchUserInfo(uid);
 
-        FirebaseHelper.getUserCollection().document(uid).get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        edtFullName.setText(valueOrEmpty(documentSnapshot.getString("fullName")));
-                        edtEmail.setText(valueOrEmpty(documentSnapshot.getString("email")));
-                        edtPhone.setText(valueOrEmpty(documentSnapshot.getString("phoneNumber")));
+        userViewModel.getCurrentUser().observe(this, user -> {
+            if (user == null) return;
 
-                        Map<String, Object> address = (Map<String, Object>) documentSnapshot.get("address");
-                        if (address != null) {
-                            edtProvince.setText(valueOrEmpty(address.get("province")));
-                            edtDistrict.setText(valueOrEmpty(address.get("district")));
-                            edtWard.setText(valueOrEmpty(address.get("ward")));
-                            edtStreet.setText(valueOrEmpty(address.get("street")));
-                        }
+            edtFullName.setText(valueOrEmpty(user.getFullName()));
+            edtEmail.setText(valueOrEmpty(user.getEmail()));
+            edtPhone.setText(valueOrEmpty(user.getPhoneNumber()));
 
-                        currentAvatarUrl = documentSnapshot.getString("avatar");
-                        if (currentAvatarUrl != null && !currentAvatarUrl.isEmpty()) {
-                            try {
-                                byte[] decodedString = Base64.decode(currentAvatarUrl, Base64.DEFAULT);
-                                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                                Glide.with(this)
-                                        .load(decodedByte)
-                                        .placeholder(R.drawable.avatar)
-                                        .error(R.drawable.avatar)
-                                        .into(imgAvatar);
-                            } catch (Exception e) {
-                                imgAvatar.setImageResource(R.drawable.avatar);
-                                Log.e("ProfileActivity", "Lỗi khi giải mã ảnh base64", e);
-                            }
-                        } else {
-                            imgAvatar.setImageResource(R.drawable.avatar);
-                        }
+            Address address = user.getAddress();
+            if (address != null) {
+                edtProvince.setText(valueOrEmpty(address.getProvince()));
+                edtDistrict.setText(valueOrEmpty(address.getDistrict()));
+                edtWard.setText(valueOrEmpty(address.getWard()));
+                edtStreet.setText(valueOrEmpty(address.getStreet()));
+            }
 
-                    }
-                });
+            currentAvatarUrl = user.getAvatar();
+            if (currentAvatarUrl != null && !currentAvatarUrl.isEmpty()) {
+                try {
+                    byte[] decodedString = Base64.decode(currentAvatarUrl, Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    Glide.with(this)
+                            .load(decodedByte)
+                            .placeholder(R.drawable.avatar)
+                            .error(R.drawable.avatar)
+                            .into(imgAvatar);
+                } catch (Exception e) {
+                    imgAvatar.setImageResource(R.drawable.avatar);
+                    Log.e("ProfileActivity", "Lỗi khi giải mã ảnh base64", e);
+                }
+            } else {
+                imgAvatar.setImageResource(R.drawable.avatar);
+            }
+        });
     }
+
 
     private void saveUserInfo() {
         if (!validateInput()) return;
