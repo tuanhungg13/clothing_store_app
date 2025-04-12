@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.project.clothingstore.R
+import com.project.clothingstore.utils.helper.formatPrice
 
 class CheckoutAdapter(
     private val context: Context,
@@ -24,7 +25,7 @@ class CheckoutAdapter(
 
         fun bind(item: CartItem) {
             tvProductName.text = item.productName
-            tvProductPrice.text = "₫${item.price} x ${item.quantity}"
+            tvProductPrice.text = "₫${formatPrice(item.price)} x ${item.quantity}"
             tvVariant.text = "Size: ${item.variant.size} | Color: ${item.variant.color}"
             Glide.with(itemView.context)
                 .load(item.image) // lấy URL từ cartItem
