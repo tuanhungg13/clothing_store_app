@@ -186,6 +186,7 @@ public class ProfileFragment extends Fragment {
                     authViewModel.logout();         // Đăng xuất qua ViewModel
                     userViewModel.clearUser();      // Xoá thông tin người dùng
 
+
                     // Chuyển về HomeFragment
                     requireActivity()
                             .getSupportFragmentManager()

@@ -1,5 +1,7 @@
 package com.project.clothingstore.adapter.product;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.project.clothingstore.R;
 import com.project.clothingstore.modal.Product;
+import com.project.clothingstore.view.activity.ProductDetailActivity;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -45,13 +48,24 @@ public class RecommentProductAdapter extends RecyclerView.Adapter<RecommentProdu
                 .error(R.drawable.aophong) // Ảnh hiển thị nếu load lỗi
                 .into(holder.imv);
 
-        holder.txtName.setText(sp.getProductName());
+        String productName = sp.getProductName();
+        final int MAX_PRODUCT_NAME_LENGTH = 18; // Độ dài tối đa của tên sản phẩm
+        if (productName.length() > MAX_PRODUCT_NAME_LENGTH) {
+            productName = productName.substring(0, 18) + "...";
+        }
+        holder.txtName.setText(productName);
 
         holder.txtPrice.setText(String.valueOf("đ "+ formatted(sp.getPrice())));
 
         holder.txtOldPrice.setText(formatted(sp.getPriceBeforeDiscount()));
         holder.txtOldPrice.setPaintFlags(holder.txtOldPrice.getPaintFlags() | holder.txtOldPrice.getPaintFlags() | 16);
         holder.ratingBar.setRating(sp.getTotalRating());
+        holder.itemView.setOnClickListener(v -> {
+            Context context = v.getContext(); // Lấy context từ View
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra("productId", sp.getProductId());  // Truyền ID của sản phẩm
+            context.startActivity(intent);
+        });
     }
 
 

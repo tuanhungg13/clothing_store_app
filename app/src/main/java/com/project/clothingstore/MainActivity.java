@@ -1,33 +1,48 @@
 package com.project.clothingstore;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.project.clothingstore.view.fragment.OrderFragment;
 import com.project.clothingstore.view.fragment.ProfileFragment;
 import com.project.clothingstore.view.fragment.HomeFragment;
 import com.project.clothingstore.view.fragment.SearchFragment;
+import com.project.clothingstore.viewmodel.UserViewModel;
 
 public class MainActivity extends AppCompatActivity {
     // Khai báo DrawerLayout
     private DrawerLayout drawerLayout;
     private ImageButton btnMenu;
 
+    private ImageView imgVata;
+    private TextView txtName, txtEmail;
+    private boolean isUserLoggedIn = false;
+    UserViewModel userViewModel;
+
     @SuppressLint("NonConstantResourceId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         // Khởi tạo BottomNavigationView
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
@@ -35,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
         // Khởi tạo DrawerLayout
         drawerLayout = findViewById(R.id.main_drawer_layout);
         btnMenu = findViewById(R.id.btnMenu);
+        // Khởi tạo ImageView và TextView
+        imgVata = navigationView.getHeaderView(0).findViewById(R.id.iv_avata_profile_hvq);
+        txtName = navigationView.getHeaderView(0).findViewById(R.id.tv_name_profile_hvq);
+        txtEmail = navigationView.getHeaderView(0).findViewById(R.id.tv_email_profile_hvq);
 
         // Thiết lập mặc định fragment khi ứng dụng khởi động
         if (savedInstanceState == null) {
@@ -46,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         btnMenu.setOnClickListener(v -> {
             // Mở hoặc đóng DrawerLayout
             toggleDrawer();
+            checkLoginStatus();
+
         });
 
         // Lắng nghe sự kiện chọn item trong BottomNavigationView
@@ -124,5 +145,46 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.openDrawer(GravityCompat.START);
         }
     }
+
+    private void checkLoginStatus() {
+        // Lấy instance của Firebase Authentication
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        if (auth.getCurrentUser() != null) {
+            // Người dùng đã đăng nhập
+            isUserLoggedIn = true;
+
+            // Lấy UID của người dùng hiện tại
+            String uid = auth.getCurrentUser().getUid();
+
+            // Gọi ViewModel để lấy thông tin người dùng từ Firestore (hoặc Realtime Database)
+            userViewModel.fetchUserInfo(uid);
+
+            // Quan sát dữ liệu người dùng được trả về từ ViewModel
+            userViewModel.getCurrentUser().observe(this, user -> {
+                if (user != null) {
+                    // Nếu lấy được thông tin người dùng thành công, cập nhật cartId
+                    txtName.setText(user.getFullName());
+                    txtEmail.setText(user.getEmail());
+                    if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
+                        byte[] decodedString = Base64.decode(user.getAvatar(), Base64.DEFAULT);
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        imgVata.setImageBitmap(decodedByte);
+                    }
+
+                }
+            });
+
+        } else {
+            // Người dùng chưa đăng nhập
+            isUserLoggedIn = false;
+            txtName.setText("Họ và tên");
+            txtEmail.setText("Email");
+            imgVata.setImageResource(R.drawable.avata_profile_hvq); // Đặt ảnh mặc định
+
+        }
+    }
+
 
 }

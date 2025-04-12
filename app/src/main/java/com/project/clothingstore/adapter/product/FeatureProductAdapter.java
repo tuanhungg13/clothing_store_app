@@ -52,8 +52,13 @@ public class FeatureProductAdapter extends RecyclerView.Adapter<FeatureProductAd
                 .placeholder(R.drawable.item) // Ảnh tạm khi load
                 .error(R.drawable.aophong) // Ảnh hiển thị nếu load lỗi
                 .into(holder.imv);
-
-        holder.txtName.setText(sp.getProductName());
+        // Cắt ngắn tên sản phẩm nếu quá dài
+        String productName = sp.getProductName();
+        final int MAX_PRODUCT_NAME_LENGTH = 14; // Độ dài tối đa của tên sản phẩm
+        if (productName.length() > MAX_PRODUCT_NAME_LENGTH) {
+            productName = productName.substring(0, 14) + "...";
+        }
+        holder.txtName.setText(productName);
 
         holder.itemView.setOnClickListener(v -> {
             Context context = v.getContext(); // Lấy context từ View
