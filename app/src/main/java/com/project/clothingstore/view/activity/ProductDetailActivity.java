@@ -30,44 +30,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_product_detail);
-//
-//        // Lấy productId từ intent
-//        productId = getIntent().getStringExtra("productId");
-//
-//        Log.d("FeatureProductAdapter", "Clicked on product: " + productId); // Log kiểm tra
-//
-//
-//        if (productId == null || productId.isEmpty()) {
-//            Toast.makeText(this, "Lỗi: Không tìm thấy sản phẩm!", Toast.LENGTH_SHORT).show();
-//            finish();
-//            return;
-//        }
-//
-//        // Thiết lập toolbar
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        if (getSupportActionBar() != null) {
-//            getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        }
-//
-//        // Nút quay lại
-//        ImageButton btnBack = findViewById(R.id.btnBack);
-//        btnBack.setOnClickListener(v -> onBackPressed());
-//
-//        // Khởi tạo ViewModel
-//        viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
-//
-//        // Tải dữ liệu sản phẩm
-//        viewModel.loadProductDetails(productId);
-//
-//        // Nút thêm vào giỏ hàng
-//        Button btnAddToCart = findViewById(R.id.btnAddToCart);
-//        btnAddToCart.setOnClickListener(v -> addToCart());
-//
-//        // Load các Fragment
-//        loadFragments();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_detail);
 
@@ -83,8 +46,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         }
 
         Log.d("FeatureProductAdapter", "Clicked on product: " + productId); // Log kiểm tra
-
-
 
         // Thiết lập toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -154,8 +115,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         transaction.replace(containerId, fragment);
         transaction.commit();
     }
-
-
 
     private void addToCart() {
         Product product = viewModel.getProduct().getValue();
