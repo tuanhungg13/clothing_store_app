@@ -2,18 +2,26 @@ package com.project.clothingstore;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.project.clothingstore.view.fragment.OrderFragment;
 import com.project.clothingstore.view.fragment.ProfileFragment;
 import com.project.clothingstore.view.fragment.HomeFragment;
 import com.project.clothingstore.view.fragment.SearchFragment;
 
 public class MainActivity extends AppCompatActivity {
+    // Khai báo DrawerLayout
+    private DrawerLayout drawerLayout;
+    private ImageButton btnMenu;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -23,26 +31,65 @@ public class MainActivity extends AppCompatActivity {
 
         // Khởi tạo BottomNavigationView
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        // Khởi tạo DrawerLayout
+        drawerLayout = findViewById(R.id.main_drawer_layout);
+        btnMenu = findViewById(R.id.btnMenu);
 
         // Thiết lập mặc định fragment khi ứng dụng khởi động
         if (savedInstanceState == null) {
             // Mặc định là HomeFragment
             loadFragment(new HomeFragment());
+            navigationView.setCheckedItem(R.id.nav_home_hvq);
         }
+        // Thiết lập sự kiện click cho nút menu
+        btnMenu.setOnClickListener(v -> {
+            // Mở hoặc đóng DrawerLayout
+            toggleDrawer();
+        });
 
         // Lắng nghe sự kiện chọn item trong BottomNavigationView
         bottomNav.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
                 loadFragment(new HomeFragment());
+                navigationView.setCheckedItem(R.id.nav_home_hvq);
                 return true;
             } else if (item.getItemId() == R.id.nav_search) {
                 loadFragment(new SearchFragment());
+                navigationView.setCheckedItem(R.id.nav_search_hvq);
                 return true;
             } else if (item.getItemId() == R.id.nav_cart) {
                 loadFragment(new OrderFragment());
+                navigationView.setCheckedItem(R.id.nav_cart_hvq);
                 return true;
             } else if (item.getItemId() == R.id.nav_profile) {
                 loadFragment(new ProfileFragment());
+                navigationView.setCheckedItem(R.id.nav_profile_hvq);
+                return true;
+            }
+            return false;
+        });
+
+        // Lắng nghe sự kiện chọn item trong NavigationView
+        navigationView.setNavigationItemSelectedListener(item -> {
+            // Đóng DrawerLayout khi chọn item
+            drawerLayout.closeDrawer(GravityCompat.START);
+            // Kiểm tra item được chọn và load fragment tương ứng
+            if (item.getItemId() == R.id.nav_home_hvq) {
+                loadFragment(new HomeFragment());
+                bottomNav.setSelectedItemId(R.id.nav_home);
+                return true;
+            } else if (item.getItemId() == R.id.nav_search_hvq) {
+                loadFragment(new SearchFragment());
+                bottomNav.setSelectedItemId(R.id.nav_search);
+                return true;
+            } else if (item.getItemId() == R.id.nav_cart_hvq) {
+                loadFragment(new OrderFragment());
+                bottomNav.setSelectedItemId(R.id.nav_cart);
+                return true;
+            } else if (item.getItemId() == R.id.nav_profile_hvq) {
+                loadFragment(new ProfileFragment());
+                bottomNav.setSelectedItemId(R.id.nav_profile);
                 return true;
             }
             return false;
@@ -67,6 +114,14 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra("openSearchFragment", false)) {
             loadFragment(new SearchFragment());
             getIntent().removeExtra("openSearchFragment"); // Xóa intent data để tránh mở lại
+        }
+    }
+
+    private void toggleDrawer() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            drawerLayout.openDrawer(GravityCompat.START);
         }
     }
 
