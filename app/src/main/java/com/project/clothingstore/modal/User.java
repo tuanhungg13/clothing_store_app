@@ -1,9 +1,9 @@
-package com.project.clothingstore.model;
+package com.project.clothingstore.modal;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
-import java.util.Map;
+import java.util.List;
 
 public class User {
     private String uid;
@@ -16,6 +16,7 @@ public class User {
     private Address address;
     private String cartId;
     private String avatar;
+    List<String> coupons;
 
     // Constructors
     public User() {}
@@ -29,6 +30,18 @@ public class User {
         this.createdAt = createdAt;
         this.address = address;
         this.cartId = cartId;
+    }
+
+    public User(String uid, String email, String phoneNumber, String fullName, String role, Timestamp createdAt, Address address, String cartId, List<String> coupons) {
+        this.uid = uid;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.fullName = fullName;
+        this.role = role;
+        this.createdAt = createdAt;
+        this.address = address;
+        this.cartId = cartId;
+        this.coupons = coupons;
     }
 
     // Getters & Setters
@@ -102,5 +115,13 @@ public class User {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public List<String> getCoupons() {
+        return coupons;
+    }
+
+    public void setCoupons(List<String> coupons) {
+        this.coupons = coupons;
     }
 }

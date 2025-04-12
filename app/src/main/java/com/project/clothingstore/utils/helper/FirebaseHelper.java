@@ -22,5 +22,8 @@ public class FirebaseHelper {
     public static CollectionReference getUserCollection() {
         return db.collection("users");
     }
+    public static CollectionReference getCouponCollection() {
+        return db.collection("coupons");
+    }
 
 }

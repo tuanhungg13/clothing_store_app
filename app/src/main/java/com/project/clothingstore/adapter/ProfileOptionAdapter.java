@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.clothingstore.R;
-import com.project.clothingstore.model.ProfileOption;
+import com.project.clothingstore.modal.ProfileOption;
 
 import java.util.List;
 

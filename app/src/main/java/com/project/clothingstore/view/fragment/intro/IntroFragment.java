@@ -12,12 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 import com.project.clothingstore.MainActivity;
 import com.project.clothingstore.R;
 import com.project.clothingstore.adapter.IntroAdapter;
-import com.project.clothingstore.model.IntroItem;
+import com.project.clothingstore.modal.IntroItem;
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 import java.util.ArrayList;

@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.clothingstore.R;
-import com.project.clothingstore.model.IntroItem;
+import com.project.clothingstore.modal.IntroItem;
 
 import java.util.List;
 

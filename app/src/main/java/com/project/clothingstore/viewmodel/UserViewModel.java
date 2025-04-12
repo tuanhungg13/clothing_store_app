@@ -1,24 +1,18 @@
 package com.project.clothingstore.viewmodel;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
-import android.os.Build;
-import android.provider.MediaStore;
-import android.util.Base64;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.project.clothingstore.model.User;
+import com.project.clothingstore.modal.User;
 import com.project.clothingstore.service.UserService;
 import com.project.clothingstore.utils.Event;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 public class UserViewModel extends ViewModel {
@@ -33,26 +27,22 @@ public class UserViewModel extends ViewModel {
     private final MutableLiveData<Event<String>> error = new MutableLiveData<>(null);
     private final MutableLiveData<Boolean> updateSuccess = new MutableLiveData<>();
     private final MutableLiveData<String> avatarUploadStatus = new MutableLiveData<>();
+    private final MutableLiveData<List<DocumentSnapshot>> userCoupons = new MutableLiveData<>();
     private final UserService userService = new UserService();
 
     // Hàm getter để Fragment/Activity có thể quan sát currentUser
     public LiveData<User> getCurrentUser() {
         return currentUser;
     }
-
-    // Hàm getter để theo dõi trạng thái đang loading
     public LiveData<Boolean> getIsLoading() {
         return isLoading;
     }
-
-    // Hàm getter để lấy thông báo lỗi
     public LiveData<Event<String>> getError() {
         return error;
     }
     public LiveData<Boolean> getUpdateSuccess() {
         return updateSuccess;
     }
-
     public LiveData<String> getAvatarUploadStatus() {
         return avatarUploadStatus;
     }
@@ -98,7 +88,6 @@ public class UserViewModel extends ViewModel {
                 unused -> updateSuccess.setValue(true),
                 e -> updateSuccess.setValue(false));
     }
-
     public void uploadAvatar(Context context, Uri imageUri) {
         avatarUploadStatus.setValue("loading");
 
@@ -115,8 +104,6 @@ public class UserViewModel extends ViewModel {
                 },
                 e -> avatarUploadStatus.setValue("fail"));
     }
-
-
     /**
      * Dùng khi đăng xuất hoặc làm mới trạng thái người dùng
      */

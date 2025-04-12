@@ -1,4 +1,4 @@
-package com.project.clothingstore.model;
+package com.project.clothingstore.modal;
 
 public class IntroItem {
     private int imageResId;

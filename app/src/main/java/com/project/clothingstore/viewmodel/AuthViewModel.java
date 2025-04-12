@@ -1,5 +1,6 @@
 package com.project.clothingstore.viewmodel;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -8,13 +9,14 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.project.clothingstore.model.Address;
-import com.project.clothingstore.model.User;
+import com.project.clothingstore.modal.Address;
+import com.project.clothingstore.modal.User;
 import com.project.clothingstore.service.AuthService;
 import com.project.clothingstore.service.UserService;
 import com.project.clothingstore.utils.Event;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AuthViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
@@ -97,16 +99,7 @@ public class AuthViewModel extends ViewModel {
                     // Nếu user chưa có trong Firestore thì tạo mới
                     UserService.getUserProfile(firebaseUser.getUid(), userTask -> {
                         if (!userTask.isSuccessful() || userTask.getResult() == null || !userTask.getResult().exists()) {
-                            User newUser = new User(
-                                    firebaseUser.getUid(),
-                                    firebaseUser.getEmail(),
-                                    "", // không có số điện thoại từ Google
-                                    firebaseUser.getDisplayName() != null ? firebaseUser.getDisplayName() : "",
-                                    "user",
-                                    null,
-                                    new Address(),
-                                    null
-                            );
+                            User newUser = getUser(firebaseUser);
                             UserService.createUserWithCart(newUser, createTask -> {
                                 if (!createTask.isSuccessful()) {
                                     authError.setValue(new Event<>("Không thể tạo tài khoản mới từ Google: " + createTask.getException().getMessage()));
@@ -119,6 +112,23 @@ public class AuthViewModel extends ViewModel {
                 authError.setValue(new Event<>("Đăng nhập Google thất bại: " + task.getException().getMessage()));
             }
         });
+    }
+
+    @NonNull
+    private static User getUser(FirebaseUser firebaseUser) {
+        List<String> coupons = new ArrayList<>();
+        User newUser = new User(
+                firebaseUser.getUid(),
+                firebaseUser.getEmail(),
+                "", // không có số điện thoại từ Google
+                firebaseUser.getDisplayName() != null ? firebaseUser.getDisplayName() : "",
+                "user",
+                null,
+                new Address(),
+                null,
+                coupons
+        );
+        return newUser;
     }
 
     // ------------------ GỬI EMAIL RESET MẬT KHẨU ------------------

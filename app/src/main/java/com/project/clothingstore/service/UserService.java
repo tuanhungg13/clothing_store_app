@@ -2,7 +2,6 @@ package com.project.clothingstore.service;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -14,20 +13,25 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
-import com.project.clothingstore.model.User;
+import com.project.clothingstore.modal.User;
 import com.project.clothingstore.utils.helper.FirebaseHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserService {
 
     private static final CollectionReference userRef = FirebaseHelper.getUserCollection();
     private static final CollectionReference cartRef = FirebaseHelper.getCartCollection();
+    private static final CollectionReference couponRef = FirebaseHelper.getCouponCollection();
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     public static void createUserProfile(User user, OnCompleteListener<Void> callback) {
