@@ -28,8 +28,8 @@ public class ProductViewModel extends ViewModel {
         productService.searchSanPhamByName(productName,listProduct);
     }
     public void loadFilteredProduct(int categoriType, int minPrice, int maxPrice,
-                                    double rating, List<Integer> discounts, String productName) {
-        productService.getFilteredProducts(listProduct, categoriType, minPrice, maxPrice, rating, discounts, productName);
+                                    double rating, List<Integer> discounts, String productName, String categoriId) {
+        productService.getFilteredProducts(listProduct, categoriType, minPrice, maxPrice, rating, discounts, productName, categoriId);
     }
 
 

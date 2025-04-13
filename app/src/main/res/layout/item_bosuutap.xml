@@ -27,10 +27,17 @@
             android:layout_height="wrap_content"
             android:text="Bộ sưu tập mùa thu năm 2025"
             android:textColor="@android:color/white"
-            android:textSize="20dp"
+            android:textSize="22sp"
+            android:background="#1A000000"
             android:textStyle="bold"
+            android:padding="8dp"
             android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="15dp"/> <!-- Đặt text ở giữa -->
+            android:layout_marginEnd="15dp"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3"/>
+        <!-- Đặt text ở giữa -->
 
     </FrameLayout>
 </androidx.cardview.widget.CardView>

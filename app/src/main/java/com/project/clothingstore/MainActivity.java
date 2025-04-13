@@ -1,15 +1,18 @@
 package com.project.clothingstore;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -21,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.project.clothingstore.view.activity.AuthActivity;
 import com.project.clothingstore.view.fragment.OrderFragment;
 import com.project.clothingstore.view.fragment.ProfileFragment;
 import com.project.clothingstore.view.fragment.HomeFragment;
@@ -35,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgVata;
     private TextView txtName, txtEmail;
     private boolean isUserLoggedIn = false;
+    private BottomNavigationView bottomNav;
+    private NavigationView navigationView;
     UserViewModel userViewModel;
 
     @SuppressLint("NonConstantResourceId")
@@ -45,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         // Khởi tạo BottomNavigationView
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        bottomNav = findViewById(R.id.bottom_navigation);
+        navigationView = findViewById(R.id.nav_view);
         // Khởi tạo DrawerLayout
         drawerLayout = findViewById(R.id.main_drawer_layout);
         btnMenu = findViewById(R.id.btnMenu);
@@ -105,12 +111,26 @@ public class MainActivity extends AppCompatActivity {
                 bottomNav.setSelectedItemId(R.id.nav_search);
                 return true;
             } else if (item.getItemId() == R.id.nav_cart_hvq) {
-                loadFragment(new OrderFragment());
-                bottomNav.setSelectedItemId(R.id.nav_cart);
+                if (isUserLoggedIn) {
+                    loadFragment(new OrderFragment());
+                    bottomNav.setSelectedItemId(R.id.nav_cart);
+                } else {
+                    Intent intent = new Intent(MainActivity.this, AuthActivity.class);
+                    intent.putExtra("fragment", "login");
+                    startActivity(intent);
+                }
                 return true;
             } else if (item.getItemId() == R.id.nav_profile_hvq) {
                 loadFragment(new ProfileFragment());
                 bottomNav.setSelectedItemId(R.id.nav_profile);
+                return true;
+            } else if (item.getItemId() == R.id.nav_login_hvq) {
+                Intent intent = new Intent(MainActivity.this, AuthActivity.class);
+                intent.putExtra("fragment", "login");
+                startActivity(intent);
+                return true;
+            }else if (item.getItemId() == R.id.nav_logout_hvq) {
+                performLogout();
                 return true;
             }
             return false;
@@ -134,6 +154,8 @@ public class MainActivity extends AppCompatActivity {
         // Kiểm tra Intent để xác định có cần mở lại SearchFragment không
         if (getIntent().getBooleanExtra("openSearchFragment", false)) {
             loadFragment(new SearchFragment());
+            bottomNav.setSelectedItemId(R.id.nav_search);
+            navigationView.setCheckedItem(R.id.nav_search_hvq);
             getIntent().removeExtra("openSearchFragment"); // Xóa intent data để tránh mở lại
         }
     }
@@ -154,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
         if (auth.getCurrentUser() != null) {
             // Người dùng đã đăng nhập
             isUserLoggedIn = true;
+            navigationView.findViewById(R.id.nav_logout_hvq).setVisibility(View.VISIBLE); // Hiển thị nút đăng xuất
+            navigationView.findViewById(R.id.nav_login_hvq).setVisibility(View.GONE); // Ẩn nút đăng nhập
 
             // Lấy UID của người dùng hiện tại
             String uid = auth.getCurrentUser().getUid();
@@ -182,8 +206,36 @@ public class MainActivity extends AppCompatActivity {
             txtName.setText("Họ và tên");
             txtEmail.setText("Email");
             imgVata.setImageResource(R.drawable.avata_profile_hvq); // Đặt ảnh mặc định
+            navigationView.findViewById(R.id.nav_logout_hvq).setVisibility(View.GONE); // Ẩn nút đăng xuất
+            navigationView.findViewById(R.id.nav_login_hvq).setVisibility(View.VISIBLE); // Hiển thị nút đăng nhập
 
         }
+
+
+    }
+    private void performLogout() {
+        new AlertDialog.Builder(this)
+                .setTitle("Xác nhận đăng xuất")
+                .setMessage("Bạn có chắc chắn muốn đăng xuất?")
+                .setPositiveButton("Đồng ý", (dialog, which) -> {
+                    // Đăng xuất người dùng
+                    FirebaseAuth.getInstance().signOut();
+                    userViewModel.clearUser();
+
+                    // Cập nhật giao diện sau khi đăng xuất
+                    txtName.setText("Họ và tên");
+                    txtEmail.setText("Email");
+                    imgVata.setImageResource(R.drawable.avata_profile_hvq);
+                    navigationView.findViewById(R.id.nav_logout_hvq).setVisibility(View.GONE);
+                    navigationView.findViewById(R.id.nav_login_hvq).setVisibility(View.VISIBLE);
+
+                    // Chuyển về HomeFragment
+                    loadFragment(new HomeFragment());
+                    bottomNav.setSelectedItemId(R.id.nav_home);
+                    navigationView.setCheckedItem(R.id.nav_home_hvq);
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
     }
 
 

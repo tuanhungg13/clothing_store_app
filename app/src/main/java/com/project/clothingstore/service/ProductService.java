@@ -115,10 +115,14 @@ public class ProductService {
 
     //Loc san pham theo categoryId, categoriType, minPrice, maxPrice, rating, discount
 
-    public void getFilteredProducts(MutableLiveData<List<Product>> liveData, int productType, int minPrice, int maxPrice, double rating, List<Integer> discounts, String keyword) {
+    public void getFilteredProducts(MutableLiveData<List<Product>> liveData, int productType, int minPrice, int maxPrice, double rating, List<Integer> discounts, String keyword, String categoriId) {
         CollectionReference productsRef = db.collection("products");
         Query query = productsRef;
 
+        // Lọc theo categoryId
+        if (categoriId != null && !categoriId.isEmpty()) {
+            query = query.whereEqualTo("categoryId", categoriId);
+        }
 
         // Thêm điều kiện nếu có
         if (productType != -1) {
@@ -172,7 +176,12 @@ public class ProductService {
                         if (!isMatched) continue;
                     }
                     String productName = product.getProductName();
-                    if (productName != null && productName.toLowerCase().contains(keyword.toLowerCase().trim())) {
+                    if (keyword != null && !keyword.isEmpty()) {
+                        // So sánh gần đúng, không phân biệt hoa thường
+                        if (productName != null && productName.toLowerCase().contains(keyword.toLowerCase().trim())) {
+                            productList.add(product);
+                        }
+                    } else {
                         productList.add(product);
                     }
 //                    productList.add(product);

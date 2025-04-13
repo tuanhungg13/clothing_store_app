@@ -19,5 +19,15 @@
             android:id="@+id/nav_profile_hvq"
             android:title="Thông tin cá nhân"
             android:icon="@drawable/ic_profile"/>
+
+        <item
+            android:id="@+id/nav_logout_hvq"
+            android:title="Đăng xuất"
+            android:icon="@drawable/ic_logout"/>
+
+        <item
+            android:id="@+id/nav_login_hvq"
+            android:title="Đăng nhập"
+            android:icon="@drawable/hvq_logout"/>
     </group>
 </menu>

@@ -62,11 +62,12 @@ public class ProductFragment extends Fragment {
         recyclerView.setAdapter(productAdapter);
 
         productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
-        if (categoryId != null) {
-            productViewModel.loadProduct(categoryId);
-        }else{
-            productViewModel.loadFilteredProduct( categoriType, minPrice, maxPrice, rating, discountList, productName);
-        }
+        productViewModel.loadFilteredProduct( categoriType, minPrice, maxPrice, rating, discountList, productName, categoryId);
+//        if (categoryId != null) {
+//            productViewModel.loadProduct(categoryId);
+//        }else{
+//            productViewModel.loadFilteredProduct( categoriType, minPrice, maxPrice, rating, discountList, productName, categoryId);
+//        }
 //        else if (productName != null) {
 //            productViewModel.loadProductByName(productName);
 //        }else{

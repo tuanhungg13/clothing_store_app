@@ -5,9 +5,11 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -16,7 +18,7 @@ import com.project.clothingstore.view.activity.product.ProductsActivity;
 
 import androidx.annotation.NonNull;
 import android.content.Context;
-
+import android.widget.TextView;
 
 
 public class SearchBarFragment extends Fragment {
@@ -68,17 +70,36 @@ public class SearchBarFragment extends Fragment {
                 listener.onFilterButtonClick();
             }
         });
-
-        imgbtn_find.setOnClickListener(v -> {
-            String searchText = edt_find.getText().toString();
-            if (!searchText.isEmpty()) {
-                Intent intent = new Intent(getActivity(), ProductsActivity.class);
-                intent.putExtra("productName", searchText);
-                startActivity(intent);
-            }else {
-                edt_find.setError("Vui lòng nhập từ khóa tìm kiếm");
+        edt_find.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                        (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
+                    String searchText = edt_find.getText().toString().trim();
+                    if (!searchText.isEmpty()) {
+                        Intent intent = new Intent(getActivity(), ProductsActivity.class);
+                        intent.putExtra("productName", searchText);
+                        startActivity(intent);
+                    } else {
+                        edt_find.setError("Vui lòng nhập từ khóa tìm kiếm");
+                    }
+                    return true;
+                }
+                return false;
             }
         });
+
+
+//        imgbtn_find.setOnClickListener(v -> {
+//            String searchText = edt_find.getText().toString();
+//            if (!searchText.isEmpty()) {
+//                Intent intent = new Intent(getActivity(), ProductsActivity.class);
+//                intent.putExtra("productName", searchText);
+//                startActivity(intent);
+//            }else {
+//                edt_find.setError("Vui lòng nhập từ khóa tìm kiếm");
+//            }
+//        });
 
         return view;
     }
