@@ -20,13 +20,6 @@ public class ProductViewModel extends ViewModel {
         // Default load with initial limit
     }
 
-    public void loadProduct(String categoriId) {
-        productService.getProductByCategoriIdList(listProduct, categoriId);
-    }
-
-    public void loadProductByName(String productName) {
-        productService.searchSanPhamByName(productName,listProduct);
-    }
     public void loadFilteredProduct(int categoriType, int minPrice, int maxPrice,
                                     double rating, List<Integer> discounts, String productName, String categoriId) {
         productService.getFilteredProducts(listProduct, categoriType, minPrice, maxPrice, rating, discounts, productName, categoriId);
