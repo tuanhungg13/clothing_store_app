@@ -1,5 +1,7 @@
 package com.project.clothingstore.viewmodel.Product;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -14,10 +16,25 @@ public class ProductViewModel extends ViewModel {
     private MutableLiveData<List<Product>> listProduct = new MutableLiveData<>();
     private ProductService productService = new ProductService();
 
+    public ProductViewModel() {
+        // Default load with initial limit
+    }
 
-    public LiveData<List<Product>> getListProduct(String categoryId) {
-        List<Product> list = productService.getListProductByType(categoryId);
-        listProduct.setValue(list);
+    public void loadProduct(String categoriId) {
+        productService.getProductByCategoriIdList(listProduct, categoriId);
+    }
+
+    public void loadProductByName(String productName) {
+        productService.searchSanPhamByName(productName,listProduct);
+    }
+    public void loadFilteredProduct(int categoriType, int minPrice, int maxPrice,
+                                    double rating, List<Integer> discounts, String productName) {
+        productService.getFilteredProducts(listProduct, categoriType, minPrice, maxPrice, rating, discounts, productName);
+    }
+
+
+
+    public LiveData<List<Product>> getListProduct() {
         return listProduct;
     }
 }

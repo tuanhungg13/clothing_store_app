@@ -73,6 +73,7 @@
 
     <!-- Add to Cart Button -->
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -86,12 +87,12 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@drawable/bg_button_black"
-            android:text="Thêm vào giỏ hàng"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
             android:drawableLeft="@drawable/dmq_ic_cart"
+            android:drawablePadding="8dp"
             android:gravity="center_vertical"
             android:paddingStart="16dp"
-            android:drawablePadding="8dp" />
+            android:text="Thêm vào giỏ hàng"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

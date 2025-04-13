@@ -1,8 +1,14 @@
 package com.project.clothingstore.view.activity
 
 import CartItem
+import android.content.Intent
 import android.os.Bundle
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.RadioGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
@@ -11,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.project.clothingstore.R
 import com.project.clothingstore.adapter.CheckoutAdapter
+import com.project.clothingstore.service.CartService
 import com.project.clothingstore.utils.helper.formatPrice
+import com.project.clothingstore.viewmodel.CartViewModel
 import com.project.clothingstore.viewmodel.CheckoutViewModel
 import com.project.clothingstore.viewmodel.UserViewModel
 
@@ -36,15 +44,19 @@ class CheckoutActivity : AppCompatActivity() {
     private lateinit var btnCheckout: Button
     private lateinit var tvTotalPrice: TextView
     private lateinit var btnBack: ImageView
-private lateinit var tvProductPrice: TextView
+    private lateinit var tvProductPrice: TextView
+    private lateinit var cartViewModel: CartViewModel
+    private lateinit var tvShipping: TextView
+    private lateinit var tvDiscount: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
-
+        val cartService = CartService()
         // Init ViewModel
         viewModel = ViewModelProvider(this)[CheckoutViewModel::class.java]
         userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
-
+        val viewModelFactory = CartViewModelFactory(cartService)
+        cartViewModel = ViewModelProvider(this, viewModelFactory).get(CartViewModel::class.java)
         // Init UI Components
         edtCustomerName = findViewById(R.id.edtCustomerName)
         edtPhone = findViewById(R.id.edtPhoneNumber)
@@ -61,10 +73,13 @@ private lateinit var tvProductPrice: TextView
         tvTotalPrice = findViewById(R.id.tvTotal) // TextView cho tổng tiền
         btnBack = findViewById(R.id.btnBack)
         tvProductPrice = findViewById(R.id.tvProductPrice) // TextView cho tổng tiền sản phẩm
+        tvShipping = findViewById(R.id.tvShipping) // TextView cho phí vận chuyển
+        tvDiscount = findViewById(R.id.tvDiscount) // TextView cho mã giảm giá
         btnBack.setOnClickListener() {
             finish()
         }
         rgShipping.check(R.id.rbStandardShipping)
+
         // Nhận danh sách sản phẩm được chọn từ Intent
         val selectedItems = intent.getParcelableArrayListExtra<CartItem>("selected_items")
         selectedItems?.let {
@@ -83,7 +98,7 @@ private lateinit var tvProductPrice: TextView
         viewModel.totalPrice.observe(this) { totalPrice ->
             tvTotalPrice.text = "Tổng tiền: ${formatPrice(totalPrice)}"
         }
-
+        var cartId: String = "";
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         uid?.let {
             userViewModel.fetchUserInfo(it) // Gọi hàm load dữ liệu trước
@@ -97,6 +112,7 @@ private lateinit var tvProductPrice: TextView
                     edtDistrict.setText(it.address.district)
                     edtWard.setText(it.address.ward)
                     edtAddress.setText(it.address.street)
+                    cartId = it.cartId // Lưu cartId từ user
                 }
             }
         }
@@ -129,19 +145,39 @@ private lateinit var tvProductPrice: TextView
         if (rgPayment.childCount == 1) {
             rgPayment.check(rgPayment.getChildAt(0).id)
         }
-
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
         // Lắng nghe sự kiện khi người dùng nhấn nút Thanh toán
         btnCheckout.setOnClickListener {
             if (isInputValid()) {
-                // Gửi đơn hàng lên server
-                val userId = FirebaseAuth.getInstance().currentUser?.uid
                 userId?.let {
                     viewModel.submitOrder(it)
+
+                    // Lắng nghe kết quả submit để xóa giỏ hàng
+                    viewModel.orderStatus.observe(this) { isSuccess ->
+                        if (isSuccess == true) {
+                            // 🧹 Xóa giỏ hàng sau khi đặt hàng thành công
+                            cartViewModel.deleteMultipleItemsFromCart(viewModel.orderItems, cartId)
+                            Toast.makeText(this, "Đặt hàng thành công!", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, CheckoutSuccessActivity::class.java).apply {
+                                flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            }
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Đặt hàng thất bại. Vui lòng thử lại!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
                 }
             } else {
                 Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
             }
         }
+
 
         // Lắng nghe sự thay đổi của phương thức vận chuyển và cập nhật tổng tiền
         rgShipping.setOnCheckedChangeListener { _, checkedId ->
@@ -150,22 +186,39 @@ private lateinit var tvProductPrice: TextView
                 R.id.rbStandardShipping -> {
                     viewModel.shippingMethod.value = "standard"  // Nếu chọn "Giao hàng nhanh"
                 }
+
                 R.id.rbExpressShipping -> {
                     viewModel.shippingMethod.value = "express"  // Nếu chọn "Giao hàng hỏa tốc"
                 }
             }
-
-            // Tính lại tổng tiền
             viewModel.calculateTotalPrice()
+
+        }
+        viewModel.shippingPrice.observe(this) { shippingPrice ->
+            tvShipping.text = formatPrice(shippingPrice)
         }
 
+        viewModel.couponDiscountAmount.observe(this) { discount ->
+            tvDiscount.text = formatPrice(discount)
+        }
 
         // Lắng nghe sự thay đổi khi nhập mã giảm giá và cập nhật tổng tiền
         btnApplyCoupon.setOnClickListener {
             val couponCode = edtCoupon.text.toString()
-            viewModel.couponId.value = couponCode
-            viewModel.calculateTotalPrice()
+            if (userId != null) {
+                viewModel.applyCouponDiscount(couponCode, userId)
+            }
         }
+
+        // Trong Activity hoặc Fragment của bạn
+        viewModel.couponErrorMessage.observe(this, { errorMessage ->
+            if (errorMessage.isNotBlank()) {
+                // Hiển thị thông báo lỗi
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        })
+
+
     }
 
     // Kiểm tra các trường nhập liệu có hợp lệ không

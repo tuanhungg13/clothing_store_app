@@ -2,6 +2,7 @@ package com.project.clothingstore.viewmodel
 
 import CartItem
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,10 +17,12 @@ class CartViewModel(private val cartService: CartService) : ViewModel() {
     private val _cartItems = MutableLiveData<List<CartItem>>()
     val cartItems: LiveData<List<CartItem>> get() = _cartItems
     private val selectedItems = mutableSetOf<CartItem>()
-
+    private val _shippingFee = MutableLiveData<Int>()
+    private val _totalPriceProduct = MutableLiveData<Int>()
     private val _totalPrice = MutableLiveData<Int>()
     val totalPrice: LiveData<Int> get() = _totalPrice
-
+    val totalPriceProduct: LiveData<Int> get() = _totalPriceProduct
+    val shippingFee: LiveData<Int> get() = _shippingFee
     // Lấy dữ liệu giỏ hàng từ Firebase
 //    fun fetchCartItems(userId: String) {
 //        viewModelScope.launch {
@@ -31,19 +34,44 @@ class CartViewModel(private val cartService: CartService) : ViewModel() {
 
     fun fetchCartItems(cartId: String) {
         viewModelScope.launch {
-            val items =
-                cartService.fetchCartItems(cartId)  // Lấy giỏ hàng theo `cartId` thay vì `userId`
-            _cartItems.value = items
-            _totalPrice.value = calculateTotalPrice(items)
-            Log.d("CartViewModel", "Fetched items: $items")
+            val items = cartService.fetchCartItems(cartId)
+
+            // Giữ lại trạng thái isSelected nếu đã được chọn trước đó
+            val updatedItems = items.map { newItem ->
+                val isSelected = selectedItems.any {
+                    it.productId == newItem.productId && it.variant == newItem.variant
+                }
+                newItem.copy(isSelected = isSelected)
+            }
+
+            _cartItems.value = updatedItems
+
+            // Cập nhật lại selectedItems (dựa theo danh sách mới)
+            selectedItems.clear()
+            selectedItems.addAll(updatedItems.filter { it.isSelected })
+
+            // Tính lại tổng tiền và phí ship
+            _totalPriceProduct.value = calculateSelectedItemsTotalPrice()
+            _totalPrice.value = calculateTotalPrice()
+            _shippingFee.value = if (selectedItems.isNotEmpty()) 30000 else 0
+
+            Log.d("CartViewModel", "Fetched items: $updatedItems")
         }
     }
 
 
-    // Tính tổng tiền giỏ hàng
-    private fun calculateTotalPrice(items: List<CartItem>): Int {
-        return items.sumBy { it.price * it.quantity }
+    fun calculateSelectedItemsTotalPrice(): Int {
+        val selectedItemsList = selectedItems.toList()
+        return selectedItemsList.sumBy { it.price * it.quantity }
     }
+
+
+    // Tính tổng tiền giỏ hàng
+    private fun calculateTotalPrice(): Int {
+        val total = calculateSelectedItemsTotalPrice()
+        return if (selectedItems.isNotEmpty()) total + 30000 else total
+    }
+
 
     // Cập nhật số lượng sản phẩm
     fun updateItemQuantity(cartItem: CartItem, newQuantity: Int, cartId: String) {
@@ -58,7 +86,11 @@ class CartViewModel(private val cartService: CartService) : ViewModel() {
             if (success) {
                 fetchCartItems(cartId)
             } else {
-                // Xử lý lỗi nếu cần
+                Toast.makeText(
+                    null,
+                    "Cập nhật số lượng thất bại!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -66,13 +98,23 @@ class CartViewModel(private val cartService: CartService) : ViewModel() {
     fun getSelectedItems(): List<CartItem> = selectedItems.toList()
 
     fun toggleItemSelection(cartItem: CartItem, isSelected: Boolean) {
-        // Ví dụ: quản lý danh sách các item được chọn
+        cartItem.isSelected = isSelected // Thêm dòng này
+
         if (isSelected) {
-            selectedItems.add(cartItem)
+            if (!selectedItems.any { it.productId == cartItem.productId && it.variant == cartItem.variant }) {
+                selectedItems.add(cartItem)
+            }
         } else {
-            selectedItems.remove(cartItem)
+            selectedItems.removeIf {
+                it.productId == cartItem.productId && it.variant == cartItem.variant
+            }
         }
-        // Có thể cập nhật LiveData nếu cần
+        Log.d("CartViewModel", "Selected items: $selectedItems")
+        val totalProduct = calculateSelectedItemsTotalPrice()
+        val totalPrice = calculateTotalPrice()
+        _totalPriceProduct.value = totalProduct
+        _totalPrice.value = totalPrice
+        _shippingFee.value = if (selectedItems.isNotEmpty()) 30000 else 0
     }
 
 
@@ -81,6 +123,12 @@ class CartViewModel(private val cartService: CartService) : ViewModel() {
             val success = cartService.removeItemFromCart(cartItem, cartId)
             if (success) {
                 fetchCartItems(cartId) // cập nhật lại danh sách
+            } else {
+                Toast.makeText(
+                    null,
+                    "Xóa sản phẩm thất bại!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -90,7 +138,7 @@ class CartViewModel(private val cartService: CartService) : ViewModel() {
         viewModelScope.launch {
             val success = cartService.removeMultipleItemsFromCart(cartItems, cartId)
             if (success) {
-                // Xử lý nếu xóa nhiều sản phẩm thành công
+                fetchCartItems(cartId)
             }
         }
     }

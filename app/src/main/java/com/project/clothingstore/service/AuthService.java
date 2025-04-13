@@ -1,14 +1,22 @@
 package com.project.clothingstore.service;
 
+import static com.google.firebase.auth.AuthKt.getAuth;
+
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.project.clothingstore.modal.Address;
 import com.project.clothingstore.modal.User;
+import com.project.clothingstore.modal.Address;
+import com.project.clothingstore.modal.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AuthService {
 
@@ -28,7 +36,7 @@ public class AuthService {
 
                     if (task.isSuccessful()) {
                         String uid = task.getResult().getUser().getUid();
-
+                        List<String> coupons = new ArrayList<>();
                         // Tạo đối tượng User với role "user", address rỗng và cartId null
                         User newUser = new User(
                                 uid,
@@ -38,7 +46,8 @@ public class AuthService {
                                 "user", // role mặc định
                                 null,
                                 new Address(), // address rỗng
-                                null // cartId sẽ gán sau khi tạo
+                                null, // cartId sẽ gán sau khi tạo
+                                coupons
                         );
 
                         // Gọi hàm tạo cart và lưu user

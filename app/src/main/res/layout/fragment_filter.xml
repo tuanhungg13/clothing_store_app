@@ -37,7 +37,7 @@
                     android:text="Filter"
                     android:textSize="25sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/imageButton"
@@ -57,7 +57,7 @@
                 android:text="Giá"
                 android:textSize="16sp"
                 android:textColor="@color/black"
-                android:paddingBottom="8dp"/>
+                android:paddingBottom="8dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,6 +81,7 @@
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_PriceMin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -111,6 +112,7 @@
                     app:hintTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/txt_PriceMax"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -119,148 +121,6 @@
             </LinearLayout>
 
             <!-- Color Section -->
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Color"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:paddingBottom="8dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:gravity="center_vertical">
-
-                <FrameLayout
-                    android:id="@+id/color_frame0"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color0"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        app:cardCornerRadius="25dp"
-                        android:layout_gravity="center"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="@color/black"/>
-
-                </FrameLayout>
-
-
-                <FrameLayout
-                    android:id="@+id/color_frame1"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color1"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="@color/white"/>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/color_frame2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color2"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#808080"/>
-                </FrameLayout>
-
-
-                <FrameLayout
-                    android:id="@+id/color_frame3"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color3"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#0000FF"/>
-                </FrameLayout>
-
-
-                <FrameLayout
-                    android:id="@+id/color_frame4"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color4"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#FF0000"/>
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/color_frame5"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color5"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#FFC0CB"/>
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/color_frame6"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="2dp"
-                    android:background="@drawable/hvq_color_selector_border">
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/card_color6"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        app:cardCornerRadius="25dp"
-                        app:cardElevation="4dp"
-                        app:cardBackgroundColor="#FFFF00"/>
-                </FrameLayout>
-
-
-                <!-- Add more color options as needed -->
-            </LinearLayout>
 
             <!-- Rating Section -->
             <TextView
@@ -270,7 +130,7 @@
                 android:text="Rating"
                 android:textSize="16sp"
                 android:textColor="@color/black"
-                android:paddingBottom="8dp"/>
+                android:paddingBottom="8dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -312,7 +172,7 @@
                                 android:stepSize="1.0"
                                 android:isIndicator="true"
                                 android:rating="1"
-                                style="?android:attr/ratingBarStyleSmall"/>
+                                style="?android:attr/ratingBarStyleSmall" />
 
                             <TextView
                                 android:id="@+id/textView1"
@@ -320,7 +180,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="1"
                                 android:textColor="@color/black"
-                                android:paddingStart="4dp"/>
+                                android:paddingStart="4dp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
@@ -355,7 +215,7 @@
                                 android:stepSize="1.0"
                                 android:isIndicator="true"
                                 android:rating="1"
-                                style="?android:attr/ratingBarStyleSmall"/>
+                                style="?android:attr/ratingBarStyleSmall" />
 
                             <TextView
                                 android:id="@+id/textView2"
@@ -363,7 +223,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="2"
                                 android:textColor="@color/black"
-                                android:paddingStart="4dp"/>
+                                android:paddingStart="4dp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
@@ -398,7 +258,7 @@
                                 android:stepSize="1.0"
                                 android:isIndicator="true"
                                 android:rating="1"
-                                style="?android:attr/ratingBarStyleSmall"/>
+                                style="?android:attr/ratingBarStyleSmall" />
 
                             <TextView
                                 android:id="@+id/textView3"
@@ -406,7 +266,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="3"
                                 android:textColor="@color/black"
-                                android:paddingStart="4dp"/>
+                                android:paddingStart="4dp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
@@ -441,7 +301,7 @@
                                 android:stepSize="1.0"
                                 android:isIndicator="true"
                                 android:rating="1"
-                                style="?android:attr/ratingBarStyleSmall"/>
+                                style="?android:attr/ratingBarStyleSmall" />
 
                             <TextView
                                 android:id="@+id/textView4"
@@ -449,7 +309,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="4"
                                 android:textColor="@color/black"
-                                android:paddingStart="4dp"/>
+                                android:paddingStart="4dp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
@@ -484,7 +344,7 @@
                                 android:stepSize="1.0"
                                 android:isIndicator="true"
                                 android:rating="1"
-                                style="?android:attr/ratingBarStyleSmall"/>
+                                style="?android:attr/ratingBarStyleSmall" />
 
                             <TextView
                                 android:id="@+id/textView5"
@@ -492,7 +352,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="5"
                                 android:textColor="@color/black"
-                                android:paddingStart="4dp"/>
+                                android:paddingStart="4dp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
@@ -508,7 +368,7 @@
                 android:text="Category"
                 android:textSize="16sp"
                 android:textColor="@color/black"
-                android:paddingBottom="8dp"/>
+                android:paddingBottom="8dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -521,7 +381,7 @@
                     android:id="@+id/auto_category_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"/>
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -533,7 +393,7 @@
                 android:text="Discount"
                 android:textSize="16sp"
                 android:textColor="@color/black"
-                android:paddingBottom="8dp"/>
+                android:paddingBottom="8dp" />
 
             <androidx.gridlayout.widget.GridLayout
                 android:layout_width="match_parent"
@@ -554,7 +414,7 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_margin="4dp"
                         app:cardCornerRadius="12dp"
                         app:cardElevation="4dp"
@@ -564,11 +424,11 @@
                         <TextView
                             android:id="@+id/dis1"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:padding="16dp"
                             android:text="10% off"
                             android:textColor="@color/black"
-                            android:gravity="center"/>
+                            android:gravity="center" />
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
 
@@ -597,7 +457,7 @@
                             android:padding="16dp"
                             android:text="20% off"
                             android:textColor="@color/black"
-                            android:gravity="center"/>
+                            android:gravity="center" />
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
 
@@ -626,7 +486,7 @@
                             android:padding="16dp"
                             android:text="30% off"
                             android:textColor="@color/black"
-                            android:gravity="center"/>
+                            android:gravity="center" />
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
 
@@ -655,7 +515,7 @@
                             android:padding="16dp"
                             android:text="40% off"
                             android:textColor="@color/black"
-                            android:gravity="center"/>
+                            android:gravity="center" />
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
 
@@ -670,24 +530,24 @@
                 android:gravity="center">
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/btn_reset_filter"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Reset"
                     android:textColor="@color/white"
                     android:backgroundTint="@color/black"
-                    android:layout_marginEnd="4dp"/>
+                    android:layout_marginEnd="4dp" />
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/btn_apply_filter"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Apply"
                     android:textColor="@color/white"
                     android:backgroundTint="@color/black"
-                    android:layout_marginStart="4dp"/>
+                    android:layout_marginStart="4dp" />
             </LinearLayout>
 
         </LinearLayout>

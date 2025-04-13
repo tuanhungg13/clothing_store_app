@@ -30,6 +30,7 @@ class CartActivity : AppCompatActivity() {
     private lateinit var tvTotal: TextView
     private lateinit var btnCheckout: TextView
     private lateinit var tvProductPrice: TextView
+    private lateinit var tvShippingFee: TextView
     private lateinit var btnBack: ImageView
     private lateinit var shimmerLayout: View
     private var cartId: String? = null
@@ -56,7 +57,7 @@ class CartActivity : AppCompatActivity() {
         tvProductPrice = findViewById(R.id.tvProductPrice)
         btnBack = findViewById(R.id.btnBack)
         shimmerLayout = findViewById(R.id.shimmerLayout)
-
+        tvShippingFee = findViewById(R.id.tvShipping)
         btnBack.setOnClickListener {
             finish()
         }
@@ -109,19 +110,31 @@ class CartActivity : AppCompatActivity() {
 
 
         cartViewModel.totalPrice.observe(this, Observer { total ->
-            tvProductPrice.text = formatPrice(total)
+            // Cập nhật giá tiền khi có sản phẩm được chọn
             tvTotal.text = formatPrice(total)
         })
 
+        cartViewModel.totalPriceProduct.observe(this) { total ->
+            // Cập nhật giá tiền khi có sản phẩm được chọn
+            tvProductPrice.text = formatPrice(total)
+        }
+
+        cartViewModel.shippingFee.observe(this) { shippingFee ->
+            // Cập nhật phí vận chuyển
+            tvShippingFee.text = formatPrice(shippingFee)
+        }
+
         btnCheckout.setOnClickListener {
-            val selectedItems = cartViewModel.cartItems.value?.filter { it.isSelected } ?: emptyList()
+            val selectedItems =
+                cartViewModel.cartItems.value?.filter { it.isSelected } ?: emptyList()
 
             if (selectedItems.isNotEmpty()) {
                 val intent = Intent(this, CheckoutActivity::class.java)
                 intent.putParcelableArrayListExtra("selected_items", ArrayList(selectedItems))
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "Vui lòng chọn sản phẩm để thanh toán", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Vui lòng chọn sản phẩm để thanh toán", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
