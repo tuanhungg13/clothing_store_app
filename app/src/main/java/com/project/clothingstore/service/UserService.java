@@ -31,7 +31,6 @@ public class UserService {
 
     private static final CollectionReference userRef = FirebaseHelper.getUserCollection();
     private static final CollectionReference cartRef = FirebaseHelper.getCartCollection();
-    private static final CollectionReference couponRef = FirebaseHelper.getCouponCollection();
     private final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
     public static void createUserProfile(User user, OnCompleteListener<Void> callback) {

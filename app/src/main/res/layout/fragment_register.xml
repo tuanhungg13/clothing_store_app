@@ -81,6 +81,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
             android:padding="12dp"
+            android:background="@drawable/td_bg_button_black_round"
             android:text="ĐĂNG KÝ" />
 
         <TextView

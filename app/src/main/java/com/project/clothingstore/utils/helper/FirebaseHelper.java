@@ -32,5 +32,7 @@ public class FirebaseHelper {
     public static CollectionReference getCouponCollection() {
         return db.collection("coupons");
     }
-
+    public static CollectionReference getRatingCollection() {
+        return db.collection("ratings");
+    }
 }

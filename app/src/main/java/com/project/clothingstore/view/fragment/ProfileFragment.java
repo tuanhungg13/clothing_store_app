@@ -32,6 +32,7 @@ import com.project.clothingstore.utils.DividerItemDecorator;
 import com.project.clothingstore.view.activity.AuthActivity;
 import com.project.clothingstore.view.activity.CartActivity;
 import com.project.clothingstore.view.activity.CouponActivity;
+import com.project.clothingstore.view.activity.DashboardActivity;
 import com.project.clothingstore.view.activity.ProfileActivity;
 import com.project.clothingstore.viewmodel.AuthViewModel;
 import com.project.clothingstore.viewmodel.UserViewModel;
@@ -113,9 +114,7 @@ public class ProfileFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             String uid = user.getUid();
-            if (userViewModel.getCurrentUser().getValue() == null) {
-                userViewModel.fetchUserInfo(uid);
-            }
+            userViewModel.fetchUserInfo(uid);
             tvEmail.setText(user.getEmail());
             userViewModel.getCurrentUser().observe(getViewLifecycleOwner(), userLive -> {
                 if (userLive != null) {
@@ -162,7 +161,7 @@ public class ProfileFragment extends Fragment {
                     startActivity(new Intent(getContext(), CartActivity.class));
                     break;
                 case "Quản lí cửa hàng":
-                    startActivity(new Intent(getContext(), AuthActivity.class));
+                    startActivity(new Intent(getContext(), DashboardActivity.class));
                     break;
                 case "Đăng xuất":
                     showLogoutConfirmationDialog();
