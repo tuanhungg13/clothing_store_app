@@ -191,11 +191,11 @@ public class MainActivity extends AppCompatActivity {
                     // Nếu lấy được thông tin người dùng thành công, cập nhật cartId
                     txtName.setText(user.getFullName());
                     txtEmail.setText(user.getEmail());
-                    if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
-                        byte[] decodedString = Base64.decode(user.getAvatar(), Base64.DEFAULT);
-                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                        imgVata.setImageBitmap(decodedByte);
-                    }
+                    Glide.with(this)
+                            .load(user.getAvatar() ) // Lấy ảnh đầu tiên trong danh sách
+                            .placeholder(R.drawable.spnb) // Ảnh tạm khi load
+                            .error(R.drawable.item) // Ảnh hiển thị nếu load lỗi
+                            .into(imgVata);
 
                 }
             });

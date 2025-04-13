@@ -16,7 +16,7 @@
             android:id="@+id/img_BST"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:contentDescription="Image Button"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:srcCompat="@drawable/spnb"/>

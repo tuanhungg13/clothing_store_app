@@ -41,13 +41,6 @@ public class ProductCollectionAdapter extends RecyclerView.Adapter<ProductCollec
         if (bst == null) {
             return;
         }
-
-//        if (bst.getCollectionImg() != null && !bst.getCollectionImg().isEmpty()) {
-//            byte[] decodedString = Base64.decode(bst.getCollectionImg(), Base64.DEFAULT);
-//            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-//            holder.imv.setImageBitmap(decodedByte);
-//        }
-
         Glide.with(holder.itemView.getContext())
                 .load(bst.getCollectionImg()) // Lấy ảnh đầu tiên trong danh sách
                 .placeholder(R.drawable.spnb) // Ảnh tạm khi load

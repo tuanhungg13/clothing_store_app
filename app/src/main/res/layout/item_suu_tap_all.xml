@@ -17,7 +17,7 @@
             android:id="@+id/img_BST_All"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:src="@drawable/mau1" />
 
         <!-- Phần văn bản -->
@@ -32,7 +32,7 @@
                 android:id="@+id/txt_message_BSTAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bộ sưu tập mới"
+                android:text=""
                 android:textColor="@android:color/white"
                 android:textSize="12sp"/>
 
@@ -40,7 +40,7 @@
                 android:id="@+id/txt_title_BSTAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đi chơi \nTiệc tùng"
+                android:text=""
                 android:textSize="20sp"
                 android:textColor="@android:color/white"
                 android:fontFamily="sans-serif-medium" />
