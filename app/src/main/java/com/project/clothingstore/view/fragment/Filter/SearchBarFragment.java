@@ -90,16 +90,16 @@ public class SearchBarFragment extends Fragment {
         });
 
 
-//        imgbtn_find.setOnClickListener(v -> {
-//            String searchText = edt_find.getText().toString();
-//            if (!searchText.isEmpty()) {
-//                Intent intent = new Intent(getActivity(), ProductsActivity.class);
-//                intent.putExtra("productName", searchText);
-//                startActivity(intent);
-//            }else {
-//                edt_find.setError("Vui lòng nhập từ khóa tìm kiếm");
-//            }
-//        });
+        imgbtn_find.setOnClickListener(v -> {
+            String searchText = edt_find.getText().toString();
+            if (!searchText.isEmpty()) {
+                Intent intent = new Intent(getActivity(), ProductsActivity.class);
+                intent.putExtra("productName", searchText);
+                startActivity(intent);
+            }else {
+                edt_find.setError("Vui lòng nhập từ khóa tìm kiếm");
+            }
+        });
 
         return view;
     }
