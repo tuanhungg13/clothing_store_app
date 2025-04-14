@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.Timestamp
 import com.project.clothingstore.modal.Coupon
 import com.project.clothingstore.modal.Order
 import com.project.clothingstore.modal.OrderItem
@@ -64,6 +65,16 @@ class CheckoutViewModel : ViewModel() {
         if (code.isNotBlank()) {
             CheckoutService.getCouponByCode(code,
                 onSuccess = { coupon ->
+                    val currentTimestamp = Timestamp.now()
+
+                    if (coupon.expirationDate.toDate().before(currentTimestamp.toDate())) {
+                        // ❌ Mã giảm giá đã hết hạn
+                        _couponErrorMessage.postValue("Mã giảm giá đã hết hạn.")
+                        couponId.value = null
+                        _couponDiscountAmount.postValue(0.0)
+                        Log.e("TAG", "Mã giảm giá đã hết hạn: $code")
+                        return@getCouponByCode
+                    }
                     // 🔽 Lấy danh sách couponId của user
                     CheckoutService.getCouponIdsOfUser(userId,
                         onResult = { userCoupons ->

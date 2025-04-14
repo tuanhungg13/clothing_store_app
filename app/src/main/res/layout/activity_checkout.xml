@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true">
+    android:id="@+id/root_layout"
+    android:focusableInTouchMode="true"
+    android:background="@color/white">
 
     <!-- HEADER (KHÔNG CUỘN) -->
     <RelativeLayout
@@ -70,7 +72,9 @@
                     android:id="@+id/edtCustomerName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:imeOptions="actionNext"
+                    android:paddingStart="0dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -85,7 +89,9 @@
                     android:id="@+id/edtPhoneNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="phone" />
+                    android:imeOptions="actionNext"
+                    android:inputType="phone"
+                    android:paddingStart="0dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -99,7 +105,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtProvince"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingStart="0dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -113,7 +122,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtDistrict"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingStart="0dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -127,7 +139,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtWard"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingStart="0dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -141,7 +156,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edtAddressDetail"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:paddingStart="0dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -177,14 +195,14 @@
 
                 <RadioButton
                     android:id="@+id/rbStandardShipping"
-                    android:buttonTint="@color/green"
+                    android:buttonTint="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="30,000đ Giao hàng nhanh (2-6 ngày)" />
 
                 <RadioButton
                     android:id="@+id/rbExpressShipping"
-                    android:buttonTint="@color/green"
+                    android:buttonTint="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="100,000đ Giao hàng hỏa tốc (2-10h)" />
@@ -208,6 +226,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:inputType="text"
                     android:hint="Nhập mã tại đây..." />
 
                 <com.google.android.material.button.MaterialButton
@@ -241,7 +260,7 @@
 
                 <RadioButton
                     android:id="@+id/rbCOD"
-                    android:buttonTint="@color/green"
+                    android:buttonTint="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Thanh toán khi nhận hàng" />

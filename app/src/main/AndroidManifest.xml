@@ -41,6 +41,7 @@
         <activity
             android:name=".view.activity.CheckoutActivity"
             android:exported="false"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".view.activity.ProductDetailActivity"

@@ -1,8 +1,15 @@
 package com.project.clothingstore.view.activity
 
 import CartItem
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -48,6 +55,8 @@ class CheckoutActivity : AppCompatActivity() {
     private lateinit var cartViewModel: CartViewModel
     private lateinit var tvShipping: TextView
     private lateinit var tvDiscount: TextView
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
@@ -79,7 +88,29 @@ class CheckoutActivity : AppCompatActivity() {
             finish()
         }
         rgShipping.check(R.id.rbStandardShipping)
+        val rootLayout: View = findViewById(R.id.root_layout) // Lấy root layout của Activity
 
+        rootLayout.setOnTouchListener { v, event ->
+            val currentFocus = currentFocus
+            if (currentFocus != null && event.action == MotionEvent.ACTION_DOWN) {
+                val outRect = Rect()
+                currentFocus.getGlobalVisibleRect(outRect)
+                // Kiểm tra nếu người dùng chạm ra ngoài các trường nhập liệu
+                if (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())) {
+                    hideKeyboard(currentFocus) // Đóng bàn phím khi nhấn ra ngoài
+                }
+            }
+            false
+        }
+        edtAddress.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                // Xử lý sự kiện khi người dùng nhấn nút "Hoàn tất"
+                hideKeyboard(v) // Ẩn bàn phím
+                true // Trả về true để ngừng xử lý sự kiện mặc định
+            } else {
+                false
+            }
+        }
         // Nhận danh sách sản phẩm được chọn từ Intent
         val selectedItems = intent.getParcelableArrayListExtra<CartItem>("selected_items")
         selectedItems?.let {
@@ -149,29 +180,40 @@ class CheckoutActivity : AppCompatActivity() {
         // Lắng nghe sự kiện khi người dùng nhấn nút Thanh toán
         btnCheckout.setOnClickListener {
             if (isInputValid()) {
-                userId?.let {
-                    viewModel.submitOrder(it)
+                val phoneNumber = edtPhone.text.toString()
 
-                    // Lắng nghe kết quả submit để xóa giỏ hàng
-                    viewModel.orderStatus.observe(this) { isSuccess ->
-                        if (isSuccess == true) {
-                            // 🧹 Xóa giỏ hàng sau khi đặt hàng thành công
-                            cartViewModel.deleteMultipleItemsFromCart(viewModel.orderItems, cartId)
-                            Toast.makeText(this, "Đặt hàng thành công!", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this, CheckoutSuccessActivity::class.java).apply {
-                                flags =
-                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                if (isPhoneNumberValid(phoneNumber)) {
+                    userId?.let {
+                        viewModel.submitOrder(it)
+
+                        // Lắng nghe kết quả submit để xóa giỏ hàng
+                        viewModel.orderStatus.observe(this) { isSuccess ->
+                            if (isSuccess == true) {
+                                // 🧹 Xóa giỏ hàng sau khi đặt hàng thành công
+                                cartViewModel.deleteMultipleItemsFromCart(
+                                    viewModel.orderItems,
+                                    cartId
+                                )
+                                Toast.makeText(this, "Đặt hàng thành công!", Toast.LENGTH_SHORT)
+                                    .show()
+                                val intent =
+                                    Intent(this, CheckoutSuccessActivity::class.java).apply {
+                                        flags =
+                                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    }
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    "Đặt hàng thất bại. Vui lòng thử lại!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            Toast.makeText(
-                                this,
-                                "Đặt hàng thất bại. Vui lòng thử lại!",
-                                Toast.LENGTH_SHORT
-                            ).show()
                         }
                     }
+                } else {
+                    Toast.makeText(this, "Số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
@@ -229,6 +271,18 @@ class CheckoutActivity : AppCompatActivity() {
                 edtDistrict.text.isNotEmpty() &&
                 edtWard.text.isNotEmpty() &&
                 edtAddress.text.isNotEmpty()
+    }
+
+    fun isPhoneNumberValid(phoneNumber: String): Boolean {
+        // Biểu thức chính quy cho số điện thoại hợp lệ tại Việt Nam
+        val phonePattern = "^(\\+84|0)(9|8|7|3|4|5|6|1)[0-9]{8}$".toRegex()
+
+        return phonePattern.matches(phoneNumber)
+    }
+
+    fun hideKeyboard(view: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
 

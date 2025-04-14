@@ -33,6 +33,7 @@ class CartActivity : AppCompatActivity() {
     private lateinit var tvShippingFee: TextView
     private lateinit var btnBack: ImageView
     private lateinit var shimmerLayout: View
+    private lateinit var ivEmptyCart: ImageView
     private var cartId: String? = null
 
     @SuppressLint("MissingInflatedId")
@@ -58,6 +59,7 @@ class CartActivity : AppCompatActivity() {
         btnBack = findViewById(R.id.btnBack)
         shimmerLayout = findViewById(R.id.shimmerLayout)
         tvShippingFee = findViewById(R.id.tvShipping)
+        ivEmptyCart = findViewById(R.id.ivEmptyCart)
         btnBack.setOnClickListener {
             finish()
         }
@@ -88,21 +90,28 @@ class CartActivity : AppCompatActivity() {
             rvCartItems.visibility = View.VISIBLE
 
             cartId?.let { cid ->  // ✅ Đảm bảo cartId non-null
-                cartAdapter = CartAdapter(
-                    items.toMutableList(),
-                    onQuantityChanged = { cartItem, newQuantity ->
-                        cartViewModel.updateItemQuantity(cartItem, newQuantity, cid)
-                    },
-                    onItemRemoved = { cartItem ->
-                        cartViewModel.deleteItemFromCart(cartItem, cid)
-                    },
-                    onSelectionChanged = { cartItem, isSelected ->
-                        cartViewModel.toggleItemSelection(cartItem, isSelected)
-                    }
-                )
-
-                rvCartItems.layoutManager = LinearLayoutManager(this)
-                rvCartItems.adapter = cartAdapter
+                if (items.isEmpty()) {
+                    // Nếu giỏ hàng rỗng, hiển thị thông báo giỏ hàng trống
+                    ivEmptyCart.visibility = View.VISIBLE
+                    rvCartItems.visibility = View.GONE
+                } else {
+                    ivEmptyCart.visibility = View.GONE
+                    rvCartItems.visibility = View.VISIBLE
+                    cartAdapter = CartAdapter(
+                        items.toMutableList(),
+                        onQuantityChanged = { cartItem, newQuantity ->
+                            cartViewModel.updateItemQuantity(cartItem, newQuantity, cid)
+                        },
+                        onItemRemoved = { cartItem ->
+                            cartViewModel.deleteItemFromCart(cartItem, cid)
+                        },
+                        onSelectionChanged = { cartItem, isSelected ->
+                            cartViewModel.toggleItemSelection(cartItem, isSelected)
+                        }
+                    )
+                    rvCartItems.layoutManager = LinearLayoutManager(this)
+                    rvCartItems.adapter = cartAdapter
+                }
             } ?: run {
                 Toast.makeText(this, "Không tìm thấy Cart ID", Toast.LENGTH_SHORT).show()
             }
