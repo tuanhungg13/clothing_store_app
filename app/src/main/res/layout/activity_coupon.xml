@@ -22,8 +22,8 @@
 
         <ImageButton
             android:id="@+id/btn_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:background="@drawable/td_background_button"
             android:contentDescription="Nút quay lại"
             android:padding="10dp"

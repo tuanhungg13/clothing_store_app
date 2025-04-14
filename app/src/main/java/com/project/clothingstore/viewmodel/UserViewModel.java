@@ -88,22 +88,24 @@ public class UserViewModel extends ViewModel {
                 unused -> updateSuccess.setValue(true),
                 e -> updateSuccess.setValue(false));
     }
+    // Cập nhật avatar bằng URL upload từ Cloudinary
     public void uploadAvatar(Context context, Uri imageUri) {
         avatarUploadStatus.setValue("loading");
 
-        userService.uploadAvatarBase64(context, imageUri,
-                base64 -> {
+        userService.uploadAvatarToCloudinary(context, imageUri,
+                url -> {
                     avatarUploadStatus.setValue("success");
 
-                    // Cập nhật avatarBase64 cho currentUser
+                    // cập nhật avatar cho currentUser
                     User user = currentUser.getValue();
                     if (user != null) {
-                        user.setAvatar(base64);
+                        user.setAvatar(url); // avatar là URL
                         currentUser.setValue(user);
                     }
                 },
                 e -> avatarUploadStatus.setValue("fail"));
     }
+
     /**
      * Dùng khi đăng xuất hoặc làm mới trạng thái người dùng
      */

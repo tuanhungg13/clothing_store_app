@@ -37,6 +37,7 @@ public class AuthService {
                     if (task.isSuccessful()) {
                         String uid = task.getResult().getUser().getUid();
                         List<String> coupons = new ArrayList<>();
+                        coupons.add("Fr99pt491uAyivZ4DZjJ");
                         // Tạo đối tượng User với role "user", address rỗng và cartId null
                         User newUser = new User(
                                 uid,
@@ -94,21 +95,6 @@ public class AuthService {
     public static void loginWithCredential(AuthCredential credential, OnCompleteListener<AuthResult> callback) {
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(callback);
-    }
-    // Cập nhật mật khẩu mới sau khi xác minh OTP (người dùng đã nhập mã đúng)
-    public static void updatePasswordAfterOtp(String newPassword, OnCompleteListener<Void> listener) {
-        getAuth().signInAnonymously().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                FirebaseUser user = getAuth().getCurrentUser();
-                if (user != null) {
-                    user.updatePassword(newPassword).addOnCompleteListener(listener);
-                } else {
-                    listener.onComplete(com.google.android.gms.tasks.Tasks.forException(new Exception("Không tìm thấy người dùng ẩn danh")));
-                }
-            } else {
-                listener.onComplete(com.google.android.gms.tasks.Tasks.forException(task.getException()));
-            }
-        });
     }
 
     public static FirebaseAuth getAuth() {

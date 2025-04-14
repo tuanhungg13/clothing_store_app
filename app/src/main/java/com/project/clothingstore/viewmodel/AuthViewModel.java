@@ -117,6 +117,7 @@ public class AuthViewModel extends ViewModel {
     @NonNull
     private static User getUser(FirebaseUser firebaseUser) {
         List<String> coupons = new ArrayList<>();
+        coupons.add("Fr99pt491uAyivZ4DZjJ");
         User newUser = new User(
                 firebaseUser.getUid(),
                 firebaseUser.getEmail(),

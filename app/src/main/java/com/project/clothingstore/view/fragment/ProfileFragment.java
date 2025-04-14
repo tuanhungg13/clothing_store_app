@@ -1,10 +1,7 @@
 package com.project.clothingstore.view.fragment;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +30,7 @@ import com.project.clothingstore.utils.DividerItemDecorator;
 import com.project.clothingstore.view.activity.AuthActivity;
 import com.project.clothingstore.view.activity.CartActivity;
 import com.project.clothingstore.view.activity.CouponActivity;
+import com.project.clothingstore.view.activity.DashboardActivity;
 import com.project.clothingstore.view.activity.ProfileActivity;
 import com.project.clothingstore.viewmodel.AuthViewModel;
 import com.project.clothingstore.viewmodel.UserViewModel;
@@ -50,15 +49,13 @@ public class ProfileFragment extends Fragment {
     private LinearLayout layoutLoggedIn, layoutLoggedOut;
     private Button btnLoginProfile, btnRegisterProfile;
 
-
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
+    public ProfileFragment() {}
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
         userViewModel = new ViewModelProvider(requireActivity()).get(UserViewModel.class);
 
@@ -72,6 +69,7 @@ public class ProfileFragment extends Fragment {
         layoutLoggedIn = view.findViewById(R.id.layout_logged_in);
         layoutLoggedOut = view.findViewById(R.id.layout_logged_out);
 
+        // Xử lý nút đăng nhập / đăng ký
         btnLoginProfile.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), AuthActivity.class);
             intent.putExtra("fragment", "login");
@@ -84,6 +82,7 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
         });
 
+        // Quan sát trạng thái đăng nhập
         authViewModel.getCurrentUid().observe(getViewLifecycleOwner(), uid -> {
             if (uid == null) {
                 layoutLoggedOut.setVisibility(View.VISIBLE);
@@ -91,41 +90,40 @@ public class ProfileFragment extends Fragment {
             } else {
                 layoutLoggedOut.setVisibility(View.GONE);
                 layoutLoggedIn.setVisibility(View.VISIBLE);
+                loadUserInfo(uid);
             }
         });
+
         authViewModel.checkLoggedIn();
 
-        loadUserInfo();
-
-        btnSetting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ProfileActivity.class);
-                startActivity(intent);
-            }
+        btnSetting.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ProfileActivity.class);
+            startActivity(intent);
         });
 
         return view;
     }
 
-    // Tải thông tin người dùng về
-    private void loadUserInfo() {
+    // Tải thông tin người dùng
+    private void loadUserInfo(String uid) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            String uid = user.getUid();
-            if (userViewModel.getCurrentUser().getValue() == null) {
-                userViewModel.fetchUserInfo(uid);
-            }
+            userViewModel.fetchUserInfo(uid);
             tvEmail.setText(user.getEmail());
+
             userViewModel.getCurrentUser().observe(getViewLifecycleOwner(), userLive -> {
                 if (userLive != null) {
                     tvEmail.setText(userLive.getEmail());
                     tvName.setText(userLive.getFullName());
 
                     if (userLive.getAvatar() != null && !userLive.getAvatar().isEmpty()) {
-                        byte[] decodedString = Base64.decode(userLive.getAvatar(), Base64.DEFAULT);
-                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                        imgAvatar.setImageBitmap(decodedByte);
+                        Glide.with(requireContext())
+                                .load(userLive.getAvatar())
+                                .placeholder(R.drawable.avatar)
+                                .error(R.drawable.avatar)
+                                .into(imgAvatar);
+                    } else {
+                        imgAvatar.setImageResource(R.drawable.avatar);
                     }
 
                     setupOptions(userLive.getRole());
@@ -134,7 +132,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    // Hiển thị menu chức năng profile
+    // Cài đặt menu profile
     private void setupOptions(String role) {
         List<ProfileOption> options;
 
@@ -162,7 +160,7 @@ public class ProfileFragment extends Fragment {
                     startActivity(new Intent(getContext(), CartActivity.class));
                     break;
                 case "Quản lí cửa hàng":
-                    startActivity(new Intent(getContext(), AuthActivity.class));
+                    startActivity(new Intent(getContext(), DashboardActivity.class));
                     break;
                 case "Đăng xuất":
                     showLogoutConfirmationDialog();
@@ -172,22 +170,18 @@ public class ProfileFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
-
-        // Thêm dòng kẻ giữa các item
         recyclerView.addItemDecoration(new DividerItemDecorator());
     }
 
-    // Đăng xuất
+    // Hộp thoại xác nhận đăng xuất
     private void showLogoutConfirmationDialog() {
         new AlertDialog.Builder(requireContext())
                 .setTitle("Xác nhận đăng xuất")
                 .setMessage("Bạn có chắc chắn muốn đăng xuất?")
                 .setPositiveButton("Đồng ý", (dialog, which) -> {
-                    authViewModel.logout();         // Đăng xuất qua ViewModel
-                    userViewModel.clearUser();      // Xoá thông tin người dùng
+                    authViewModel.logout();
+                    userViewModel.clearUser();
 
-
-                    // Chuyển về HomeFragment
                     requireActivity()
                             .getSupportFragmentManager()
                             .beginTransaction()
