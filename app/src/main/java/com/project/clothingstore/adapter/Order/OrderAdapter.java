@@ -53,18 +53,29 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.tvOrderDate.setText(sdf.format(date));
 
         holder.tvProductName.setText(order.getOrderItems().get(0).getProductName());
-        holder.tvProductDetails.setText("Size: " + order.getOrderItems().get(0).getVariant().getSize() + " | Color: " + order.getOrderItems().get(0).getVariant().getColor());
+        holder.tvProductDetails.setText("Kích cỡ: " + order.getOrderItems().get(0).getVariant().getSize() + " | Màu: " + order.getOrderItems().get(0).getVariant().getColor());
 
         DecimalFormat formatter = new DecimalFormat("#,###");
-        holder.tvProductPrice.setText(formatter.format(order.getOrderItems().get(0).getPrice()) + "đ");
+        holder.tvProductPrice.setText(formatter.format(order.getOrderItems().get(0).getPrice()) + " đ");
         holder.tvQuantity.setText("x" + order.getOrderItems().get(0).getQuantity());
-        holder.tvQuantityLabel.setText("Quantity: " + order.getOrderItems().size());
-        holder.tvSubtotal.setText(formatter.format(order.calculateTotalPrice()) + "đ");
+        holder.tvQuantityLabel.setText("Số lượng: " + order.getOrderItems().size());
+        holder.tvSubtotal.setText(formatter.format(order.calculateTotalPrice()) + " đ");
 
-        holder.tvStatus.setText(order.getStatus());
+        String statusText = "";
+        if(order.getStatus().equals("PENDING")) {
+            statusText = "Chưa xử lí";
+        } else if(order.getStatus().equals("SUCCESS")) {
+            statusText = "Hoàn tất";
+        } else if(order.getStatus().equals("CANCEL")) {
+            statusText = "Hủy";
+        }
+
+        holder.tvStatus.setText(statusText);
         int colorRes = R.color.pending;
         if(order.getStatus().equals("SUCCESS")) colorRes = R.color.success;
         else if(order.getStatus().equals("CANCEL")) colorRes = R.color.cancel;
+
+
         holder.tvStatus.setTextColor(context.getResources().getColor(colorRes));
 
         Glide.with(context)

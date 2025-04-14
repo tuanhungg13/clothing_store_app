@@ -39,11 +39,11 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Item
         OrderItems item = itemList.get(position);
 
         holder.tvName.setText(item.getProductName());
-        holder.tvSizeColor.setText("Size: " + item.getVariant().getSize() + " | Màu: " + item.getVariant().getColor());
+        holder.tvSizeColor.setText("Kích cỡ: " + item.getVariant().getSize() + " | Màu: " + item.getVariant().getColor());
 //        holder.tvQuantity.setText("x" + item.getQuantity());
 
         DecimalFormat formatter = new DecimalFormat("#,###");
-        holder.tvPrice.setText("đ" + formatter.format(item.getPrice()) + " x" + item.getQuantity());
+        holder.tvPrice.setText("đ " + formatter.format(item.getPrice()) + " x" + item.getQuantity());
 
         Glide.with(context)
                 .load(item.getImage())

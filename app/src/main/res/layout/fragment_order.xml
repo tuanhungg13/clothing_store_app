@@ -19,49 +19,49 @@
             android:id="@+id/btnPending"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
-            android:text="Pending"
-            android:textColor="@color/button_text_selector"
-            android:textSize="16sp"
-            android:minHeight="0dp"
             android:backgroundTint="@color/button_nav_selected"
+            android:minHeight="0dp"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"
             android:paddingTop="4dp"
+            android:paddingRight="8dp"
             android:paddingBottom="4dp"
-            android:layout_marginHorizontal="8dp" />
+            android:text="Chưa xử lí"
+            android:textColor="@color/button_text_selector"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnCompleted"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
-            android:text="Success"
-            android:textColor="@color/button_text_selector"
-            android:textSize="16sp"
-            android:minHeight="0dp"
             android:backgroundTint="@color/button_nav_selected"
+            android:minHeight="0dp"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"
             android:paddingTop="4dp"
+            android:paddingRight="8dp"
             android:paddingBottom="4dp"
-            android:layout_marginHorizontal="8dp" />
+            android:text="Hoàn tất"
+            android:textColor="@color/button_text_selector"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btnCancelled"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
-            android:text="Cancel"
-            android:textColor="@color/button_text_selector"
-            android:textSize="16sp"
-            android:minHeight="0dp"
             android:backgroundTint="@color/button_nav_selected"
+            android:minHeight="0dp"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"
             android:paddingTop="4dp"
+            android:paddingRight="8dp"
             android:paddingBottom="4dp"
-            android:layout_marginHorizontal="8dp" />
+            android:text="Hủy"
+            android:textColor="@color/button_text_selector"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <!-- RecyclerView to show orders -->

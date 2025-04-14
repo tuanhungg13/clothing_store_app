@@ -106,7 +106,7 @@
             android:id="@+id/tvSubtotalLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Subtotal: "
+            android:text="Tổng tiền: "
             android:textColor="#000000"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@id/tvQuantityLabel_O"
@@ -143,7 +143,7 @@
             android:layout_height="40dp"
             style="@style/OutlineButtonStyle"
             android:paddingHorizontal="24dp"
-            android:text="Details"
+            android:text="Chi tiết"
             app:layout_constraintBottom_toBottomOf="@id/tvStatus_O"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvStatus_O" />

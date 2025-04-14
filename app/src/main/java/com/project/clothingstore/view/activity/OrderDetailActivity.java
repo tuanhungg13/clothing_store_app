@@ -20,6 +20,7 @@ import com.project.clothingstore.adapter.Order.OrderItemAdapter;
 import com.project.clothingstore.modal.OrderItems;
 import com.project.clothingstore.modal.Orders;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -139,10 +140,17 @@ public class OrderDetailActivity extends AppCompatActivity {
 
             }
             tvOrderId.setText("#" + order.getOrderId());
-            tvOrderAdress.setText("" + order.getAddress());
-            tvSubTotalPrice.setText("" + order.calculateSubPrice());
-            tvShippingFee.setText("" + order.getShippingPrice());
-            tvTotalPrice.setText("" + order.calculateTotalPrice());
+            tvOrderAdress.setText("đ" + order.getAddress());
+
+            NumberFormat formatter = NumberFormat.getInstance(new Locale("vi", "VN"));
+
+            tvSubTotalPrice.setText("đ " + formatter.format(order.calculateSubPrice()));
+            tvShippingFee.setText("đ " + formatter.format(order.getShippingPrice()));
+            tvTotalPrice.setText("đ " + formatter.format(order.calculateTotalPrice()));
+
+//            tvSubTotalPrice.setText("đ" + order.calculateSubPrice());
+//            tvShippingFee.setText("đ" + order.getShippingPrice());
+//            tvTotalPrice.setText("đ" + order.calculateTotalPrice());
 
 
             // Setup adapter hiển thị danh sách sản phẩm
