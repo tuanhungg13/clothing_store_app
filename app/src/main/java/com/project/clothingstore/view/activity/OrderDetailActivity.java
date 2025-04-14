@@ -113,7 +113,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         if (order != null) {
 
-            if(order.getStatus().equals("PENDING")){
+            if (order.getStatus().equals("PENDING")) {
                 tvOrderStatus.setText("Đơn hàng của bạn đang \nđược giao");
                 imvOrderStatus.setImageResource(R.drawable.dmq_ic_delivery_truck);
                 tvOrderSubStatus.setVisibility(View.GONE);
@@ -128,14 +128,13 @@ public class OrderDetailActivity extends AppCompatActivity {
                 btnRating.setText("Tiếp tục mua sắm");
                 btnRating.setVisibility(View.VISIBLE);
 
-            }
-            else if (order.getStatus().equals("SUCCESS")) {
+            } else if (order.getStatus().equals("SUCCESS")) {
                 tvOrderStatus.setText("Đơn hàng của bạn đã \nđược giao thành công");
                 imvOrderStatus.setImageResource(R.drawable.ic_hand_box);
                 tvOrderSubStatus.setVisibility(View.VISIBLE);
                 btnShopping.setVisibility(View.VISIBLE);
                 btnShopping.setText("Đánh giá");
-                btnRating.setText("Tiếp tục mua sắm");
+                btnRating.setText("Mua sắm");
                 btnRating.setVisibility(View.VISIBLE);
 
             }
