@@ -121,18 +121,11 @@ public class ProfileActivity extends AppCompatActivity {
 
             currentAvatarUrl = user.getAvatar();
             if (currentAvatarUrl != null && !currentAvatarUrl.isEmpty()) {
-                try {
-                    byte[] decodedString = Base64.decode(currentAvatarUrl, Base64.DEFAULT);
-                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                    Glide.with(this)
-                            .load(decodedByte)
-                            .placeholder(R.drawable.avatar)
-                            .error(R.drawable.avatar)
-                            .into(imgAvatar);
-                } catch (Exception e) {
-                    imgAvatar.setImageResource(R.drawable.avatar);
-                    Log.e("ProfileActivity", "Lỗi khi giải mã ảnh base64", e);
-                }
+                Glide.with(this)
+                        .load(currentAvatarUrl) // Load avatar from URL
+                        .placeholder(R.drawable.avatar)
+                        .error(R.drawable.avatar)
+                        .into(imgAvatar);
             } else {
                 imgAvatar.setImageResource(R.drawable.avatar);
             }
@@ -153,10 +146,8 @@ public class ProfileActivity extends AppCompatActivity {
         addressData.put("street", edtStreet.getText().toString().trim());
 
         userViewModel.updateUserProfile(fullName, phoneNumber, addressData);
-
         // Nếu có ảnh mới thì upload
         if (selectedImageUri != null) {
-            Log.d("ProfileActivity", "Uploading new avatar: " + selectedImageUri);
             userViewModel.uploadAvatar(this, selectedImageUri);
         }
     }
