@@ -1,0 +1,114 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:paddingBottom="32dp"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="false"
+    android:background="@android:color/white"
+    tools:context=".view.activity.ProfileActivity">
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <!-- Các view bên dưới dùng layout_marginTop để căn cách -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/td_background_button"
+                android:contentDescription="Nút quay lại"
+                android:padding="10dp"
+                android:scaleType="center"
+                android:src="@drawable/baseline_arrow_back_ios_new_24" />
+
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Thông tin cá nhân"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/avatar"
+                app:shapeAppearanceOverlay="@style/CircleImageView" />
+
+            <ImageView
+                android:id="@+id/img_camera"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="-10dp"
+                android:layout_marginBottom="-10dp"
+                android:background="@drawable/td_bg_camera_icon"
+                android:padding="10dp"
+                android:src="@drawable/ic_camera"
+                android:contentDescription="Chỉnh sửa ảnh"
+                app:tint="@android:color/white" />
+        </FrameLayout>
+
+        <!-- Các trường nhập thông tin -->
+        <TextView android:text="Họ và tên" style="@style/Label" />
+        <EditText android:id="@+id/edit_full_name" style="@style/Field" />
+
+        <TextView android:text="Email" style="@style/Label" />
+        <EditText android:id="@+id/edit_email" style="@style/Field" android:focusable="false" android:clickable="false" />
+
+        <TextView android:text="Số điện thoại" style="@style/Label" />
+        <EditText android:id="@+id/edit_phone" style="@style/Field" android:inputType="number" />
+
+        <TextView android:text="Tỉnh/Thành phố" style="@style/Label" />
+        <EditText android:id="@+id/edit_province" android:hint="Tỉnh/Thành phố" style="@style/Field" />
+        <TextView android:text="Quận/Huyện" style="@style/Label" />
+        <EditText android:id="@+id/edit_district" android:hint="Quận/Huyện" style="@style/Field" />
+        <TextView android:text="Phường/Xã" style="@style/Label" />
+        <EditText android:id="@+id/edit_ward" android:hint="Phường/Xã" style="@style/Field" />
+        <TextView android:text="Địa chỉ chi tiết" style="@style/Label" />
+        <EditText android:id="@+id/edit_street" android:hint="Địa chỉ" style="@style/Field" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginHorizontal="60dp"
+            android:text="Lưu"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:background="@drawable/td_bg_button_black_round" />
+
+    </LinearLayout>
+</ScrollView>

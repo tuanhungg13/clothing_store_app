@@ -2,4 +2,27 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green">#508A7B</color>
+    <color name="gray">#D3D3D3</color> <!-- Màu xám nhạt -->
+    <color name="light_gray">#F5F5F5</color>
+    <color name="blue_primary">#1E88E5</color>
+    <color name="colorControlHighlight">#5616C0</color>
+    <color name="A3A798">#A3A798</color>
+    <color name="img">#E2E2E2</color>
+
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#4CAF50</color>
+    <color name="teal">#009688</color>
+    <color name="beige">#F5D0B5</color>
+    <color name="pink">#FF8B8B</color>
+    <color name="light_beige">#FFF5E6</color>
+
+    <color name="pending">#CF6212</color>
+    <color name="success">#45CF12</color>
+    <color name="cancel">#CF1212</color>
+
+    <color name="gray_light">#CCCCCC</color>
+
+
 </resources>

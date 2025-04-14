@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Hình tròn nền đỏ -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#B00020"/> <!-- Màu đỏ -->
+        </shape>
+    </item>
+
+    <!-- Dấu chấm trắng ở giữa -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#FFFFFF"/> <!-- Màu trắng -->
+        </shape>
+        <padding android:left="30dp" android:right="30dp" android:top="30dp" android:bottom="30dp"/>
+    </item>
+
+</layer-list>
