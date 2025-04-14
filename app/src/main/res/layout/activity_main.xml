@@ -44,14 +44,14 @@
                 android:textStyle="bold" />
 
             <ImageButton
-                android:id="@+id/btnNotification"
+                android:id="@+id/btnCart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Notifications"
                 android:padding="12dp"
-                android:src="@drawable/chuong" />
+                android:src="@drawable/lth_ic_cart" />
         </androidx.appcompat.widget.Toolbar>
 
         <!-- Container cho Fragment -->
@@ -72,6 +72,7 @@
             app:menu="@menu/menu_bottom_nav" />
 
     </LinearLayout>
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

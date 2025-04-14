@@ -2,11 +2,7 @@ package com.project.clothingstore;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,9 +21,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.project.clothingstore.view.activity.AuthActivity;
+import com.project.clothingstore.view.activity.CartActivity;
+import com.project.clothingstore.view.fragment.HomeFragment;
 import com.project.clothingstore.view.fragment.OrderFragment;
 import com.project.clothingstore.view.fragment.ProfileFragment;
-import com.project.clothingstore.view.fragment.HomeFragment;
 import com.project.clothingstore.view.fragment.SearchFragment;
 import com.project.clothingstore.viewmodel.UserViewModel;
 
@@ -41,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isUserLoggedIn = false;
     private BottomNavigationView bottomNav;
     private NavigationView navigationView;
+    private ImageView btnCart;
     UserViewModel userViewModel;
 
     @SuppressLint("NonConstantResourceId")
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         imgVata = navigationView.getHeaderView(0).findViewById(R.id.iv_avata_profile_hvq);
         txtName = navigationView.getHeaderView(0).findViewById(R.id.tv_name_profile_hvq);
         txtEmail = navigationView.getHeaderView(0).findViewById(R.id.tv_email_profile_hvq);
-
+        btnCart = findViewById(R.id.btnCart);
         // Thiết lập mặc định fragment khi ứng dụng khởi động
         if (savedInstanceState == null) {
             // Mặc định là HomeFragment
@@ -73,6 +71,11 @@ public class MainActivity extends AppCompatActivity {
             toggleDrawer();
             checkLoginStatus();
 
+        });
+
+        btnCart.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CartActivity.class);
+            startActivity(intent);
         });
 
         // Lắng nghe sự kiện chọn item trong BottomNavigationView
@@ -129,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("fragment", "login");
                 startActivity(intent);
                 return true;
-            }else if (item.getItemId() == R.id.nav_logout_hvq) {
+            } else if (item.getItemId() == R.id.nav_logout_hvq) {
                 performLogout();
                 return true;
             }
@@ -192,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                     txtName.setText(user.getFullName());
                     txtEmail.setText(user.getEmail());
                     Glide.with(this)
-                            .load(user.getAvatar() ) // Lấy ảnh đầu tiên trong danh sách
+                            .load(user.getAvatar()) // Lấy ảnh đầu tiên trong danh sách
                             .placeholder(R.drawable.spnb) // Ảnh tạm khi load
                             .error(R.drawable.item) // Ảnh hiển thị nếu load lỗi
                             .into(imgVata);
@@ -213,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
     private void performLogout() {
         new AlertDialog.Builder(this)
                 .setTitle("Xác nhận đăng xuất")

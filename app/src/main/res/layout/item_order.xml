@@ -100,7 +100,7 @@
             android:textColor="#000000"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivProductImage_O" />
+            app:layout_constraintTop_toBottomOf="@+id/tvProductPrice_O" />
 
         <TextView
             android:id="@+id/tvSubtotalLabel"
@@ -143,6 +143,7 @@
             android:layout_height="40dp"
             style="@style/OutlineButtonStyle"
             android:paddingHorizontal="24dp"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
             android:text="Chi tiết"
             app:layout_constraintBottom_toBottomOf="@id/tvStatus_O"
             app:layout_constraintEnd_toEndOf="parent"
