@@ -1,5 +1,7 @@
 package com.project.clothingstore.adapter.product;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.project.clothingstore.R;
 import com.project.clothingstore.modal.Product;
+import com.project.clothingstore.view.activity.ProductDetailActivity;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -47,7 +50,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 .error(R.drawable.aophong) // Ảnh hiển thị nếu load lỗi
                 .into(holder.imv);
 
-        holder.txtName.setText(sp.getProductName());
+        String productName = sp.getProductName();
+        final int MAX_PRODUCT_NAME_LENGTH = 18; // Độ dài tối đa của tên sản phẩm
+        if (productName.length() > MAX_PRODUCT_NAME_LENGTH) {
+            productName = productName.substring(0, 18) + "...";
+        }
+        holder.txtName.setText(productName);
+
         DecimalFormat formatter = new DecimalFormat("#,###");
         String formatted = formatter.format(sp.getPrice()); // "7,000,000,000"
         formatted = formatted.replace(",", ".");     // "7.000.000.000"
@@ -55,6 +64,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.txtOldPrice.setText("180.000");
         holder.txtOldPrice.setPaintFlags(holder.txtOldPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         holder.ratingBar.setRating(sp.getTotalRating());
+        holder.itemView.setOnClickListener(v -> {
+            Context context = v.getContext(); // Lấy context từ View
+            Intent intent = new Intent(context, ProductDetailActivity.class);
+            intent.putExtra("productId", sp.getProductId());  // Truyền ID của sản phẩm
+            context.startActivity(intent);
+        });
     }
 
     @Override

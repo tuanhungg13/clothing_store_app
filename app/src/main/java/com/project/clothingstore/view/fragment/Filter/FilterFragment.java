@@ -42,7 +42,7 @@ public class FilterFragment extends Fragment {
     boolean isFromApply;
     private double rating;
 
-    private String productName;
+    private String productName, categoryId;
     private ArrayList<Integer> discountList;
 
 
@@ -69,6 +69,7 @@ public class FilterFragment extends Fragment {
         if (getArguments() != null) {
 
             isFromApply = getArguments().getBoolean("isFromApply", false);
+            categoryId = getArguments().getString("categoryId");
             productName = getArguments().getString("productName");
             categoriType = getArguments().getInt("categoriType", -1);
             minPrice = getArguments().getInt("minPrice", -1);
@@ -140,6 +141,7 @@ public class FilterFragment extends Fragment {
             Intent intent = new Intent(requireContext(), ProductsActivity.class);
 
             // Truyền dữ liệu qua Intent
+            intent.putExtra("categoryId", categoryId);
             intent.putExtra("categoriType", categoryType);
             intent.putExtra("minPrice", minPrice);
             intent.putExtra("maxPrice", maxPrice);

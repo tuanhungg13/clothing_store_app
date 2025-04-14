@@ -126,6 +126,7 @@ public class ProductsActivity extends AppCompatActivity implements SearchBarFrag
         // Truyền dữ liệu từ activity sang fragment
         Bundle bundle  = new Bundle();
         bundle.putBoolean("isFromApply", true);
+        bundle.putString("categoryId", categoryId);
         bundle.putString("productName", productName);
         bundle.putInt("categoriType", categoriType);
         bundle.putInt("minPrice", minPrice);

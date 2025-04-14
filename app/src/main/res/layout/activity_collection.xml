@@ -33,7 +33,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Menu"
             android:padding="2dp"
-            android:scaleType="centerInside"
+            android:scaleType="fitXY"
             android:src="@drawable/hvq_arrow_left"/>
     </androidx.cardview.widget.CardView>
 

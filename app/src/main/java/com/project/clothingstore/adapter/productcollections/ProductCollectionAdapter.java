@@ -1,6 +1,9 @@
 package com.project.clothingstore.adapter.productcollections;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +41,6 @@ public class ProductCollectionAdapter extends RecyclerView.Adapter<ProductCollec
         if (bst == null) {
             return;
         }
-
         Glide.with(holder.itemView.getContext())
                 .load(bst.getCollectionImg()) // Lấy ảnh đầu tiên trong danh sách
                 .placeholder(R.drawable.spnb) // Ảnh tạm khi load

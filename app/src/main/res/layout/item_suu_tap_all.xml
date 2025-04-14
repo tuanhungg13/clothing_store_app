@@ -8,45 +8,42 @@
     app:cardCornerRadius="12dp"
     android:background="@color/white">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:layout_height="match_parent">
+
+        <!-- Hình ảnh -->
+        <ImageView
+            android:id="@+id/img_BST_All"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/mau1" />
 
         <!-- Phần văn bản -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:padding="16dp"
+            android:background="#1A000000"> <!-- Semi-transparent background for better text readability -->
 
             <TextView
                 android:id="@+id/txt_message_BSTAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bộ sưu tập mới"
+                android:text=""
+                android:textColor="@android:color/white"
                 android:textSize="12sp"/>
 
             <TextView
                 android:id="@+id/txt_title_BSTAll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Đi chơi \nTiệc tùng"
+                android:text=""
                 android:textSize="20sp"
-                android:textColor="@color/black"
+                android:textColor="@android:color/white"
                 android:fontFamily="sans-serif-medium" />
         </LinearLayout>
-
-        <!-- Hình ảnh -->
-        <ImageView
-            android:id="@+id/img_BST_All"
-            android:layout_width="100dp"
-            android:layout_height="130dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/hvq_backgroud_circle"
-            android:scaleType="centerCrop"
-            android:src="@drawable/mau1" /> <!-- Sử dụng nền tròn -->
-    </LinearLayout>
+    </FrameLayout>
 </androidx.cardview.widget.CardView>

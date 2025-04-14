@@ -29,43 +29,7 @@ public class ProductService {
         productRef = FirebaseHelper.getProductCollection();
     }
 
-    public ProductService(CollectionReference productRef) {
-        this.productRef = productRef;
-    }
 
-    // ✅ Lấy tất cả sản phẩm
-    public void getAllProducts(OnCompleteListener<QuerySnapshot> listener) {
-        productRef.get().addOnCompleteListener(listener);
-    }
-
-    // ✅ Lấy sản phẩm theo ID
-    public void getProductById(String productId, OnCompleteListener<DocumentSnapshot> listener) {
-        productRef.document(productId).get().addOnCompleteListener(listener);
-    }
-
-    // ✅ Lọc sản phẩm theo category
-    public void getProductsByCategory(String categoryId, OnCompleteListener<QuerySnapshot> listener) {
-        productRef.whereEqualTo("categoryId", categoryId).get().addOnCompleteListener(listener);
-    }
-
-    // ✅ Tìm kiếm sản phẩm theo tên
-    public void searchProductsByName(String keyword, OnCompleteListener<QuerySnapshot> listener) {
-        productRef.orderBy("productName")
-                .startAt(keyword)
-                .endAt(keyword + "\uf8ff")
-                .get().addOnCompleteListener(listener);
-    }
-
-    // ✅ Phân trang sản phẩm
-    public void getProductsPaged(DocumentSnapshot lastDoc, int limit, OnCompleteListener<QuerySnapshot> listener) {
-        Query query = productRef.orderBy("productName").limit(limit);
-        if (lastDoc != null) {
-            query = query.startAfter(lastDoc);
-        }
-        query.get().addOnCompleteListener(listener);
-    }
-
-//     Lay ra 5 san pham co luot ban cao nhat
     public void getSanPhamList(MutableLiveData<List<Product>> liveData, String field, int limitt) {
         CollectionReference productsRef = db.collection("products");
 
@@ -115,10 +79,14 @@ public class ProductService {
 
     //Loc san pham theo categoryId, categoriType, minPrice, maxPrice, rating, discount
 
-    public void getFilteredProducts(MutableLiveData<List<Product>> liveData, int productType, int minPrice, int maxPrice, double rating, List<Integer> discounts, String keyword) {
+    public void getFilteredProducts(MutableLiveData<List<Product>> liveData, int productType, int minPrice, int maxPrice, double rating, List<Integer> discounts, String keyword, String categoriId) {
         CollectionReference productsRef = db.collection("products");
         Query query = productsRef;
 
+        // Lọc theo categoryId
+        if (categoriId != null && !categoriId.isEmpty()) {
+            query = query.whereEqualTo("categoryId", categoriId);
+        }
 
         // Thêm điều kiện nếu có
         if (productType != -1) {
@@ -172,7 +140,12 @@ public class ProductService {
                         if (!isMatched) continue;
                     }
                     String productName = product.getProductName();
-                    if (productName != null && productName.toLowerCase().contains(keyword.toLowerCase().trim())) {
+                    if (keyword != null && !keyword.isEmpty()) {
+                        // So sánh gần đúng, không phân biệt hoa thường
+                        if (productName != null && productName.toLowerCase().contains(keyword.toLowerCase().trim())) {
+                            productList.add(product);
+                        }
+                    } else {
                         productList.add(product);
                     }
 //                    productList.add(product);
@@ -257,37 +230,7 @@ public class ProductService {
     }
 
 
-    public List<Product> getListProduct() {
-        List<Product> list = new ArrayList<>();
-        return list;
-    }
 
-    public List<Product> getListProductByType(String categoryId) {
-        List<Product> list = new ArrayList<>();
-        for (Product product : getListProduct()) {
-            if (product.getCategoryId().equals(categoryId)) {
-                list.add(product);
-            }
-        }
-        return list;
-    }
 
-    public void getProductImages(String productId, OnSuccessListener<List<String>> listener, OnFailureListener onFailureListener) {
-        productRef.document(productId)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        List<String> imageUrls = (List<String>) documentSnapshot.get("images");
-                        if (imageUrls != null) {
-                            listener.onSuccess(imageUrls);
-                        } else {
-                            listener.onSuccess(new ArrayList<>()); // Trả về danh sách rỗng nếu không có ảnh
-                        }
-                    } else {
-                        onFailureListener.onFailure(new Exception("Sản phẩm không tồn tại"));
-                    }
-                })
-                .addOnFailureListener(onFailureListener);
-    }
 
 }
