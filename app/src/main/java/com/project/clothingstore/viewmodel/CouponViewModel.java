@@ -32,7 +32,7 @@ public class CouponViewModel extends ViewModel {
     }
 
     // Lấy danh sách coupon theo list ID
-    public void fetchCouponsByIds(List<String> couponIds) {
+    public void fetchCouponsByIds(String uid,List<String> couponIds) {
         if (couponIds == null || couponIds.isEmpty()) {
             couponListLiveData.setValue(new ArrayList<>()); // Trả về danh sách rỗng nếu không có mã
             return;
@@ -51,7 +51,7 @@ public class CouponViewModel extends ViewModel {
             return;
         }
 
-        couponService.getCouponsByIds(validIds, new CouponService.CouponListCallback() {
+        couponService.getCouponsByIds(uid,validIds, new CouponService.CouponListCallback() {
             @Override
             public void onSuccess(List<Coupon> coupons) {
                 couponListLiveData.setValue(coupons);

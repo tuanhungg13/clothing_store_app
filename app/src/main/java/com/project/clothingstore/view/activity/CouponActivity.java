@@ -55,7 +55,7 @@ public class CouponActivity extends AppCompatActivity {
         // Quan sát dữ liệu người dùng để lấy coupon
         userViewModel.getCurrentUser().observe(this, user -> {
             if (user != null && user.getCoupons() != null && !user.getCoupons().isEmpty()) {
-                couponViewModel.fetchCouponsByIds(user.getCoupons());
+                couponViewModel.fetchCouponsByIds(user.getUid(),user.getCoupons());
             } else {
                 tvEmptyCoupon.setVisibility(View.VISIBLE);
                 rcvCoupon.setVisibility(View.GONE);
