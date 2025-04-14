@@ -48,9 +48,14 @@ public class CouponAdapter extends RecyclerView.Adapter<CouponAdapter.CouponView
                 ? (coupon.getDiscount() / 1000) + "K"
                 : String.valueOf(coupon.getDiscount());
         holder.txtDiscount.setText(discountStr);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
-        String dateStr = sdf.format(coupon.getExpirationDate().toDate());
-        holder.txtExpiry.setText(dateStr);
+
+        DateFormat dayMonthFormat = new SimpleDateFormat("dd/MM");
+        DateFormat yearFormat = new SimpleDateFormat("yyyy");
+        String dayMonth = dayMonthFormat.format(coupon.getExpirationDate().toDate());
+        String year = yearFormat.format(coupon.getExpirationDate().toDate());
+
+        holder.txtExpiry.setText(dayMonth + "\n" + year);
+
     }
 
     @Override
