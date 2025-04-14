@@ -48,6 +48,7 @@ dependencies {
     implementation(libs.legacy.support.v4)
     implementation(libs.gridlayout)
     implementation(libs.lifecycle.viewmodel.android)
+    implementation(libs.navigation.fragment)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

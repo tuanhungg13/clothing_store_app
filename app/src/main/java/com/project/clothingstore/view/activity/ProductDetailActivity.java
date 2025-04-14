@@ -38,68 +38,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private Button btnAddToCart;
     private String cartId;
     private boolean isUserLoggedIn = false;
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_product_detail);
-//
-//        // Khởi tạo ViewModel
-//        viewModel = new ViewModelProvider(this).get(ProductDetailViewModel.class);
-//
-//        // Nhận productId từ Intent
-//        Intent intent = getIntent();
-//        if (intent != null) {
-//            productId = intent.getStringExtra("productId");
-//            if (productId != null) {
-//                // Tải dữ liệu sản phẩm
-//                viewModel.loadProductDetails(productId);
-//            }
-//        }
-//
-//        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-//        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-//        if(uid != null) {
-//            userViewModel.fetchUserInfo(uid);
-//        }
-//
-//        userViewModel.getCurrentUser(). observe(this, user -> {
-//            if (user != null) {
-//                cartId = user.getCartId();
-//                Log.d("ProductDetail", "Cart ID: " + cartId);
-//            }
-//        });
-//
-//        Log.d("FeatureProductAdapter", "Clicked on product: " + productId); // Log kiểm tra
-//
-//        // Thiết lập toolbar
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        if (getSupportActionBar() != null) {
-//            getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        }
-//
-//        // Nút quay lại
-//        ImageButton btnBack = findViewById(R.id.btnBack);
-//        btnBack.setOnClickListener(v -> onBackPressed());
-//
-//
-//        // Nút thêm vào giỏ hàng
-//        Button btnAddToCart = findViewById(R.id.btnAddToCart);
-//        btnAddToCart.setOnClickListener(v -> addToCart());
-//
-//        // Load các Fragment
-//        loadFragments();
-//
-//
-//        // Quan sát dữ liệu từ ViewModel để cập nhật giao diện
-//        viewModel.getProduct().observe(this, product -> {
-//            if (product != null) {
-//                loadFragments(product);
-//            }
-//        });
-//
-//    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -26,6 +26,13 @@
             android:name=".view.activity.CouponActivity"
             android:exported="false" />
         <activity
+            android:name=".view.activity.OrderDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".view.activity.RatingActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">

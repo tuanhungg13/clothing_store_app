@@ -50,17 +50,17 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewView
         User user = userMap.get(rating.getUid());
         if (user != null) {
             holder.tvUsername.setText(user.getFullName());
-//            Glide.with(holder.imgAvatar.getContext())
-//                    .load(user.getAvatar())
-//                    .placeholder(R.drawable.user_default_avt)
-//                    .error(R.drawable.user_default_avt)
-//                    .circleCrop()
-//                    .into(holder.imgAvatar);
-            if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
-                byte[] decodedString = Base64.decode(user.getAvatar(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                holder.imgAvatar.setImageBitmap(decodedByte);
-            }
+            Glide.with(holder.imgAvatar.getContext())
+                    .load(user.getAvatar())
+                    .placeholder(R.drawable.user_default_avt)
+                    .error(R.drawable.user_default_avt)
+                    .circleCrop()
+                    .into(holder.imgAvatar);
+//            if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
+//                byte[] decodedString = Base64.decode(user.getAvatar(), Base64.DEFAULT);
+//                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+//                holder.imgAvatar.setImageBitmap(decodedByte);
+//            }
         } else {
             holder.tvUsername.setText("User");
             holder.imgAvatar.setImageResource(R.drawable.user_default_avt);

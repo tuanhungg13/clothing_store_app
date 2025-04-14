@@ -22,5 +22,7 @@
     <color name="success">#45CF12</color>
     <color name="cancel">#CF1212</color>
 
+    <color name="gray_light">#CCCCCC</color>
+
 
 </resources>

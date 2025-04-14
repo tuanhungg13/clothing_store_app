@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            android:textColor="@color/gray"
+            android:textColor="#2F3036"
             android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

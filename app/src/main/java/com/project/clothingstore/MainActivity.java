@@ -78,6 +78,14 @@ public class MainActivity extends AppCompatActivity {
                 loadFragment(new OrderFragment());
                 navigationView.setCheckedItem(R.id.nav_cart_hvq);
                 title.setText("Đơn hàng");
+                if(FirebaseAuth.getInstance().getCurrentUser() == null) {
+                    Toast.makeText(this, "Vui lòng đăng nhập để xem đơn hàng", Toast.LENGTH_SHORT).show();
+                    // Mở lại HomeFragment
+                    loadFragment(new HomeFragment());
+                    bottomNav.setSelectedItemId(R.id.nav_home);
+                    navigationView.setCheckedItem(R.id.nav_home_hvq);
+                    return false;
+                }
                 return true;
             } else if (item.getItemId() == R.id.nav_profile) {
                 loadFragment(new ProfileFragment());
