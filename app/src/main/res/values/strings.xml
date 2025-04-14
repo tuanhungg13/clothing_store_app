@@ -10,9 +10,10 @@
     <string name="black_color">Màu đen</string>
     <string name="pink_color">Màu hồng</string>
     <string name="product_image">Hình ảnh sản phẩm</string>
-    <string name="add_to_cart">Thêm vào giỏ hàng</string>
     <string name="read_more">Xem thêm</string>
     <string name="write_review">Viết đánh giá</string>
 
+    <string name="add_to_cart">Thêm vào giỏ hàng</string>
+    <string name="login_to_add_to_cart">Đăng nhập để thêm vào giỏ hàng</string>
 
 </resources>

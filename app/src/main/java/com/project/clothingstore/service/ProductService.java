@@ -238,7 +238,6 @@ public class ProductService {
         });
     }
 
-
     // Lấy tất cả sản phẩm
     public void getAllSanPhamList(MutableLiveData<List<Product>> liveData) {
         CollectionReference productsRef = db.collection("products");

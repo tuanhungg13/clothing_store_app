@@ -124,13 +124,13 @@ public class ProductRatingsFragment extends Fragment {
             if (ratings == null || ratings.isEmpty()) {
                 tvAverageRating.setText("0.0");
                 ratingBarSummary.setRating(0);
-                tvTotalRatings.setText("0 ratings");
-                tvReviewCount.setText("0 Reviews");
+                tvTotalRatings.setText("0 đánh giá");
+                tvReviewCount.setText("0 Đánh giá");
                 recyclerReviews.setVisibility(View.GONE);
                 resetRatingBars();
             } else {
-                tvTotalRatings.setText(ratings.size() + " ratings");
-                tvReviewCount.setText(ratings.size() + " Reviews");
+                tvTotalRatings.setText(ratings.size() + " đánh giá");
+                tvReviewCount.setText(ratings.size() + " Đánh giá");
                 recyclerReviews.setVisibility(View.VISIBLE);
                 reviewAdapter.updateRatings(ratings);
             }

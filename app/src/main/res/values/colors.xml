@@ -18,5 +18,11 @@
     <color name="pink">#FF8B8B</color>
     <color name="light_beige">#FFF5E6</color>
 
+    <color name="pending">#CF6212</color>
+    <color name="success">#45CF12</color>
+    <color name="cancel">#CF1212</color>
+
+    <color name="gray_light">#CCCCCC</color>
+
 
 </resources>
