@@ -16,7 +16,6 @@ object CheckoutService {
         onSuccess: () -> Unit,
         onError: (String) -> Unit
     ) {
-        Log.d("TAG", "Đang xử lý đơn hàng: ${order}")
         db.runTransaction { transaction ->
 
             val productRefs = mutableMapOf<String, List<Map<String, Any>>>()
@@ -85,7 +84,6 @@ object CheckoutService {
         }.addOnSuccessListener {
             onSuccess()
         }.addOnFailureListener { e ->
-            Log.e("TAG", "Lỗi khi đặt đơn hàng: ${e.message}")
             onError("Lỗi khi đặt đơn hàng: ${e.message ?: "Lỗi không xác định"}")
         }
     }
